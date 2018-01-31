@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/mainContent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+    </FrameLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray_d1d1d1"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:padding="5dp">
+        <!--仅仅是占位符-->
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <RadioGroup
+            android:id="@+id/rgMainActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbMainHome"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:button="@null"
+                android:checked="true"
+                android:drawableTop="@drawable/selector_bottom_main_home"
+                android:gravity="center"
+                android:text="@string/str_main_home"
+                android:textColor="@drawable/selector_bottom_main_home" />
+
+            <RadioButton
+                android:id="@+id/rbMainGroup"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:button="@null"
+                android:drawableTop="@drawable/selector_bottom_main_unit"
+                android:gravity="center"
+                android:text="@string/str_main_unit"
+                android:textColor="@drawable/selector_bottom_main_home" />
+
+            <RadioButton
+                android:id="@+id/rbMainShop"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:button="@null"
+                android:drawableTop="@drawable/selector_bottom_main_shopping"
+                android:gravity="center"
+                android:text="@string/str_main_shoppingcart"
+                android:textColor="@drawable/selector_bottom_main_home" />
+
+            <RadioButton
+                android:id="@+id/rbMainMine"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:button="@null"
+                android:drawableTop="@drawable/selector_bottom_main_mine"
+                android:gravity="center"
+                android:text="@string/str_main_mine"
+                android:textColor="@drawable/selector_bottom_main_home" />
+        </RadioGroup>
+
+    </LinearLayout>
+</LinearLayout>

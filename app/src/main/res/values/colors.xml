@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--这是统一的theme Color-->
+    <!--<color name="colorPrimary">#E55B5A</color>
+    <color name="colorPrimaryDark">#E55B5A</color>
+    <color name="colorAccent">#5e90f9</color>
+-->
+    <!--这是统一的theme Color-->
+    <color name="colorPrimary">#f7072f</color>
+    <color name="colorPrimaryDark">#f7072f</color>
+    <color name="colorAccent">#5e90f9</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00FFFFFF</color>
+
+    <color name="gray_f1f1f1">#f1f1f1</color>
+    <color name="gray_d1d1d1">#d1d1d1</color>
+    <color name="gray_919191">#919191</color>
+    <color name="gray_717171">#717171</color>
+    <color name="gray_313131">#313131</color>
+    <color name="gray_212121">#212121</color>
+
+</resources>

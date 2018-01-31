@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="homeStartModal"
+            type="com.cloudcreativity.wankeshop.main.fragment.HomeStartViewModal" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshHomeStart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.cloudcreativity.wankeshop.view.HeaderGridView
+                android:id="@+id/gvHomeStart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adapter="@{homeStartModal.adapter}"
+                android:numColumns="2" />
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    </LinearLayout>
+</layout>

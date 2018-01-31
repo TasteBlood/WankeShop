@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">万颗商城</string>
+    <string name="str_main_home">首页</string>
+    <string name="str_main_unit">拼团</string>
+    <string name="str_main_shoppingcart">购物车</string>
+    <string name="str_main_mine">我的</string>
+</resources>
