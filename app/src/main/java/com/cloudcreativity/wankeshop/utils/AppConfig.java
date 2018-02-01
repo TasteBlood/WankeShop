@@ -16,4 +16,8 @@ public class AppConfig {
      * 网络图片缓存的文件夹名称
      */
     public static final String CACHE_IMAGE_NAME = "app_image_cache";
+    /**
+     * 这是SharePreference的名称
+     */
+    public static final String SP_NAME = "wanke_shop_app_config";
 }

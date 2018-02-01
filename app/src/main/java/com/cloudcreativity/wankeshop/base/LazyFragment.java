@@ -104,8 +104,20 @@ public abstract class LazyFragment extends Fragment implements BaseDialogImpl{
 
     }
 
+    /**
+     * 显示图片选择
+     */
     @Override
     public void openPictureDialog() {
+
+    }
+
+    /**
+     * 显示网络请求出错的信息
+     * @param message 信息
+     */
+    @Override
+    public void showRequestErrorMessage(String message) {
 
     }
 }

@@ -46,7 +46,8 @@ public class HttpUtils {
                 .build();
         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").serializeNulls().create();
         Retrofit retrofit = new Retrofit.Builder().client(client)
-                .addConverterFactory(GsonConverterFactory.create(gson))
+//                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(StringConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .baseUrl(APIService.HOST)
                 .build();

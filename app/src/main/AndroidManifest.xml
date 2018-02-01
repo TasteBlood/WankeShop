@@ -39,6 +39,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".main.MainActivity"/>
+        <activity android:name=".loginAndRegister.LoginActivity" />
+        <activity android:name=".loginAndRegister.RegisterActivity" />
+        <activity android:name=".loginAndRegister.ForgetActivity" />
 
         <!-- Activity配置结束 -->
     </application>

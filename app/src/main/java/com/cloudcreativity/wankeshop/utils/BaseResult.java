@@ -5,22 +5,22 @@ package com.cloudcreativity.wankeshop.utils;
  *          这是全部请求返回数据的基类
  */
 public class BaseResult{
-    private int code;
-    private String message;
+    private int status;
+    private String msg;
 
-    public int getCode() {
-        return code;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
-    public String getMessage() {
-        return message;
+    public int getStatus() {
+        return status;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

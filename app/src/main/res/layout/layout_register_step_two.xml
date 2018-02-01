@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="stubTwo"
+            type="com.cloudcreativity.wankeshop.loginAndRegister.RegisterModal.StubTwoModal" />
+    </data>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/action_bar"
+            android:background="@color/colorPrimary">
+            <TextView
+                android:textSize="@dimen/action_bar_font_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@color/white"
+                android:text="授权验证"/>
+            <android.support.v7.widget.AppCompatImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:onClick="@{(view)->stubTwo.onBackClick(view)}"
+                android:src="@drawable/ic_arrow_back_white_24dp"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:padding="15dp">
+            <SeekBar
+                android:id="@+id/skb_registerTwoCheckout"
+                android:max="100"
+                android:progress="0"
+                android:onProgressChanged="@{(seekBar,progress,fromUser)->stubTwo.progressChanged(seekBar,progress,fromUser)}"
+                android:thumb="@mipmap/ic_seekbar_thumb_normal"
+                android:progressDrawable="@drawable/seekbar_bg"
+                android:thumbOffset="10dp"
+                android:layout_centerVertical="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_registerTwoInfo"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray_717171"
+                android:layout_centerVertical="true"
+                android:text="请将滑块拖动到最右边进行验证" />
+        </RelativeLayout>
+    </LinearLayout>
+</layout>

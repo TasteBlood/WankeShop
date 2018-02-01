@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="registerModal"
+            type="com.cloudcreativity.wankeshop.loginAndRegister.RegisterModal" />
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <!--这是第一步-->
+        <ViewStub
+            android:id="@+id/stubRegisterOne"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout="@layout/layout_register_step_one" />
+
+        <!--这是第二步-->
+        <ViewStub
+            android:id="@+id/stubRegisterTwo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout="@layout/layout_register_step_two" />
+
+        <!--这是第三步-->
+        <ViewStub
+            android:id="@+id/stubRegisterThree"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout="@layout/layout_register_step_three" />
+    </LinearLayout>
+</layout>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="stubOne"
+            type="com.cloudcreativity.wankeshop.loginAndRegister.RegisterModal.StubOneModal" />
+    </data>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/action_bar"
+            android:background="@color/colorPrimary">
+            <TextView
+                android:textSize="@dimen/action_bar_font_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@color/white"
+                android:text="验证手机号"/>
+            <android.support.v7.widget.AppCompatImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:onClick="@{(view)->stubOne.onBackClick(view)}"
+                android:src="@drawable/ic_arrow_back_white_24dp"/>
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:padding="15dp">
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/et_registerOnePhone"
+                    android:textSize="16sp"
+                    android:hint="请输入手机号"
+                    android:inputType="phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_checkOut"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:text="立即验证"
+                android:onClick="@{(view)->stubOne.onNextClick(view)}"
+                android:background="@color/colorPrimary" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>
