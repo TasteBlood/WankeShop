@@ -25,6 +25,7 @@ public interface APIService {
     @POST("login.do")
     Observable<String> login(@Field("mobile") String mobile,
                                  @Field("password") String password);
+
     //注册第一步验证手机号接口
     @FormUrlEncoded
     @POST("checkMobile.do")
@@ -33,7 +34,7 @@ public interface APIService {
     //注册第二步获取验证码
     @FormUrlEncoded
     @POST("sendSms.do")
-    Observable<String> registerGetVerfiry(@Field("mobile") String mobile);
+    Observable<String> registerGetVerRify(@Field("mobile") String mobile);
 
     //注册第三步，提交验证码、手机号、密码进行注册
     @FormUrlEncoded
@@ -41,4 +42,17 @@ public interface APIService {
     Observable<String> registerFinalStep(@Field("mobile") String mobile,
                                          @Field("password") String password,
                                          @Field("sms") String sms);
+
+    //忘记密码，修改密码
+    @FormUrlEncoded
+    @POST("editPassword.do")
+    Observable<String> editPassword(@Field("mobile") String mobile,
+                                    @Field("newPwd") String password,
+                                    @Field("sms") String sms);
+
+    //退出登录
+    @FormUrlEncoded
+    @POST("outLogin.do")
+    Observable<String> logout(@Field("userId") int userId,
+                              @Field("token") String token);
 }

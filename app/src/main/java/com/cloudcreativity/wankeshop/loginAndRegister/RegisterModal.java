@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewStub;
+import android.widget.CompoundButton;
 import android.widget.SeekBar;
 
 import com.cloudcreativity.wankeshop.R;
@@ -42,6 +43,7 @@ public class RegisterModal {
         private RegisterActivity context;
         private LayoutRegisterStepOneBinding binding;
         private ViewStub stub;
+        private boolean isAgreeUserProtocol;
 
         StubOneModal(RegisterActivity context, LayoutRegisterStepOneBinding binding, ViewStub stub) {
             this.context = context;
@@ -56,6 +58,10 @@ public class RegisterModal {
             String phone = binding.etRegisterOnePhone.getText().toString().trim();
             if(TextUtils.isEmpty(phone)|| !StrUtils.isPhone(phone)){
                 ToastUtils.showShortToast(context, R.string.str_login_phone_format_error);
+                return;
+            }
+            if(!isAgreeUserProtocol){
+                ToastUtils.showShortToast(context,R.string.str_agree_user_protocol);
                 return;
             }
             checkPhone(phone);
@@ -78,6 +84,16 @@ public class RegisterModal {
                         }
                     });
         }
+
+        //这是是否同意用户协议
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            isAgreeUserProtocol = isChecked;
+        }
+        //这是查看用户协议
+        public void lookUserProtocol(View view){
+            ToastUtils.showShortToast(context,"查看用户协议了");
+        }
+
     }
 
     /**
@@ -165,7 +181,7 @@ public class RegisterModal {
         }
         //发送验证码
         private void sendSms(String mobile){
-            HttpUtils.getInstance().registerGetVerfiry(mobile)
+            HttpUtils.getInstance().registerGetVerRify(mobile)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new DefaultObserver<String>(baseDialog,true) {

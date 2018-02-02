@@ -42,6 +42,10 @@
         <activity android:name=".loginAndRegister.LoginActivity" />
         <activity android:name=".loginAndRegister.RegisterActivity" />
         <activity android:name=".loginAndRegister.ForgetActivity" />
+        <activity android:name=".userCenter.UserInformationActivity" />
+        <activity android:name=".userCenter.SettingActivity" />
+        <activity android:name=".userCenter.AboutActivity" />
+        <activity android:name=".userCenter.PerfectUserInfoActivity" />
 
         <!-- Activity配置结束 -->
     </application>

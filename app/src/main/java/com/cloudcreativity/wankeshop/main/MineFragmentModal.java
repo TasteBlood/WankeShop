@@ -3,11 +3,16 @@ package com.cloudcreativity.wankeshop.main;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.BindingAdapter;
+import android.databinding.ObservableField;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.cloudcreativity.wankeshop.R;
+import com.cloudcreativity.wankeshop.entity.UserEntity;
 import com.cloudcreativity.wankeshop.loginAndRegister.LoginActivity;
+import com.cloudcreativity.wankeshop.userCenter.SettingActivity;
+import com.cloudcreativity.wankeshop.userCenter.UserInformationActivity;
 import com.cloudcreativity.wankeshop.utils.GlideUtils;
 import com.cloudcreativity.wankeshop.utils.SPUtils;
 
@@ -16,20 +21,31 @@ import com.cloudcreativity.wankeshop.utils.SPUtils;
  */
 public class MineFragmentModal {
 
-    public int resouces = R.mipmap.start_index;
     private Context context;
+    //这是用户数据
+    public ObservableField<UserEntity> user = new ObservableField<>();
+
 
     MineFragmentModal(Context context) {
         this.context = context;
+        user.set(SPUtils.get().getUser());
     }
 
     @BindingAdapter("imageUrl")
-    public static void showAvatar(ImageView imageView,int resource){
-        GlideUtils.loadCircle(imageView.getContext(),resource,imageView);
+    public static void showAvatar(ImageView imageView,String url){
+        if(TextUtils.isEmpty(url)){
+            GlideUtils.loadCircle(imageView.getContext(),R.mipmap.ic_default_head,imageView);
+        }else{
+            GlideUtils.loadCircle(imageView.getContext(),url,imageView);
+        }
     }
 
-    public void onLogoutClick(View view){
-        //模拟退出登录
-        SPUtils.get().putBoolean(SPUtils.Config.IS_LOGIN,false);
+    //personal center
+    public void onUserInfoClick(View view){
+        context.startActivity(new Intent().setClass(context, UserInformationActivity.class));
+    }
+    //setting click
+    public void onSettingClick(View view){
+        context.startActivity(new Intent().setClass(context, SettingActivity.class));
     }
 }

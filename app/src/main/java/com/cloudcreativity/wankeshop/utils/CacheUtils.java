@@ -21,13 +21,12 @@ public class CacheUtils {
         double cacheSize = getFolderSize(cacheFile) +
                 (cacheDir == null ? 0 : getFolderSize(cacheDir)) +
                 (cacheDir1 == null ? 0 : getFolderSize(cacheDir1));
-        LogUtils.e("xuxiwu", "缓存大小是:" + String.valueOf(cacheSize));
         if (cacheSize / 1024 / 1024 < 1) {
-            return cacheSize / 1024 + "KB";
+            return NumberUtils.m2(cacheSize / 1024) + "KB";
         } else if (cacheSize / 1024 / 1024 >= 1 && cacheSize / 1024 / 1024 < 1024) {
-            return cacheSize / 1024 / 1024 + "MB";
+            return NumberUtils.m2(cacheSize / 1024 / 1024) + "MB";
         } else {
-            return cacheSize / 1024 / 1024 / 1024 + "GB";
+            return NumberUtils.m2(cacheSize / 1024 / 1024 / 1024) + "GB";
         }
     }
 

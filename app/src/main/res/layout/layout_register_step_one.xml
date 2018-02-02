@@ -42,7 +42,7 @@
                 <EditText
                     android:id="@+id/et_registerOnePhone"
                     android:textSize="16sp"
-                    android:hint="请输入手机号"
+                    android:hint="@string/str_hint_input_phone"
                     android:inputType="phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -54,9 +54,28 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                android:text="立即验证"
+                android:text="@string/str_checkout"
                 android:onClick="@{(view)->stubOne.onNextClick(view)}"
                 android:background="@color/colorPrimary" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp">
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onCheckedChanged="@{(view,isChecked)->stubOne.onCheckedChanged(view,isChecked)}"
+                    android:text="@string/str_agree"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/str_tag_user_protocol"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:onClick="@{(view)->stubOne.lookUserProtocol(view)}"
+                    android:textColor="#ff0f45"/>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </layout>

@@ -58,7 +58,7 @@ public class ForgetModal {
         }
         sendSms(registerPhone);
     }
-    public void onRegisterClick(View view){
+    public void onSubmitClick(View view){
         String phone = forgetBinding.etForgetPhone.getText().toString().trim();
         String password1 = forgetBinding.etForgetPassword.getText().toString().trim();
         String password2 = forgetBinding.etForgetPassword2.getText().toString().trim();
@@ -83,12 +83,12 @@ public class ForgetModal {
             ToastUtils.showShortToast(context,R.string.str_sms_not_null);
             return;
         }
-        register(registerPhone,password1,sms);
+        submit(registerPhone,password1,sms);
     }
 
     //发送验证码
     private void sendSms(String mobile){
-        HttpUtils.getInstance().registerGetVerfiry(mobile)
+        HttpUtils.getInstance().registerGetVerRify(mobile)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DefaultObserver<String>(dialog,true) {
@@ -106,15 +106,15 @@ public class ForgetModal {
                 });
 
     }
-    //注册提交
-    private void register(String mobile,String password,String sms){
-        HttpUtils.getInstance().registerFinalStep(mobile,password,sms)
+    //忘记密码提交
+    private void submit(String mobile,String password,String sms){
+        HttpUtils.getInstance().editPassword(mobile,password,sms)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DefaultObserver<String>(dialog,true) {
                     @Override
                     public void onSuccess(String t) {
-                        ToastUtils.showShortToast(context,R.string.str_register_success);
+                        ToastUtils.showShortToast(context,R.string.str_edit_pwd_success);
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -122,7 +122,6 @@ public class ForgetModal {
                             }
                         },500);
                     }
-
                     @Override
                     public void onFail(ExceptionReason msg) {
 

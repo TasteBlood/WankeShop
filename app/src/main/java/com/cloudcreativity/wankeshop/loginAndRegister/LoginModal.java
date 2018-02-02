@@ -11,6 +11,7 @@ import com.cloudcreativity.wankeshop.entity.UserEntity;
 import com.cloudcreativity.wankeshop.main.MainActivity;
 import com.cloudcreativity.wankeshop.utils.DefaultObserver;
 import com.cloudcreativity.wankeshop.utils.HttpUtils;
+import com.cloudcreativity.wankeshop.utils.LogUtils;
 import com.cloudcreativity.wankeshop.utils.SPUtils;
 import com.cloudcreativity.wankeshop.utils.StrUtils;
 import com.cloudcreativity.wankeshop.utils.ToastUtils;
@@ -51,23 +52,23 @@ public class LoginModal {
         context.startActivity(new Intent(context,RegisterActivity.class));
     }
     public void forgetClick(View view){
-        ToastUtils.showShortToast(context,"忘记密码了");
+        context.startActivity(new Intent().setClass(context,ForgetActivity.class));
     }
     private void login(String phone, String password){
         HttpUtils.getInstance().login(phone,password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(new DefaultObserver<String>(baseDialog,true) {
-            @Override
-            public void onSuccess(String user) {
-                UserEntity userEntity = new Gson().fromJson(user, UserEntity.class);
-                if(userEntity!=null){
-                    SPUtils.get().putInt(SPUtils.Config.UID,userEntity.getId());
-                    SPUtils.get().putString(SPUtils.Config.TOKEN,userEntity.getToken());
-                    SPUtils.get().setUser(user);
-                    SPUtils.get().putBoolean(SPUtils.Config.IS_LOGIN,true);
-                    context.startActivity(new Intent().setClass(context, MainActivity.class));
-                    context.finish();
-                }
+                    @Override
+                    public void onSuccess(String user) {
+                        UserEntity userEntity = new Gson().fromJson(user, UserEntity.class);
+                        if(userEntity!=null){
+                            SPUtils.get().putInt(SPUtils.Config.UID,userEntity.id);
+                            SPUtils.get().putString(SPUtils.Config.TOKEN,userEntity.token);
+                            SPUtils.get().setUser(user);
+                            SPUtils.get().putBoolean(SPUtils.Config.IS_LOGIN,true);
+                            context.startActivity(new Intent().setClass(context, MainActivity.class));
+                            context.finish();
+                        }
             }
 
             @Override

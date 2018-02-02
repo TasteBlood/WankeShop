@@ -20,6 +20,15 @@
                 android:layout_centerInParent="true"
                 android:textColor="@color/white"
                 android:textSize="18sp"/>
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_nav_set"
+                android:layout_centerVertical="true"
+                android:onClick="@{(view)->mineModal.onSettingClick(view)}"
+                android:padding="3dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"/>
         </RelativeLayout>
         <android.support.v4.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
@@ -33,26 +42,37 @@
                     android:padding="10dp"
                     android:orientation="vertical">
                     <!--header view-->
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:elevation="2dp"
                         android:padding="10dp"
+                        android:onClick="@{(view)->mineModal.onUserInfoClick(view)}"
                         android:background="@color/white">
                         <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/iv_mineHeader"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:scaleType="fitXY"
-                            android:onClick="@{(view)->mineModal.onLogoutClick(view)}"
-                            bind:imageUrl="@{mineModal.resouces}"/>
+                            android:layout_centerVertical="true"
+                            bind:imageUrl="@{mineModal.user.get().headPic}"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="14sp"
+                            android:layout_toEndOf="@+id/iv_mineHeader"
                             android:layout_marginStart="10dp"
-                            android:text="行走在月球上的猪"/>
-                    </LinearLayout>
+                            android:layout_centerVertical="true"
+                            android:gravity="center"
+                            android:text="@{mineModal.user.get().userName??mineModal.user.get().mobile}"/>
+                        <android.support.v7.widget.AppCompatImageView
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_keyboard_arrow_right_black_24dp" />
+                    </RelativeLayout>
                     <!--order view-->
                     <LinearLayout
                         android:layout_marginTop="10dp"
@@ -238,7 +258,7 @@
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:drawableTop="@mipmap/ic_menu_shopcollect"
-                                android:drawablePadding="10dp"
+                                android:drawablePadding="9dp"
                                 android:text="店铺收藏"/>
                             <View
                                 android:layout_width="0dp"

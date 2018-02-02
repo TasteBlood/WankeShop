@@ -74,4 +74,10 @@ public class SPUtils {
         return preferences.getBoolean(Config.IS_LOGIN,false);
     }
 
+    public int getUid(){
+        return preferences.getInt(Config.UID,0);
+    }
+    public String getToken(){
+        return preferences.getString(Config.TOKEN,null);
+    }
 }

@@ -27,6 +27,7 @@
                 android:background="@color/transparent"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="10dp"
+                android:onClick="@{(view)->forgetModal.onBackClick(view)}"
                 android:src="@drawable/ic_arrow_back_white_24dp"/>
         </RelativeLayout>
         <LinearLayout
@@ -70,6 +71,7 @@
                         android:textColor="@color/white"
                         android:textSize="14sp"
                         android:gravity="center"
+                        android:onClick="@{(view)->forgetModal.onSendClick(view)}"
                         android:text="@string/str_register_send_code" />
                 </LinearLayout>
                 <EditText
@@ -98,6 +100,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@color/colorPrimary"
                 android:textSize="16sp"
+                android:onClick="@{(view)->forgetModal.onSubmitClick(view)}"
                 android:textColor="@color/white" />
         </LinearLayout>
     </LinearLayout>
