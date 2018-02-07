@@ -1,7 +1,7 @@
 package com.cloudcreativity.wankeshop.main;
 
+import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -10,6 +10,7 @@ import android.widget.RadioGroup;
 import com.cloudcreativity.wankeshop.R;
 import com.cloudcreativity.wankeshop.base.BaseActivity;
 import com.cloudcreativity.wankeshop.base.LazyFragment;
+import com.cloudcreativity.wankeshop.receiver.MyBusinessReceiver;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,9 +33,19 @@ public class MainActivity extends BaseActivity {
 
     private int currentId = 0;
 
+    private MyBusinessReceiver businessReceiver;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //在这里注册自定义的广播
+        businessReceiver = new MyBusinessReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(MyBusinessReceiver.ACTION_EXIT_APP);
+        filter.addAction(MyBusinessReceiver.ACTION_RE_LOGIN);
+        filter.addAction(MyBusinessReceiver.ACTION_LOGOUT);
+        registerReceiver(businessReceiver,filter);
+
+
         setContentView(R.layout.activity_main);
         PAGE_TAGS.add("home");
         PAGE_TAGS.add("group");
@@ -116,5 +127,12 @@ public class MainActivity extends BaseActivity {
         transaction.setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         transaction.commitAllowingStateLoss();
         currentId = index;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //销毁广播
+        unregisterReceiver(businessReceiver);
     }
 }

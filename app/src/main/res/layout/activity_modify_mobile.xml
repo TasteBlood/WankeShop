@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="modifyModal"
+            type="com.cloudcreativity.wankeshop.userCenter.ModifyMobileModal" />
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/action_bar"
+            android:background="@color/colorPrimary">
+            <TextView
+                android:textSize="@dimen/action_bar_font_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@color/white"
+                android:text="@string/str_modify_mobile"/>
+            <android.support.v7.widget.AppCompatImageButton
+                android:onClick="@{(view)->modifyModal.onBack(view)}"
+                android:id="@+id/ib_settingBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/ic_arrow_back_white_24dp"/>
+        </RelativeLayout>
+        <ViewStub
+            android:id="@+id/stubModifyOne"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout="@layout/layout_modify_phone_step_one"/>
+        <ViewStub
+            android:id="@+id/stubModifyTwo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout="@layout/layout_modify_phone_step_two"/>
+    </LinearLayout>
+</layout>

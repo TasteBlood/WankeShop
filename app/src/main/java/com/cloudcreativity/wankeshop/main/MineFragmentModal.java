@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import com.cloudcreativity.wankeshop.R;
 import com.cloudcreativity.wankeshop.entity.UserEntity;
 import com.cloudcreativity.wankeshop.loginAndRegister.LoginActivity;
+import com.cloudcreativity.wankeshop.userCenter.AddressManageActivity;
 import com.cloudcreativity.wankeshop.userCenter.SettingActivity;
 import com.cloudcreativity.wankeshop.userCenter.UserInformationActivity;
 import com.cloudcreativity.wankeshop.utils.GlideUtils;
@@ -23,12 +24,12 @@ public class MineFragmentModal {
 
     private Context context;
     //这是用户数据
-    public ObservableField<UserEntity> user = new ObservableField<>();
+    public UserEntity user ;
 
 
     MineFragmentModal(Context context) {
         this.context = context;
-        user.set(SPUtils.get().getUser());
+        user = SPUtils.get().getUser();
     }
 
     @BindingAdapter("imageUrl")
@@ -47,5 +48,10 @@ public class MineFragmentModal {
     //setting click
     public void onSettingClick(View view){
         context.startActivity(new Intent().setClass(context, SettingActivity.class));
+    }
+
+    //address click
+    public void onAddressClick(View view){
+        context.startActivity(new Intent().setClass(context, AddressManageActivity.class));
     }
 }

@@ -10,6 +10,7 @@ import android.widget.Space;
 
 import com.cloudcreativity.wankeshop.R;
 import com.cloudcreativity.wankeshop.base.BaseDialogImpl;
+import com.cloudcreativity.wankeshop.databinding.ActivityUserinformationBinding;
 import com.cloudcreativity.wankeshop.entity.UserEntity;
 import com.cloudcreativity.wankeshop.utils.GlideUtils;
 import com.cloudcreativity.wankeshop.utils.SPUtils;
@@ -20,12 +21,12 @@ import com.cloudcreativity.wankeshop.utils.StrUtils;
  */
 public class UserInformationModal {
     private UserInformationActivity context;
-    private BaseDialogImpl baseDialog;
+    private ActivityUserinformationBinding binding;
     public UserEntity userEntity;
 
-    UserInformationModal(UserInformationActivity context, BaseDialogImpl baseDialog) {
+    UserInformationModal(UserInformationActivity context, ActivityUserinformationBinding binding) {
         this.context = context;
-        this.baseDialog = baseDialog;
+        this.binding = binding;
         userEntity = SPUtils.get().getUser();
     }
 
@@ -45,5 +46,11 @@ public class UserInformationModal {
             GlideUtils.loadCircle(imageView.getContext(),url,imageView);
         }
 
+    }
+
+    //更新用户数据
+    public void updateUser(UserEntity userEntity){
+        this.userEntity = userEntity;
+        binding.invalidateAll();
     }
 }

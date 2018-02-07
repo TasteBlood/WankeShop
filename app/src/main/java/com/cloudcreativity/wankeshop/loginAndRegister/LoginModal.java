@@ -62,8 +62,8 @@ public class LoginModal {
                     public void onSuccess(String user) {
                         UserEntity userEntity = new Gson().fromJson(user, UserEntity.class);
                         if(userEntity!=null){
-                            SPUtils.get().putInt(SPUtils.Config.UID,userEntity.id);
-                            SPUtils.get().putString(SPUtils.Config.TOKEN,userEntity.token);
+                            SPUtils.get().putInt(SPUtils.Config.UID,userEntity.getId());
+                            SPUtils.get().putString(SPUtils.Config.TOKEN,userEntity.getToken());
                             SPUtils.get().setUser(user);
                             SPUtils.get().putBoolean(SPUtils.Config.IS_LOGIN,true);
                             context.startActivity(new Intent().setClass(context, MainActivity.class));

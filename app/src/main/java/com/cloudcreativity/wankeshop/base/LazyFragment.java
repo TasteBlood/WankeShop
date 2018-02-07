@@ -1,11 +1,18 @@
 package com.cloudcreativity.wankeshop.base;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+
+import com.cloudcreativity.wankeshop.R;
+import com.cloudcreativity.wankeshop.databinding.LayoutProgressDialogBinding;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -19,6 +26,8 @@ public abstract class LazyFragment extends Fragment implements BaseDialogImpl{
     private boolean isDataLoaded;
     protected Activity context;
     private CompositeDisposable disposableDestroy;//这是网络请求RxJava需要的东西，跟生命周期绑定的
+
+    private Dialog progressDialog;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -88,15 +97,41 @@ public abstract class LazyFragment extends Fragment implements BaseDialogImpl{
         }
     }
 
+    /**
+     *
+     * @param msg 显示加载框
+     */
     @Override
     public void showProgress(String msg) {
-
+        dialogMessage.set(msg);
+        if(progressDialog!=null&&!progressDialog.isShowing()){
+            progressDialog.show();
+            return;
+        }
+        progressDialog = new Dialog(context, R.style.myProgressDialogStyle);
+        LayoutProgressDialogBinding binding = DataBindingUtil.inflate(LayoutInflater.from(context),R.layout.layout_progress_dialog,null,false);
+        binding.setDialog(this);
+        progressDialog.setContentView(binding.getRoot());
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                dismissProgress();
+            }
+        });
+        progressDialog.show();
     }
 
+    /**
+     * 关闭加载框
+     */
     @Override
     public void dismissProgress() {
-
+        if(progressDialog!=null&&progressDialog.isShowing())
+            progressDialog.dismiss();
+        progressDialog = null;
     }
+
 
     @Override
     public void showUserAuthOutDialog() {

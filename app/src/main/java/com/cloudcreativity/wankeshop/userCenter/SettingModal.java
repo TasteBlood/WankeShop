@@ -9,6 +9,7 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.cloudcreativity.wankeshop.base.BaseDialogImpl;
+import com.cloudcreativity.wankeshop.receiver.MyBusinessReceiver;
 import com.cloudcreativity.wankeshop.utils.CacheUtils;
 import com.cloudcreativity.wankeshop.utils.DefaultObserver;
 import com.cloudcreativity.wankeshop.utils.HttpUtils;
@@ -74,6 +75,8 @@ public class SettingModal {
                     @Override
                     public void onSuccess(String t) {
                         ToastUtils.showShortToast(context,"已退出");
+                        Intent intent = new Intent(MyBusinessReceiver.ACTION_LOGOUT);
+                        context.sendBroadcast(intent);
                     }
 
                     @Override

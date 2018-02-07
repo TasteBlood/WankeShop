@@ -9,7 +9,7 @@
     <string name="str_login_phone_format_error">手机号格式不正确</string>
     <string name="str_login_password_error">密码不能为空</string>
     <string name="str_register_seek_pass">验证通过</string>
-    <string name="str_register_time_count">%l后</string>
+    <string name="str_register_time_count">%1$d后</string>
     <string name="str_register_code_sent">验证码已发送</string>
     <string name="str_register_send_code">发送验证码</string>
     <string name="str_register_hint_input_code">请输入验证码</string>
@@ -38,4 +38,18 @@
     <string name="str_not_input">未填写</string>
     <string name="str_male">男</string>
     <string name="str_female">女</string>
+    <string name="str_modify_mobile">修改手机号</string>
+    <string name="str_input_phone_old">请输入当前手机号</string>
+    <string name="str_next_step">下一步</string>
+    <string name="str_input_mobile_new">请输入新手机号</string>
+    <string name="str_send_verifycode_by_old">(为当前使用的手机号发送验证码)</string>
+    <string name="str_address_manage">地址管理</string>
+    <string name="str_no_data">暂无数据</string>
+    <string name="str_add_address">添加收货地址</string>
+    <string name="str_choose_address">选择收货地址</string>
+    <string name="str_receipt_name_not_null">收货人姓名不能为空</string>
+    <string name="str_receipt_phone_not_null">收货人电话号码不能为空</string>
+    <string name="str_receipt_address_not_null">收货人地址不能为空</string>
+    <string name="str_receipt_extra_address_not_null">收货人详细地址不能为空</string>
+    <string name="str_add_success">添加成功</string>
 </resources>

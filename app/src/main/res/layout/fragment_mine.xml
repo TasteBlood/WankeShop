@@ -56,7 +56,7 @@
                             android:layout_height="60dp"
                             android:scaleType="fitXY"
                             android:layout_centerVertical="true"
-                            bind:imageUrl="@{mineModal.user.get().headPic}"/>
+                            bind:imageUrl="@{mineModal.user.headPic}"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
                             android:layout_marginStart="10dp"
                             android:layout_centerVertical="true"
                             android:gravity="center"
-                            android:text="@{mineModal.user.get().userName??mineModal.user.get().mobile}"/>
+                            android:text="@{mineModal.user.userName??mineModal.user.mobile}"/>
                         <android.support.v7.widget.AppCompatImageView
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
@@ -271,6 +271,7 @@
                         </LinearLayout>
                     </LinearLayout>
                     <RelativeLayout
+                        android:onClick="@{(view)->mineModal.onAddressClick(view)}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"

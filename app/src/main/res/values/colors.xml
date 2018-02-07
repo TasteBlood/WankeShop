@@ -10,6 +10,8 @@
     <color name="colorPrimaryDark">#f7072f</color>
     <color name="colorAccent">#5595fc</color>
 
+    <color name="btn_click_color">#DE0226</color>
+
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="transparent">#00FFFFFF</color>

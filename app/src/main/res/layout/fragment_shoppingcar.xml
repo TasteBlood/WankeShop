@@ -37,7 +37,7 @@
                     android:layout_height="wrap_content"
                     android:text="去商城"
                     android:textColor="@color/white"
-                    android:background="@color/colorPrimary"/>
+                    android:background="@drawable/ripple_red_btn_3corner"/>
             </LinearLayout>
         </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
@@ -80,7 +80,7 @@
                 android:textSize="18sp"
                 android:gravity="center"
                 android:textColor="@color/white"
-                android:background="@color/colorPrimary"
+                android:background="@drawable/ripple_red_btn_3corner"
                 android:text="立即支付"/>
         </LinearLayout>
     </LinearLayout>

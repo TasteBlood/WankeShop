@@ -20,4 +20,16 @@ public class AppConfig {
      * 这是SharePreference的名称
      */
     public static final String SP_NAME = "wanke_shop_app_config";
+    /**
+     * 这是登录的用户类型
+     */
+    public static final int USER_TYPE_ONE = 1;//普通
+    public static final int USER_TYPE_TWO = 2;//分拣员
+    public static final int USER_TYPE_THREE = 3;//物流小二
+    public static final int USER_TYPE_FOUR = 4;//站长
+
+    /**
+     * 这是统一的文件名
+     */
+    public static String FILE_NAME = "wk_image_%d.%s";
 }

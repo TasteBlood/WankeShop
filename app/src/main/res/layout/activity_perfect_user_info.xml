@@ -4,7 +4,7 @@
     <data>
         <variable
             name="userModal"
-            type="com.cloudcreativity.wankeshop.userCenter.PeferctUserInfoModal" />
+            type="com.cloudcreativity.wankeshop.userCenter.PerfectUserInfoModal" />
     </data>
 
     <LinearLayout
@@ -60,10 +60,12 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:padding="10dp"
+                    android:onClick="@{(view)->userModal.selectPhoto(view)}"
                     android:background="@color/white">
                     <android.support.v7.widget.AppCompatImageView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
+                        android:id="@+id/iv_perfectHead"
                         app:imageUrl="@{userModal.user.headPic}"
                         android:scaleType="fitXY" />
                     <ImageView
@@ -119,6 +121,7 @@
                         android:textSize="14sp"
                         android:text="真实姓名"/>
                     <EditText
+                        android:id="@+id/et_perfectRealName"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
@@ -133,6 +136,7 @@
                 <!--birthday-->
                 <View style="@style/myDividerForItem"/>
                 <LinearLayout
+                    android:onClick="@{(view)->userModal.selectBirth(view)}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -150,6 +154,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="3">
                         <TextView
+                            android:id="@+id/tv_perfectBirth"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|center_vertical"
@@ -182,16 +187,20 @@
                         android:textSize="14sp"
                         android:text="性别"/>
                     <RadioGroup
+                        android:id="@+id/rg_perfectGender"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
+                        android:onCheckedChanged="@{userModal.sexChangeListener}"
                         android:layout_weight="3">
                         <RadioButton
+                            android:id="@+id/rb_genderMale"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checked="@{userModal.user.sex==0?true:false}"
                             android:text="男" />
                         <RadioButton
+                            android:id="@+id/rb_ganderFemale"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checked="@{userModal.user.sex==1?true:false}"
@@ -214,6 +223,7 @@
                         android:textSize="14sp"
                         android:text="邮箱"/>
                     <EditText
+                        android:id="@+id/et_perfectMail"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
@@ -241,6 +251,7 @@
                         android:textSize="14sp"
                         android:text="手机"/>
                     <FrameLayout
+                        android:onClick="@{(view)->userModal.toModifyMobile(view)}"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3">
@@ -276,6 +287,7 @@
                         android:textSize="14sp"
                         android:text="身份证号"/>
                     <EditText
+                        android:id="@+id/et_perfectIDCard"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"

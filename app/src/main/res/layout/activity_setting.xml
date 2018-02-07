@@ -142,7 +142,7 @@
                 android:text="退出账号"
                 android:onClick="@{(view)->setModal.onLogoutClick(view)}"
                 android:textSize="16sp"
-                android:background="@color/colorPrimary"
+                android:background="@drawable/ripple_red_btn_3corner"
                 android:textColor="@color/white" />
         </LinearLayout>
     </LinearLayout>

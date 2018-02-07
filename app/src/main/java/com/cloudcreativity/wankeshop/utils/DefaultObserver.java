@@ -24,7 +24,7 @@ public abstract class DefaultObserver<T> implements Observer<T> {
     protected DefaultObserver(BaseDialogImpl impl ,boolean isShowProgress){
         this.impl = impl;
         if(isShowProgress)
-            impl.showProgress("加载中...");
+            impl.showProgress("请稍后");
     }
 
     @Override
@@ -42,10 +42,13 @@ public abstract class DefaultObserver<T> implements Observer<T> {
         LogUtils.e(this.getClass().getName(), TextUtils.isEmpty(e.getMessage())?"出错啦":e.getMessage());
         impl.dismissProgress();
         if(e instanceof HttpException){
+            impl.showRequestErrorMessage("网络异常");
             onFail(ExceptionReason.BAD_NETWORK);
         }else if(e instanceof ConnectException||e instanceof UnknownHostException){
+            impl.showRequestErrorMessage("网络异常");
             onFail(ExceptionReason.CONNECT_ERROR);
         }else if(e instanceof InterruptedException){
+            impl.showRequestErrorMessage("网络连接超时");
             onFail(ExceptionReason.CONNECT_TIMEOUT);
         }else if(e instanceof JsonParseException || e instanceof JSONException || e instanceof ParseException){
             onFail(ExceptionReason.PARSE_ERROR);
@@ -66,7 +69,13 @@ public abstract class DefaultObserver<T> implements Observer<T> {
                         //说明当前的字符串是空的,模拟出空的json串
                         onSuccess("{}");
                     }else{
-                        onSuccess(object.getJSONObject("info").toString());
+                        try{
+                            JSONObject info = object.getJSONObject("info");
+                            onSuccess(info.toString());
+                        }catch (JSONException e){
+                            //说明info不是json对象
+                            onSuccess(object.getString("info"));
+                        }
                     }
                 }else if(object.getString("status").equals("10086")){
                     //用户权限出问题

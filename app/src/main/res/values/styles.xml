@@ -31,4 +31,11 @@
         <item name="android:background">@color/transparent</item>
     </style>
 
+    <!--自定义Divider 2-->
+    <style name="myDividerForItemGrayLine">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/gray_f1f1f1</item>
+    </style>
+
 </resources>

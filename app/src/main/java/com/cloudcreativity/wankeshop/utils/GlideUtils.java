@@ -7,6 +7,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.cloudcreativity.wankeshop.R;
 
+import java.io.File;
+
 /**
  * Glide加载图片的自定义
  */
@@ -55,6 +57,36 @@ public class GlideUtils {
                 .apply(new RequestOptions()
                         .placeholder(R.mipmap.ic_launcher)
                         .error(R.mipmap.ic_launcher))
+                .into(imageView);
+    }
+
+    /**
+     *
+     * @param context 上下文
+     * @param file 本地文件
+     * @param imageView 目标控件
+     */
+    public static void load(Context context, File file, ImageView imageView){
+        Glide.with(context)
+                .load(file)
+                .apply(new RequestOptions()
+                        .placeholder(R.mipmap.ic_launcher)
+                        .error(R.mipmap.ic_launcher))
+                .into(imageView);
+    }
+    /**
+     *
+     * @param context 上下文
+     * @param file 本地文件
+     * @param imageView 目标控件
+     */
+    public static void loadCircle(Context context, File file, ImageView imageView){
+        Glide.with(context)
+                .load(file)
+                .apply(new RequestOptions()
+                        .placeholder(R.mipmap.ic_launcher)
+                        .error(R.mipmap.ic_launcher)
+                        .transform(new GlideCircleTrasform()))
                 .into(imageView);
     }
 }

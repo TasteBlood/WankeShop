@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="addressModal"
+            type="com.cloudcreativity.wankeshop.userCenter.AddressManageModal" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/action_bar"
+            android:background="@color/colorPrimary">
+            <TextView
+                android:textSize="@dimen/action_bar_font_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@color/white"
+                android:text="@string/str_address_manage"/>
+            <android.support.v7.widget.AppCompatImageButton
+                android:onClick="@{(view)->addressModal.onBack(view)}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/ic_arrow_back_white_24dp"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/srl_addressManage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rcv_addressManage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adapter="@{addressModal.addressAdapter}"
+                    app:reverseLayout="false"
+                    app:spanCount="1" />
+            </android.support.v4.widget.SwipeRefreshLayout>
+            <android.support.design.widget.FloatingActionButton
+                android:onClick="@{(view)->addressModal.onAddAddressClick(view)}"
+                android:id="@+id/flb_addressManageAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="10dp" />
+        </RelativeLayout>
+    </LinearLayout>
+</layout>
