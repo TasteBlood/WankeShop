@@ -102,6 +102,7 @@
                             android:padding="10dp"
                             >
                             <TextView
+                                android:id="@+id/tv_mineOrderAll"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -110,6 +111,7 @@
                                 android:drawablePadding="9dp"
                                 android:text="全部订单"/>
                             <TextView
+                                android:id="@+id/tv_mineOrderWait"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -118,6 +120,7 @@
                                 android:drawablePadding="12dp"
                                 android:text="待发货"/>
                             <TextView
+                                android:id="@+id/tv_mineOrderAlready"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -126,6 +129,7 @@
                                 android:drawablePadding="11dp"
                                 android:text="已发货"/>
                             <TextView
+                                android:id="@+id/tv_mineOrderChange"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -187,6 +191,7 @@
                             android:padding="10dp"
                             >
                             <TextView
+                                android:id="@+id/tv_mineRecords"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -195,6 +200,7 @@
                                 android:drawablePadding="8dp"
                                 android:text="记录"/>
                             <TextView
+                                android:id="@+id/tv_mineWithdraw"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -203,6 +209,8 @@
                                 android:drawablePadding="10dp"
                                 android:text="提现"/>
                             <TextView
+                                android:id="@+id/tv_mineRecharge"
+                                android:onClick="@{(view)->mineModal.onRechargeClick(view)}"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -245,6 +253,7 @@
                             android:padding="10dp"
                             >
                             <TextView
+                                android:id="@+id/tv_mineGood"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -253,6 +262,7 @@
                                 android:drawablePadding="9dp"
                                 android:text="商品收藏"/>
                             <TextView
+                                android:id="@+id/tv_mineShop"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"

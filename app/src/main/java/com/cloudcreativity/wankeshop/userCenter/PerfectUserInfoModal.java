@@ -18,6 +18,8 @@ import com.cloudcreativity.wankeshop.utils.GlideUtils;
 import com.cloudcreativity.wankeshop.utils.HttpUtils;
 import com.cloudcreativity.wankeshop.utils.LogUtils;
 import com.cloudcreativity.wankeshop.utils.SPUtils;
+import com.cloudcreativity.wankeshop.utils.StrUtils;
+import com.cloudcreativity.wankeshop.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.qiniu.android.common.FixedZone;
 import com.qiniu.android.http.ResponseInfo;
@@ -100,7 +102,15 @@ public class PerfectUserInfoModal {
     //保存操作
     public void onSave(View view){
         String IDCard = binding.etPerfectIDCard.getText().toString().trim();
+        if(!TextUtils.isEmpty(IDCard)&&!StrUtils.isIDCard(IDCard)){
+            ToastUtils.showShortToast(context,R.string.str_idcard_format_error);
+            return;
+        }
         String email = binding.etPerfectMail.getText().toString().trim();
+        if(!TextUtils.isEmpty(email)&&!StrUtils.isEmail(email)){
+            ToastUtils.showShortToast(context,R.string.str_email_format_error);
+            return;
+        }
         String realName = binding.etPerfectRealName.getText().toString().trim();
         String userName = binding.etPerfectUsername.getText().toString().trim();
         user.setUserName(userName);

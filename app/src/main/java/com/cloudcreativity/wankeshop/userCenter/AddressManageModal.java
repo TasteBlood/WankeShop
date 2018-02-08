@@ -35,7 +35,7 @@ public class AddressManageModal {
     AddressManageModal(AddressManageActivity context, ActivityAddressManageBinding addressManageBinding) {
         this.context = context;
         this.addressManageBinding = addressManageBinding;
-        addressAdapter = new AddressAdapter(context);
+        addressAdapter = new AddressAdapter(context,context);
     }
 
     /**
@@ -77,6 +77,7 @@ public class AddressManageModal {
                         if(addressEntities==null||addressEntities.isEmpty()){
                             //暂无数据
                             ToastUtils.showShortToast(context,R.string.str_no_data);
+                            addressAdapter.getItems().clear();
                         }else{
                             //刷新界面
                             addressAdapter.getItems().clear();

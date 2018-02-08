@@ -15,6 +15,7 @@ import com.cloudcreativity.wankeshop.userCenter.AddressManageActivity;
 import com.cloudcreativity.wankeshop.userCenter.SettingActivity;
 import com.cloudcreativity.wankeshop.userCenter.UserInformationActivity;
 import com.cloudcreativity.wankeshop.utils.GlideUtils;
+import com.cloudcreativity.wankeshop.utils.PayWayDialogUtils;
 import com.cloudcreativity.wankeshop.utils.SPUtils;
 
 /**
@@ -53,5 +54,10 @@ public class MineFragmentModal {
     //address click
     public void onAddressClick(View view){
         context.startActivity(new Intent().setClass(context, AddressManageActivity.class));
+    }
+
+    //recharge click
+    public void onRechargeClick(View view){
+        new PayWayDialogUtils().show(context);
     }
 }

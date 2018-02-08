@@ -4,10 +4,12 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.text.TextUtils;
 
+import java.io.Serializable;
+
 /**
  * 地址
  */
-public class AddressEntity extends BaseObservable{
+public class AddressEntity extends BaseObservable implements Serializable{
     private String addressInfo;
     private String areaId;
     private String areaName;
@@ -188,5 +190,9 @@ public class AddressEntity extends BaseObservable{
     //获取地址信息
     public String formatAddress(){
         return this.provinceName+this.cityName+this.areaName+this.streetName+" "+this.addressInfo;
+    }
+    //获取省市区地址信息
+    public String formatAddress2(){
+        return this.provinceName+this.cityName+this.areaName+this.streetName;
     }
 }

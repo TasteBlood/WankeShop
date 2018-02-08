@@ -17,23 +17,31 @@ import android.text.TextUtils;
 import com.cloudcreativity.wankeshop.R;
 import com.cloudcreativity.wankeshop.base.BaseActivity;
 import com.cloudcreativity.wankeshop.databinding.ActivityAddAddressBinding;
+import com.cloudcreativity.wankeshop.databinding.ActivityEditAddressBinding;
+import com.cloudcreativity.wankeshop.entity.AddressEntity;
+import com.cloudcreativity.wankeshop.entity.address.AreaEntity;
+import com.cloudcreativity.wankeshop.entity.address.CityEntity;
+import com.cloudcreativity.wankeshop.entity.address.ProvinceEntity;
 
 /**
- * 添加收货地址
+ * 编辑收货地址
  */
-public class AddAddressActivity extends BaseActivity {
+public class EditAddressActivity extends BaseActivity {
     /**
      * 获取联系人的
      */
     public int REQUEST_CONTACT = 10086;
-    private AddAddressModal addAddressModal;
+    private EditAddressModal addAddressModal;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityAddAddressBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_add_address);
-        addAddressModal = new AddAddressModal(this,binding);
+        AddressEntity entity = (AddressEntity) getIntent().getSerializableExtra("addressEntity");
+        ActivityEditAddressBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_address);
+        addAddressModal = new EditAddressModal(this,binding,entity);
         binding.setAddressModal(addAddressModal);
+        binding.setAddress(entity);
+
     }
 
     @Override
@@ -106,7 +114,6 @@ public class AddAddressActivity extends BaseActivity {
             buffer.append(TempAddress.areaEntity.getName());
         if(TempAddress.streetEntity!=null)
             buffer.append(TempAddress.streetEntity.getName());
-
         if(buffer.length()>0)
             addAddressModal.setAddress(buffer.toString());
     }

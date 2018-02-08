@@ -132,4 +132,18 @@ public class AddressChooseActivity extends BaseActivity {
                 break;
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        //用户自己退出，清空所有数据
+        TempAddress.provinceEntities = null;
+        TempAddress.provinceEntity = null;
+        TempAddress.cityEntities = null;
+        TempAddress.cityEntity = null;
+        TempAddress.areaEntities = null;
+        TempAddress.areaEntity = null;
+        TempAddress.streetEntities = null;
+        TempAddress.streetEntity = null;
+    }
 }

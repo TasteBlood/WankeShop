@@ -146,6 +146,13 @@ public interface APIService {
                                    @Field("receiptMobile") String receiptMobile,
                                    @Field("isDefault") int isDefault);
 
+    //删除收货地址
+    @GET("deleteMyMallAddress.do")
+    Observable<String> deleteAddress(@Query("userId") int userId,
+                                     @Query("token") String token,
+                                     @Query("addressId") int addressId);
+
+
     //获取省列表
     @GET("getProvinceList.do")
     Observable<String> getProvinces();
