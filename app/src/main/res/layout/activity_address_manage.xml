@@ -34,10 +34,13 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <android.support.v4.widget.SwipeRefreshLayout
+            <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
                 android:id="@+id/srl_addressManage"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                app:tr_enable_loadmore="false"
+                app:tr_overscroll_bottom_show="true"
+                app:tr_head_height="50dp">
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rcv_addressManage"
                     android:layout_width="match_parent"
@@ -45,7 +48,7 @@
                     android:adapter="@{addressModal.addressAdapter}"
                     app:reverseLayout="false"
                     app:spanCount="1" />
-            </android.support.v4.widget.SwipeRefreshLayout>
+            </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
             <android.support.design.widget.FloatingActionButton
                 android:onClick="@{(view)->addressModal.onAddAddressClick(view)}"
                 android:id="@+id/flb_addressManageAdd"

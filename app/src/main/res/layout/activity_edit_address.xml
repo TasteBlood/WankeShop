@@ -55,12 +55,13 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="收货人:" />
+                            android:text="@string/str_receipt_name" />
                         <EditText
+                            android:inputType="text"
                             android:id="@+id/et_editAddress_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="收货人姓名"
+                            android:hint="@string/str_hint_receipt_name"
                             android:text="@{address.receiptName}"
                             android:background="@null"
                             android:padding="7dp" />
@@ -74,12 +75,12 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="联系方式:" />
+                            android:text="@string/str_contact_way" />
                         <EditText
                             android:id="@+id/et_editAddress_phone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="收货人电话号码"
+                            android:hint="@string/str_hint_contact_phone"
                             android:inputType="phone"
                             android:text="@{address.receiptMobile}"
                             android:padding="7dp"
@@ -100,7 +101,7 @@
                         android:drawablePadding="10dp"
                         android:padding="10dp"
                         android:gravity="center"
-                        android:text="选联系人"/>
+                        android:text="@string/str_choose_contact"/>
                 </FrameLayout>
             </LinearLayout>
             <LinearLayout
@@ -114,7 +115,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="所在地区:" />
+                    android:text="@string/str_area" />
                 <TextView
                     android:id="@+id/tv_editAddress_address"
                     android:layout_width="0dp"
@@ -124,6 +125,7 @@
                     android:text="@{address.formatAddress2()}"
                     android:layout_weight="1"/>
                 <ImageView
+                    android:contentDescription="@string/app_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_keyboard_arrow_right_black_24dp"/>
@@ -137,15 +139,16 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="详细地址:" />
+                    android:text="@string/srt_address" />
                 <EditText
                     android:id="@+id/et_editAddress_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
+                    android:inputType="text"
                     android:padding="7dp"
                     android:text="@{address.addressInfo}"
-                    android:hint="街道、楼排号等" />
+                    android:hint="@string/str_hint_street" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -156,7 +159,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="邮政编码:" />
+                    android:text="@string/str_postcode" />
                 <EditText
                     android:id="@+id/et_editAddress_postcode"
                     android:layout_width="match_parent"
@@ -166,13 +169,13 @@
                     android:padding="7dp"
                     android:maxLength="5"
                     android:text="@{address.zipCode}"
-                    android:hint="邮政编码" />
+                    android:hint="@string/str_hint_postcode" />
             </LinearLayout>
             <CheckBox
                 android:id="@+id/cb_editAddress_isDefault"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="设为默认收货地址"
+                android:text="@string/str_set_default_address"
                 android:paddingStart="5dp"
                 android:textSize="14sp"
                 android:layout_margin="10dp"

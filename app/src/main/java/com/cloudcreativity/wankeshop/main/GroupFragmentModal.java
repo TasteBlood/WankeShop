@@ -5,6 +5,9 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 
 import com.cloudcreativity.wankeshop.R;
+import com.cloudcreativity.wankeshop.databinding.FragmentGroupBinding;
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,15 +17,37 @@ import java.util.List;
  */
 public class GroupFragmentModal {
 
-    public ArrayAdapter<String> arrayAdapter;
+    private GroupFragment groupFragment;
+    private FragmentGroupBinding binding;
 
-    GroupFragmentModal(Context context) {
-        List<String> strings = new ArrayList<>();
-        for(int i=0;i<30;i++){
-            strings.add("I am data "+(i+1));
-        }
-        arrayAdapter = new ArrayAdapter<>(context,android.R.layout.simple_list_item_1,strings);
+    GroupFragmentModal(GroupFragment fragment, FragmentGroupBinding binding) {
+        this.groupFragment = fragment;
+        this.binding = binding;
+        this.binding.refreshGroup.setOnRefreshListener(refreshListenerAdapter);
     }
+
+    //刷新加载事件
+    private RefreshListenerAdapter refreshListenerAdapter = new RefreshListenerAdapter() {
+        @Override
+        public void onRefresh(final TwinklingRefreshLayout refreshLayout) {
+            refreshLayout.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    refreshLayout.finishRefreshing();
+                }
+            },3000);
+        }
+
+        @Override
+        public void onLoadMore(final TwinklingRefreshLayout refreshLayout) {
+            refreshLayout.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    refreshLayout.finishLoadmore();
+                }
+            },3000);
+        }
+    };
 
     //这是筛选按钮的点击事件
     public void onDropTabClick(View view){

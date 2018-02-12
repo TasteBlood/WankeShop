@@ -5,6 +5,8 @@ import android.app.Application;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,7 @@ public class BaseApp extends Application {
     public void onCreate() {
         super.onCreate();
         app = this;
+        initRefreshLayout();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -39,5 +42,11 @@ public class BaseApp extends Application {
         destroyActivity();
         //onDestroy
         System.exit(0);
+    }
+
+    //初始化刷新加载布局
+    private void initRefreshLayout(){
+        TwinklingRefreshLayout.setDefaultHeader("com.cloudcreativity.wankeshop.view.progresslayout.ProgressLayout");
+        TwinklingRefreshLayout.setDefaultFooter("com.lcodecore.tkrefreshlayout.footer.LoadingView");
     }
 }

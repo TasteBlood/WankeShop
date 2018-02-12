@@ -1,6 +1,5 @@
 package com.cloudcreativity.wankeshop.userCenter;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -35,8 +34,7 @@ public class AddressManageActivity extends BaseActivity {
 
         manageModal = new AddressManageModal(this,binding);
 
-        binding.srlAddressManage.setOnRefreshListener(manageModal.onRefreshListener);
-        binding.srlAddressManage.setDistanceToTriggerSync((int) (getResources().getDisplayMetrics().densityDpi*1.5));
+        binding.srlAddressManage.setOnRefreshListener(manageModal.refreshListenerAdapter);
         binding.rcvAddressManage.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);

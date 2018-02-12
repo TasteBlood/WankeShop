@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:bind="http://schemas.android.com/apk/res-auto">
+<layout>
     <data>
         <variable
             name="mineModal"
             type="com.cloudcreativity.wankeshop.main.MineFragmentModal" />
     </data>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:bind="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -16,7 +17,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="个人中心"
+                android:text="@string/str_user_center"
                 android:layout_centerInParent="true"
                 android:textColor="@color/white"
                 android:textSize="18sp"/>
@@ -30,10 +31,16 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="10dp"/>
         </RelativeLayout>
-        <android.support.v4.widget.SwipeRefreshLayout
+        <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+            android:id="@+id/refreshMine"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <android.support.v4.widget.NestedScrollView
+            android:layout_height="match_parent"
+            bind:tr_head_height="50dip"
+            bind:tr_enable_loadmore="false"
+            bind:tr_enable_overscroll="false"
+            bind:tr_overscroll_bottom_show="false">
+            <ScrollView
+                android:scrollbars="none"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <LinearLayout
@@ -89,7 +96,7 @@
                                 android:layout_height="wrap_content"
                                 android:padding="10dp"
                                 android:textSize="14sp"
-                                android:text="订单"/>
+                                android:text="@string/str_orders"/>
                         </FrameLayout>
                         <View
                             android:layout_width="match_parent"
@@ -109,7 +116,7 @@
                                 android:gravity="center"
                                 android:drawableTop="@mipmap/ic_menu_allorders"
                                 android:drawablePadding="9dp"
-                                android:text="全部订单"/>
+                                android:text="@string/str_all_order"/>
                             <TextView
                                 android:id="@+id/tv_mineOrderWait"
                                 android:layout_width="0dp"
@@ -118,7 +125,7 @@
                                 android:gravity="center"
                                 android:drawableTop="@mipmap/ic_menu_tosendthegoods"
                                 android:drawablePadding="12dp"
-                                android:text="待发货"/>
+                                android:text="@string/str_wait_send"/>
                             <TextView
                                 android:id="@+id/tv_mineOrderAlready"
                                 android:layout_width="0dp"
@@ -127,7 +134,7 @@
                                 android:gravity="center"
                                 android:drawableTop="@mipmap/ic_menu_forthegoods"
                                 android:drawablePadding="11dp"
-                                android:text="已发货"/>
+                                android:text="@string/str_already_send"/>
                             <TextView
                                 android:id="@+id/tv_mineOrderChange"
                                 android:layout_width="0dp"
@@ -136,7 +143,7 @@
                                 android:gravity="center"
                                 android:drawableTop="@mipmap/ic_menu_return"
                                 android:drawablePadding="9dp"
-                                android:text="退换货"/>
+                                android:text="@string/str_change_send"/>
                         </LinearLayout>
                     </LinearLayout>
                     <!--money view-->
@@ -155,7 +162,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="14sp"
-                                android:text="资金"/>
+                                android:text="@string/str_money"/>
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -165,15 +172,16 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="余额:￥"
+                                    android:text="@string/str_money_top"
                                     />
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="100.0"
+                                    android:text="@{String.valueOf(mineModal.user.balance)}"
                                     android:textColor="@color/colorPrimary"
                                     />
                                 <ImageView
+                                    android:visibility="gone"
                                     android:layout_marginStart="10dp"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -191,6 +199,7 @@
                             android:padding="10dp"
                             >
                             <TextView
+                                android:onClick="@{(view)->mineModal.onMoneyClick(view)}"
                                 android:id="@+id/tv_mineRecords"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
@@ -198,7 +207,7 @@
                                 android:gravity="center"
                                 android:drawableTop="@mipmap/ic_menu_record"
                                 android:drawablePadding="8dp"
-                                android:text="记录"/>
+                                android:text="@string/str_records"/>
                             <TextView
                                 android:id="@+id/tv_mineWithdraw"
                                 android:layout_width="0dp"
@@ -207,7 +216,7 @@
                                 android:gravity="center"
                                 android:drawableTop="@mipmap/ic_menu_withdraw"
                                 android:drawablePadding="10dp"
-                                android:text="提现"/>
+                                android:text="@string/str_withdraw"/>
                             <TextView
                                 android:id="@+id/tv_mineRecharge"
                                 android:onClick="@{(view)->mineModal.onRechargeClick(view)}"
@@ -217,7 +226,7 @@
                                 android:gravity="center"
                                 android:drawableTop="@mipmap/ic_menu_recharge"
                                 android:drawablePadding="10dp"
-                                android:text="充值"/>
+                                android:text="@string/str_recharge"/>
                             <View
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
@@ -240,7 +249,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="14sp"
-                                android:text="我的"/>
+                                android:text="@string/str_mine"/>
                         </FrameLayout>
                         <View
                             android:layout_width="match_parent"
@@ -260,7 +269,8 @@
                                 android:gravity="center"
                                 android:drawableTop="@mipmap/ic_menu_goodscollect"
                                 android:drawablePadding="9dp"
-                                android:text="商品收藏"/>
+                                android:onClick="@{(view)->mineModal.onGoodsCollectClick(view)}"
+                                android:text="@string/str_good_collect"/>
                             <TextView
                                 android:id="@+id/tv_mineShop"
                                 android:layout_width="0dp"
@@ -269,7 +279,8 @@
                                 android:gravity="center"
                                 android:drawableTop="@mipmap/ic_menu_shopcollect"
                                 android:drawablePadding="9dp"
-                                android:text="店铺收藏"/>
+                                android:onClick="@{(view)->mineModal.onShopCollectClick(view)}"
+                                android:text="@string/str_shop_collect"/>
                             <View
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
@@ -291,7 +302,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:text="地址管理"/>
+                            android:text="@string/str_address_manage"/>
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -309,7 +320,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:text="官方客服"/>
+                            android:text="@string/str_public_service"/>
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -327,7 +338,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:text="帮助中心"/>
+                            android:text="@string/str_help_center"/>
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -336,8 +347,8 @@
                             android:layout_alignParentEnd="true"/>
                     </RelativeLayout>
                 </LinearLayout>
-            </android.support.v4.widget.NestedScrollView>
-        </android.support.v4.widget.SwipeRefreshLayout>
+            </ScrollView>
+        </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
     </LinearLayout>
 
 </layout>

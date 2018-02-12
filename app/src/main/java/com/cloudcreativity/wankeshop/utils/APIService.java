@@ -16,7 +16,7 @@ public interface APIService {
      */
     long timeOut = 10 * 1000;//网络超时
     /**
-     * 整体的网关接口配置
+     * 整体的接口配置
      */
     String TEST_HOST = "http://192.168.31.19/vmall/";
     String ONLINE_HOST = "http://www.sina.com/";
@@ -168,4 +168,19 @@ public interface APIService {
     //获取乡镇、街道
     @GET("getStreetList.do")
     Observable<String> getStreet(@Query("areaId") int areaId);
+
+    /**
+     *
+     * @param userId 当前登录的用户id
+     * @param token 当前的授权码
+     * @param type 类型 1 充值  2 取现
+     * @param pageNum 页码
+     * @param pageSize 页容量
+     */
+    @GET("getCashList.do")
+    Observable<String> getMoneyList(@Query("userId") int userId,
+                                    @Query("token") String token,
+                                    @Query("int type") int type,
+                                    @Query("pageNum") int pageNum,
+                                    @Query("pageSize") int pageSize);
 }

@@ -20,7 +20,7 @@ public class GroupFragment extends LazyFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         FragmentGroupBinding binding = DataBindingUtil.inflate(inflater,R.layout.fragment_group,container,false);
-        binding.setGroupModal(new GroupFragmentModal(context));
+        binding.setGroupModal(new GroupFragmentModal(this,binding));
         return binding.getRoot();
     }
 

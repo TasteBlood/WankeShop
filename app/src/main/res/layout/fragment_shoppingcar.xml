@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -20,7 +22,10 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical">
-        <android.support.v4.widget.SwipeRefreshLayout
+        <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+            android:id="@+id/refreshShoppingCar"
+            app:tr_head_height="50dip"
+            app:tr_enable_loadmore="false"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <LinearLayout
@@ -39,7 +44,7 @@
                     android:textColor="@color/white"
                     android:background="@drawable/ripple_red_btn_3corner"/>
             </LinearLayout>
-        </android.support.v4.widget.SwipeRefreshLayout>
+        </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
     </LinearLayout>
     <!--bottom bar-->
     <LinearLayout

@@ -69,12 +69,12 @@
                         app:imageUrl="@{userModal.user.headPic}"
                         android:scaleType="fitXY" />
                     <ImageView
+                        android:contentDescription="@string/app_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_alignParentEnd="true"
-                        android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
-                        />
+                        android:src="@drawable/ic_keyboard_arrow_right_black_24dp" />
                 </RelativeLayout>
                 <!--user name-->
                 <View style="@style/myDividerForItem"/>
@@ -90,7 +90,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:textSize="14sp"
-                        android:text="用户名"/>
+                        android:text="@string/str_username"/>
                     <EditText
                         android:id="@+id/et_perfectUsername"
                         android:layout_width="0dp"
@@ -98,7 +98,7 @@
                         android:layout_weight="3"
                         android:layout_gravity="end|center_vertical"
                         android:text="@{userModal.user.userName}"
-                        android:hint="请输入用户名"
+                        android:hint="@string/str_hint_username"
                         android:padding="5dp"
                         android:background="@drawable/shape_input_bottom_line"
                         android:inputType="text"
@@ -119,15 +119,16 @@
                         android:layout_weight="1"
                         android:layout_gravity="center_vertical"
                         android:textSize="14sp"
-                        android:text="真实姓名"/>
+                        android:text="@string/str_realname"/>
                     <EditText
+                        android:inputType="text"
                         android:id="@+id/et_perfectRealName"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
                         android:layout_gravity="end|center_vertical"
                         android:text="@{userModal.user.realName}"
-                        android:hint="请输入真实姓名"
+                        android:hint="@string/str_hint_realname"
                         android:background="@drawable/shape_input_bottom_line"
                         android:padding="5dp"
                         android:textSize="14sp"
@@ -148,7 +149,7 @@
                         android:layout_weight="1"
                         android:layout_gravity="center_vertical"
                         android:textSize="14sp"
-                        android:text="生日"/>
+                        android:text="@string/str_birth"/>
                     <FrameLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -185,7 +186,7 @@
                         android:layout_weight="1"
                         android:layout_gravity="center_vertical"
                         android:textSize="14sp"
-                        android:text="性别"/>
+                        android:text="@string/str_gender"/>
                     <RadioGroup
                         android:id="@+id/rg_perfectGender"
                         android:layout_width="0dp"
@@ -198,13 +199,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checked="@{userModal.user.sex==0?true:false}"
-                            android:text="男" />
+                            android:text="@string/str_male" />
                         <RadioButton
                             android:id="@+id/rb_ganderFemale"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checked="@{userModal.user.sex==1?true:false}"
-                            android:text="女" />
+                            android:text="@string/str_female" />
                     </RadioGroup>
                 </LinearLayout>
                 <!--email-->
@@ -221,7 +222,7 @@
                         android:layout_weight="1"
                         android:layout_gravity="center_vertical"
                         android:textSize="14sp"
-                        android:text="邮箱"/>
+                        android:text="@string/str_email"/>
                     <EditText
                         android:id="@+id/et_perfectMail"
                         android:layout_width="0dp"
@@ -229,10 +230,11 @@
                         android:layout_weight="3"
                         android:layout_gravity="end|center_vertical"
                         android:text="@{userModal.user.email}"
-                        android:hint="请输入邮箱"
+                        android:hint="@string/str_hint_email"
                         android:background="@drawable/shape_input_bottom_line"
                         android:padding="5dp"
                         android:textSize="14sp"
+                        android:inputType="text"
                         android:textColor="@color/gray_717171" />
                 </LinearLayout>
                 <!--mobile-->
@@ -249,7 +251,7 @@
                         android:layout_weight="1"
                         android:layout_gravity="center_vertical"
                         android:textSize="14sp"
-                        android:text="手机"/>
+                        android:text="@string/str_mobile"/>
                     <FrameLayout
                         android:onClick="@{(view)->userModal.toModifyMobile(view)}"
                         android:layout_width="0dp"
@@ -285,15 +287,16 @@
                         android:layout_weight="1"
                         android:layout_gravity="center_vertical"
                         android:textSize="14sp"
-                        android:text="身份证号"/>
+                        android:text="@string/str_idcard"/>
                     <EditText
                         android:id="@+id/et_perfectIDCard"
+                        android:inputType="text"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
                         android:layout_gravity="end|center_vertical"
                         android:text="@{userModal.user.idCard}"
-                        android:hint="请输入身份证号"
+                        android:hint="@string/str_hint_idcard"
                         android:background="@drawable/shape_input_bottom_line"
                         android:padding="5dp"
                         android:textSize="14sp"

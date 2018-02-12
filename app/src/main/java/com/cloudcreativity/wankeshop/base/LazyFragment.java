@@ -13,6 +13,8 @@ import android.view.View;
 
 import com.cloudcreativity.wankeshop.R;
 import com.cloudcreativity.wankeshop.databinding.LayoutProgressDialogBinding;
+import com.cloudcreativity.wankeshop.utils.AuthDialogUtils;
+import com.cloudcreativity.wankeshop.utils.ToastUtils;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -75,7 +77,7 @@ public abstract class LazyFragment extends Fragment implements BaseDialogImpl{
     /**
      * 数据记载成功就停止下次的加载
      */
-    protected void initialLoadDataSuccess(){
+    public void initialLoadDataSuccess(){
         this.isDataLoaded = true;
     }
 
@@ -136,7 +138,7 @@ public abstract class LazyFragment extends Fragment implements BaseDialogImpl{
     @Override
     public void showUserAuthOutDialog() {
         //在这里显示用户权限出现的问题
-
+        new AuthDialogUtils().show(context);
     }
 
     /**
@@ -153,6 +155,6 @@ public abstract class LazyFragment extends Fragment implements BaseDialogImpl{
      */
     @Override
     public void showRequestErrorMessage(String message) {
-
+        ToastUtils.showShortToast(context,message);
     }
 }

@@ -38,7 +38,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="技术支持:甘肃云创意科技有限公司"
+        android:text="@string/str_temp1"
         android:gravity="center"
         android:layout_marginTop="40dp"
         android:textSize="14sp" />
@@ -47,15 +47,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14sp"
-        android:text="联系我们"/>
+        android:text="@string/str_temp2"/>
     <TextView
         android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="E-mail:xxw0701@sina.com"/>
+        android:text="@string/str_temp3"/>
     <TextView
         android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Phone:188-0944-6038"/>
+        android:text="@string/str_temp4"/>
 </LinearLayout>

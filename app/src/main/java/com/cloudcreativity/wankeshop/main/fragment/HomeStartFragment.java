@@ -14,6 +14,8 @@ import com.cloudcreativity.wankeshop.R;
 import com.cloudcreativity.wankeshop.base.LazyFragment;
 import com.cloudcreativity.wankeshop.databinding.FragmentHomeStartBinding;
 import com.cloudcreativity.wankeshop.databinding.LayoutHomeStartTopBinding;
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +47,31 @@ public class HomeStartFragment extends LazyFragment {
         },list).setPointViewVisible(true).startTurning(3000).
                 setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT)
                 .setPageIndicator(new int[]{R.drawable.banner_dot_5dp_normal,R.drawable.banner_dot_5dp});
+
+        //初始化刷新头
+        binding.refreshHomeStart.setOnRefreshListener(new RefreshListenerAdapter() {
+            @Override
+            public void onRefresh(final TwinklingRefreshLayout refreshLayout) {
+               refreshLayout.postDelayed(new Runnable() {
+                   @Override
+                   public void run() {
+                       refreshLayout.finishRefreshing();
+                   }
+               },2000);
+            }
+
+            @Override
+            public void onLoadMore(final TwinklingRefreshLayout refreshLayout) {
+                refreshLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshLayout.finishLoadmore();
+                    }
+                },2000);
+            }
+        });
+
+
         return binding.getRoot();
     }
 

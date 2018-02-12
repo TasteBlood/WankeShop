@@ -24,7 +24,7 @@ public class MineFragment extends LazyFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_mine,container,false);
-        binding.setMineModal(mineFragmentModal = new MineFragmentModal(context));
+        binding.setMineModal(mineFragmentModal = new MineFragmentModal(context,binding));
         return binding.getRoot();
     }
 

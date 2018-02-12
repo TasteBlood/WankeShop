@@ -23,4 +23,9 @@
     <color name="gray_313131">#313131</color>
     <color name="gray_212121">#212121</color>
 
+    <!--下拉刷新的颜色-->
+    <color name="refresh_red">#ef4436</color>
+    <color name="refresh_blue">#00aaf6</color>
+    <color name="refresh_green">#32bc50</color>
+
 </resources>

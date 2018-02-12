@@ -132,9 +132,13 @@ public class PerfectUserInfoModal {
 
     //提交数据
     private void submit(UserEntity entity){
+        //处理头像
+        String headPic = entity.getHeadPic();
+        if(!TextUtils.isEmpty(headPic)&&headPic.startsWith("http"))
+            headPic = "";
         HttpUtils.getInstance().editInformation(SPUtils.get().getUid(),SPUtils.get().getToken(),
                 entity.getUserName(),entity.getRealName(),entity.getPassword(),
-                entity.getHeadPic(),entity.getEmail(),entity.getSex(),entity.getIdCard(),entity.getBirthDay(),
+                headPic,entity.getEmail(),entity.getSex(),entity.getIdCard(),entity.getBirthDay(),
                 AppConfig.USER_TYPE_ONE).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DefaultObserver<String>(context,true) {
                     @Override

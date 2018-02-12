@@ -5,7 +5,7 @@ package com.cloudcreativity.wankeshop.utils;
  */
 public class AppConfig {
     /**
-     * 是否是调试阶段
+     * 是否是开发调试阶段
      */
     public static boolean DEBUG = true;
     /**

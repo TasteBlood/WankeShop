@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="moneyModal"
+            type="com.cloudcreativity.wankeshop.money.MoneyRecordsModal" />
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/action_bar"
+            android:background="@color/colorPrimary">
+            <TextView
+                android:textSize="@dimen/action_bar_font_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@color/white"
+                android:text="@string/str_money_record"/>
+            <android.support.v7.widget.AppCompatImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:layout_centerVertical="true"
+                android:onClick="@{(view)->moneyModal.onBack(view)}"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/ic_arrow_back_white_24dp"/>
+        </RelativeLayout>
+
+        <!--主页面-->
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tl_moneyRecords"
+            app:tabTextColor="@color/gray_919191"
+            app:tabSelectedTextColor="@color/colorPrimary"
+            app:tabIndicatorColor="@color/colorPrimary"
+            android:background="@color/white"
+            android:textSize="14sp"
+            android:elevation="2dp"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent" />
+        <android.support.v4.view.ViewPager
+            android:adapter="@{moneyModal.pagerAdapter}"
+            android:id="@+id/vp_moneyRecords"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</layout>

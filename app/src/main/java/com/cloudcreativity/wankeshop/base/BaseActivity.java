@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import com.cloudcreativity.wankeshop.R;
 import com.cloudcreativity.wankeshop.databinding.LayoutProgressDialogBinding;
 import com.cloudcreativity.wankeshop.main.MainActivity;
+import com.cloudcreativity.wankeshop.utils.AuthDialogUtils;
 import com.cloudcreativity.wankeshop.utils.LogUtils;
 import com.cloudcreativity.wankeshop.utils.ToastUtils;
 
@@ -130,7 +131,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseDial
     @Override
     public void showUserAuthOutDialog() {
         //在这里显示用户权限出现的问题
-
+        new AuthDialogUtils().show(this);
     }
 
     /**

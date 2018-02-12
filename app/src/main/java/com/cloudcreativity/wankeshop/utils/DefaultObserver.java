@@ -77,18 +77,18 @@ public abstract class DefaultObserver<T> implements Observer<T> {
                             onSuccess(object.getString("info"));
                         }
                     }
-                }else if(object.getString("status").equals("10086")){
+                }else if(object.getString("status").equals("100")){
                     //用户权限出问题,账号在别处登录
                     //先清空用户数据
                     SPUtils.get().setUser("");
                     SPUtils.get().putBoolean(SPUtils.Config.IS_LOGIN,false);
                     SPUtils.get().putInt(SPUtils.Config.UID,0);
                     SPUtils.get().putString(SPUtils.Config.TOKEN,null);
-
+                    onFail(ExceptionReason.PARAMS_ERROR);
                     impl.showUserAuthOutDialog();
                 }else{
                     //失败
-                    if(TextUtils.isEmpty(object.getString("msg"))){
+                    if(!object.has("msg")||TextUtils.isEmpty(object.getString("msg"))){
                         impl.showRequestErrorMessage("请求失败");
                     }else{
                         impl.showRequestErrorMessage(object.getString("msg"));

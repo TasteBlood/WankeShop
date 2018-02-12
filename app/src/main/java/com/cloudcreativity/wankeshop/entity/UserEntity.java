@@ -24,6 +24,15 @@ public class UserEntity extends BaseObservable{
     private int type;
     private String updateTime;
     private String userName;
+    private String balance;
+
+    public String getBalance() {
+        return balance;
+    }
+
+    public void setBalance(String balance) {
+        this.balance = balance;
+    }
 
     @Bindable
     public String getBirthDay() {

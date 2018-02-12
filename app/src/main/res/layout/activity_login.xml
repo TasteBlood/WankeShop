@@ -16,12 +16,12 @@
             android:layout_height="0dp"
             android:layout_weight="1">
             <ImageView
+                android:contentDescription="@string/app_name"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:src="@mipmap/start_index"
                 android:scaleType="fitXY"
-                android:layout_centerInParent="true"
-                />
+                android:layout_centerInParent="true" />
         </RelativeLayout>
         <LinearLayout
             android:layout_marginTop="40dp"
@@ -41,7 +41,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/gray_313131"
-                    android:hint="请输入手机号"
+                    android:hint="@string/str_hint_input_mobile"
                     android:inputType="phone"
                     android:textColorHint="@color/gray_717171"
                     android:padding="10dp"
@@ -58,7 +58,7 @@
                     android:id="@+id/et_loginPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="请输入密码"
+                    android:hint="@string/str_hint_input_pwd"
                     android:textSize="14sp"
                     android:inputType="textPassword"
                     android:textColorHint="@color/gray_717171"
@@ -73,7 +73,7 @@
                 android:layout_marginTop="20dp"
                 android:textSize="16sp"
                 android:onClick="@{(view)->loginModal.loginClick(view)}"
-                android:text="登录"/>
+                android:text="@string/str_login"/>
             <FrameLayout
                 android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
@@ -81,7 +81,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="注册新账号"
+                    android:text="@string/str_register_new_account"
                     android:textColor="@color/white"
                     android:padding="5dp"
                     android:textSize="14sp"
@@ -91,7 +91,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="忘记密码?"
+                    android:text="@string/str_forget_pwd_ask"
                     android:textColor="@color/white"
                     android:padding="5dp"
                     android:textSize="14sp"
@@ -103,7 +103,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            ></LinearLayout>
+            android:layout_weight="1">
+
+        </LinearLayout>
     </android.support.v7.widget.LinearLayoutCompat>
 </layout>

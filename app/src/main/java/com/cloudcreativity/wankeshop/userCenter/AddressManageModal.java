@@ -16,6 +16,8 @@ import com.cloudcreativity.wankeshop.utils.SPUtils;
 import com.cloudcreativity.wankeshop.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -55,9 +57,9 @@ public class AddressManageModal {
     /**
      * 这是RefreshLayout的监听
      */
-    public SwipeRefreshLayout.OnRefreshListener onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+    public RefreshListenerAdapter refreshListenerAdapter = new RefreshListenerAdapter() {
         @Override
-        public void onRefresh() {
+        public void onRefresh(TwinklingRefreshLayout refreshLayout) {
             initialData();
         }
     };
@@ -69,7 +71,7 @@ public class AddressManageModal {
                 .subscribe(new DefaultObserver<String>(context,false) {
                     @Override
                     public void onSuccess(String t) {
-                        addressManageBinding.srlAddressManage.setRefreshing(false);
+                        addressManageBinding.srlAddressManage.finishRefreshing();
                         Type type = new TypeToken<List<AddressEntity>>() {
                         }.getType();
                         List<AddressEntity> addressEntities = new Gson().fromJson(t,type);
@@ -87,7 +89,7 @@ public class AddressManageModal {
 
                     @Override
                     public void onFail(ExceptionReason msg) {
-                        addressManageBinding.srlAddressManage.setRefreshing(false);
+                        addressManageBinding.srlAddressManage.finishRefreshing();
                     }
                 });
     }
@@ -97,8 +99,7 @@ public class AddressManageModal {
         addressManageBinding.srlAddressManage.post(new Runnable() {
             @Override
             public void run() {
-                addressManageBinding.srlAddressManage.setRefreshing(true);
-                onRefreshListener.onRefresh();
+                addressManageBinding.srlAddressManage.startRefresh();
             }
         });
     }
