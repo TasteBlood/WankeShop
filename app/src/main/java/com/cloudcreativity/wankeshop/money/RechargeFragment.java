@@ -33,7 +33,6 @@ public class RechargeFragment extends LazyFragment {
 
     @Override
     public void initialLoadData() {
-
-
+        this.binding.refreshRecharge.startRefresh();
     }
 }

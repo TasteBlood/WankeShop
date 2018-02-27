@@ -39,7 +39,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:tr_enable_loadmore="false"
-                app:tr_overscroll_bottom_show="true"
                 app:tr_head_height="50dp">
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rcv_addressManage"

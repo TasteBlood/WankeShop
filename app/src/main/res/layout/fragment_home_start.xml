@@ -12,7 +12,8 @@
         android:layout_height="match_parent">
         <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
             android:id="@+id/refreshHomeStart"
-            app:tr_head_height="50dp"
+            app:tr_enable_loadmore="true"
+            app:tr_head_height="50dip"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <com.cloudcreativity.wankeshop.view.HeaderGridView

@@ -23,6 +23,7 @@ public class AuthDialogUtils {
     public void show(Context context){
         dialog = new Dialog(context, R.style.myProgressDialogStyle);
         dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
         LayoutDialogUserAuthErrorBinding binding = DataBindingUtil.inflate(LayoutInflater.from(context),R.layout.layout_dialog_user_auth_error,null,false);
         binding.setUtils(this);
         dialog.setContentView(binding.getRoot());
@@ -34,6 +35,7 @@ public class AuthDialogUtils {
 
     public void onCancelClick(View view){
         dialog.dismiss();
+        dialog = null;
 
     }
 

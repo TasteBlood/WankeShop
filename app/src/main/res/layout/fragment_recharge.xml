@@ -10,19 +10,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
             android:id="@+id/refreshRecharge"
             app:tr_head_height="50dip"
             app:tr_enable_loadmore="true"
-            app:tr_autoLoadMore="true"
+            app:tr_autoLoadMore="false"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <android.support.v7.widget.RecyclerView
                 android:adapter="@{recharge.adapter}"
+                android:scrollbars="vertical"
                 android:id="@+id/rcv_recharge"
                 android:background="@color/gray_f1f1f1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+                android:layout_height="wrap_content" />
+        </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
     </LinearLayout>
 </layout>

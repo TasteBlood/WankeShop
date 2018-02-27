@@ -28,7 +28,7 @@ public class HomeStartFragment extends LazyFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        FragmentHomeStartBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home_start,container,false);
+        final FragmentHomeStartBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home_start,container,false);
         viewModal = new HomeStartViewModal(this,context);
         binding.setHomeStartModal(viewModal);
         LayoutHomeStartTopBinding startTopBinding = DataBindingUtil.inflate(LayoutInflater.from(context),R.layout.layout_home_start_top,container,false);
@@ -48,16 +48,16 @@ public class HomeStartFragment extends LazyFragment {
                 setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT)
                 .setPageIndicator(new int[]{R.drawable.banner_dot_5dp_normal,R.drawable.banner_dot_5dp});
 
-        //初始化刷新头
+
         binding.refreshHomeStart.setOnRefreshListener(new RefreshListenerAdapter() {
             @Override
             public void onRefresh(final TwinklingRefreshLayout refreshLayout) {
-               refreshLayout.postDelayed(new Runnable() {
-                   @Override
-                   public void run() {
-                       refreshLayout.finishRefreshing();
-                   }
-               },2000);
+                refreshLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshLayout.finishRefreshing();
+                    }
+                },2000);
             }
 
             @Override
@@ -70,7 +70,6 @@ public class HomeStartFragment extends LazyFragment {
                 },2000);
             }
         });
-
 
         return binding.getRoot();
     }

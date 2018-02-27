@@ -11,19 +11,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
             android:id="@+id/refreshWithdraw"
             app:tr_head_height="50dip"
             app:tr_enable_loadmore="true"
-            app:tr_autoLoadMore="true"
+            app:tr_autoLoadMore="false"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rcv_withdraw"
+                android:scrollbars="vertical"
                 android:adapter="@{withdrawModal.adapter}"
                 android:background="@color/gray_f1f1f1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+                android:layout_height="wrap_content" />
+        </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
     </LinearLayout>
 </layout>

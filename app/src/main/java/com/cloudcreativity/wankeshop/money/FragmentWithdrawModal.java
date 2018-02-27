@@ -15,9 +15,8 @@ import com.cloudcreativity.wankeshop.utils.SPUtils;
 import com.cloudcreativity.wankeshop.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -37,21 +36,6 @@ public class FragmentWithdrawModal {
     private int pageNum = 1;
     private int pageSize = 15;
 
-    private OnRefreshListener onRefreshListener = new OnRefreshListener() {
-        @Override
-        public void onRefresh(RefreshLayout refreshLayout) {
-            pageNum = 1;
-            loadData(pageNum);
-        }
-    };
-
-    private OnLoadMoreListener onLoadMoreListener = new OnLoadMoreListener() {
-        @Override
-        public void onLoadMore(RefreshLayout refreshLayout) {
-            loadData(pageNum);
-        }
-    };
-
     FragmentWithdrawModal(BaseDialogImpl baseDialog, Context context, FragmentWithdrawBinding binding,LazyFragment fragment) {
         this.baseDialog = baseDialog;
         this.context = context;
@@ -68,6 +52,20 @@ public class FragmentWithdrawModal {
                 binding.setItem(item);
             }
         };
+
+        this.binding.refreshWithdraw.setOnRefreshListener(new RefreshListenerAdapter() {
+            @Override
+            public void onRefresh(TwinklingRefreshLayout refreshLayout) {
+                pageNum=1;
+                loadData(pageNum);
+            }
+
+            @Override
+            public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
+                loadData(pageNum);
+            }
+        });
+
     }
 
     //加载数据
@@ -79,7 +77,6 @@ public class FragmentWithdrawModal {
                 .subscribe(new DefaultObserver<String>(baseDialog,false) {
                     @Override
                     public void onSuccess(String t) {
-                        lazyFragment.initialLoadDataSuccess();
                         //处理数据
                         Type type = new TypeToken<List<MoneyEntity>>() {
                         }.getType();
@@ -87,23 +84,26 @@ public class FragmentWithdrawModal {
                         List<MoneyEntity> moneyEntities = new Gson().fromJson(t,type);
                         if(moneyEntities==null||moneyEntities.isEmpty()){
                             ToastUtils.showShortToast(context,R.string.str_no_data);
-                            if(page!=1){
-
-                            }
                         }else{
                             if(page==1){
-                                lazyFragment.initialLoadDataSuccess();
                                 adapter.getItems().clear();
                                 adapter.getItems().addAll(moneyEntities);
+                                binding.refreshWithdraw.finishRefreshing();
+                                lazyFragment.initialLoadDataSuccess();
                             }else{
                                 adapter.getItems().addAll(moneyEntities);
+                                binding.refreshWithdraw.finishLoadmore();
                             }
                             pageNum++;
                         }
                     }
                     @Override
                     public void onFail(ExceptionReason msg) {
-
+                        if(page==1){
+                            binding.refreshWithdraw.finishRefreshing();
+                        }else{
+                            binding.refreshWithdraw.finishLoadmore();
+                        }
                     }
                 });
     }

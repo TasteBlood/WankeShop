@@ -15,15 +15,8 @@ import com.cloudcreativity.wankeshop.utils.SPUtils;
 import com.cloudcreativity.wankeshop.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
-import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.scwang.smartrefresh.layout.footer.FalsifyFooter;
-import com.scwang.smartrefresh.layout.header.BezierRadarHeader;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
-import com.scwang.smartrefresh.layout.header.FalsifyHeader;
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -49,21 +42,6 @@ public class FragmentRechargeModal {
         this.context = context;
         this.binding = binding;
         this.lazyFragment = fragment;
-        this.binding.refreshRecharge.setRefreshHeader(new BezierRadarHeader(this.context));
-        this.binding.refreshRecharge.setRefreshFooter(new BallPulseFooter(this.context));
-        this.binding.refreshRecharge.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(RefreshLayout refreshLayout) {
-                loadData(pageNum);
-            }
-        });
-
-        this.binding.refreshRecharge.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore(RefreshLayout refreshLayout) {
-                loadData(pageNum);
-            }
-        });
 
         adapter = new BaseBindingRecyclerViewAdapter<MoneyEntity, ItemMoneyListLayoutBinding>(this.context) {
             @Override
@@ -76,6 +54,19 @@ public class FragmentRechargeModal {
                 binding.setItem(item);
             }
         };
+
+        this.binding.refreshRecharge.setOnRefreshListener(new RefreshListenerAdapter() {
+            @Override
+            public void onRefresh(TwinklingRefreshLayout refreshLayout) {
+                pageNum = 1;
+                loadData(pageNum);
+            }
+
+            @Override
+            public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
+                loadData(pageNum);
+            }
+        });
     }
 
     //加载数据
@@ -87,9 +78,6 @@ public class FragmentRechargeModal {
                 .subscribe(new DefaultObserver<String>(baseDialog,false) {
                     @Override
                     public void onSuccess(String t) {
-                        binding.refreshRecharge.finishLoadMore();
-                        binding.refreshRecharge.finishRefresh();
-                        lazyFragment.initialLoadDataSuccess();
                         //处理数据
                         Type type = new TypeToken<List<MoneyEntity>>() {
                         }.getType();
@@ -97,28 +85,29 @@ public class FragmentRechargeModal {
                         List<MoneyEntity> moneyEntities = new Gson().fromJson(t,type);
                         if(moneyEntities==null||moneyEntities.isEmpty()){
                             ToastUtils.showShortToast(context,R.string.str_no_data);
-                            if(page!=1){
-
-                            }
                         }else{
                             if(page==1){
-                                lazyFragment.initialLoadDataSuccess();
                                 adapter.getItems().clear();
                                 adapter.getItems().addAll(moneyEntities);
+                                binding.refreshRecharge.finishRefreshing();
+                                lazyFragment.initialLoadDataSuccess();
                             }else{
                                 adapter.getItems().addAll(moneyEntities);
+                                binding.refreshRecharge.finishLoadmore();
                             }
                             pageNum++;
                         }
                     }
                     @Override
                     public void onFail(ExceptionReason msg) {
-                        binding.refreshRecharge.finishLoadMore();
-                        binding.refreshRecharge.finishRefresh();
+                        if(page==1){
+                            binding.refreshRecharge.finishRefreshing();
+                        }else{
+                            binding.refreshRecharge.finishLoadmore();
+                        }
                     }
                 });
     }
 
     public BaseBindingRecyclerViewAdapter<MoneyEntity,ItemMoneyListLayoutBinding> adapter;
-
 }

@@ -8,8 +8,6 @@ import android.support.annotation.RequiresApi;
 
 import com.cloudcreativity.wankeshop.base.BaseApp;
 import com.cloudcreativity.wankeshop.loginAndRegister.LoginActivity;
-import com.cloudcreativity.wankeshop.main.MainActivity;
-import com.cloudcreativity.wankeshop.utils.LogUtils;
 import com.cloudcreativity.wankeshop.utils.SPUtils;
 
 /**

@@ -32,6 +32,6 @@ public class WithDrawFragment extends LazyFragment {
 
     @Override
     public void initialLoadData() {
-
+        this.binding.refreshWithdraw.startRefresh();
     }
 }

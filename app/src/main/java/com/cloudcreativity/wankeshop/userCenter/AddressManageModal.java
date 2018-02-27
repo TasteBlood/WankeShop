@@ -71,7 +71,6 @@ public class AddressManageModal {
                 .subscribe(new DefaultObserver<String>(context,false) {
                     @Override
                     public void onSuccess(String t) {
-                        addressManageBinding.srlAddressManage.finishRefreshing();
                         Type type = new TypeToken<List<AddressEntity>>() {
                         }.getType();
                         List<AddressEntity> addressEntities = new Gson().fromJson(t,type);
@@ -85,6 +84,7 @@ public class AddressManageModal {
                             addressAdapter.getItems().clear();
                             addressAdapter.getItems().addAll(addressEntities);
                         }
+                        addressManageBinding.srlAddressManage.finishRefreshing();
                     }
 
                     @Override
