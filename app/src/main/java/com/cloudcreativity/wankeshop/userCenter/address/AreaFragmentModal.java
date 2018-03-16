@@ -67,7 +67,8 @@ public class AreaFragmentModal {
 
     public void refreshData(){
         areaAdapter.getItems().clear();
-        areaAdapter.getItems().addAll(TempAddress.areaEntities);
+        if(TempAddress.areaEntities!=null&&!TempAddress.areaEntities.isEmpty())
+            areaAdapter.getItems().addAll(TempAddress.areaEntities);
     }
 
     //条目点击事件

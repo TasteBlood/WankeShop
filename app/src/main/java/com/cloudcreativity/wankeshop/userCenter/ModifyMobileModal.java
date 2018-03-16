@@ -80,7 +80,7 @@ public class ModifyMobileModal {
 
         //发送验证码
         private void sendSms() {
-            HttpUtils.getInstance().modifyMobileOne(SPUtils.get().getUid(), SPUtils.get().getToken(), false)
+            HttpUtils.getInstance().modifyMobileOne(false)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new DefaultObserver<String>(context, true) {
@@ -101,7 +101,7 @@ public class ModifyMobileModal {
 
         //下一步
         private void next(String sms) {
-            HttpUtils.getInstance().modifyMobileTwo(SPUtils.get().getUid(), SPUtils.get().getToken(), sms)
+            HttpUtils.getInstance().modifyMobileTwo(sms)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new DefaultObserver<String>(context, true) {
@@ -181,7 +181,7 @@ public class ModifyMobileModal {
 
         //发送验证码
         private void sendSms(String mobile) {
-            HttpUtils.getInstance().modifyMobileThree(SPUtils.get().getUid(), SPUtils.get().getToken(), mobile)
+            HttpUtils.getInstance().modifyMobileThree(mobile)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new DefaultObserver<String>(context, true) {
@@ -202,7 +202,7 @@ public class ModifyMobileModal {
 
         //下一步
         private void save(String mobile, String sms) {
-            HttpUtils.getInstance().modifyMobileFour(SPUtils.get().getUid(), SPUtils.get().getToken(), mobile, sms)
+            HttpUtils.getInstance().modifyMobileFour(mobile, sms)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new DefaultObserver<String>(context, true) {

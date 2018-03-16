@@ -145,7 +145,7 @@ public abstract class LazyFragment extends Fragment implements BaseDialogImpl{
      * 显示图片选择
      */
     @Override
-    public void openPictureDialog() {
+    public void openPictureDialog(boolean isCrop) {
 
     }
 

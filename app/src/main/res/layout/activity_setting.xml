@@ -12,6 +12,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/action_bar"
+            android:elevation="3dip"
             android:background="@color/colorPrimary">
             <TextView
                 android:textSize="@dimen/action_bar_font_size"
@@ -53,7 +54,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="@{setModal.isOpen}"
+                    android:checked="@{setModal.isOpen.get()}"
                     android:onCheckedChanged="@{setModal.listener}"
                     android:layout_gravity="end|center_vertical"/>
             </RelativeLayout>

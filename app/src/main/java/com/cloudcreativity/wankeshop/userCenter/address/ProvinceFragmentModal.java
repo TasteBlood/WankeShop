@@ -69,7 +69,8 @@ public class ProvinceFragmentModal {
     //刷新数据
     public void refreshData(){
         provinceAdapter.getItems().clear();
-        provinceAdapter.getItems().addAll(TempAddress.provinceEntities);
+        if(TempAddress.provinceEntities!=null&&!TempAddress.provinceEntities.isEmpty())
+            provinceAdapter.getItems().addAll(TempAddress.provinceEntities);
     }
 
     //条目点击事件
@@ -80,11 +81,11 @@ public class ProvinceFragmentModal {
             return;
 
         //清空省以下的数据
-        TempAddress.cityEntities = null;
+        TempAddress.cityEntities.clear();
         TempAddress.cityEntity = null;
-        TempAddress.areaEntities = null;
+        TempAddress.areaEntities.clear();
         TempAddress.areaEntity = null;
-        TempAddress.streetEntities = null;
+        TempAddress.streetEntities.clear();
         TempAddress.streetEntity = null;
 
 

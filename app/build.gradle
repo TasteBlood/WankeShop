@@ -10,15 +10,45 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+    signingConfigs{
+        debug{
+            storeFile file("keystore.jks")
+            storePassword "vacomall"
+            keyAlias "wksc"
+            keyPassword "vacomall"
+        }
+        release{
+            storeFile file("keystore.jks")
+            storePassword "vacomall"
+            keyAlias "wksc"
+            keyPassword "vacomall"
         }
     }
+
+    buildTypes {
+        sit{
+            debuggable true
+        }
+        debug{
+            minifyEnabled false
+            zipAlignEnabled true
+            shrinkResources false
+            signingConfig signingConfigs.debug
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+
     dataBinding {
         enabled true
     }
+
 }
 
 dependencies {
@@ -37,7 +67,7 @@ dependencies {
     implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
     implementation 'com.android.support:recyclerview-v7:27.0.2'
     implementation 'com.github.bumptech.glide:glide:4.5.0'
-    implementation 'com.github.bumptech.glide:okhttp3-integration:4.5.0'
+    //implementation 'com.github.bumptech.glide:okhttp3-integration:4.5.0'
     implementation 'com.lcodecorex:tkrefreshlayout:1.0.7'
     implementation 'com.android.support:design:27.0.2'
     implementation 'com.android.support:cardview-v7:27.0.2'
@@ -46,5 +76,10 @@ dependencies {
     implementation 'com.qiniu:qiniu-android-sdk:7.3.10'
     implementation 'com.contrarywind:Android-PickerView:3.2.6'
     implementation 'org.greenrobot:eventbus:3.1.1'
-    implementation 'com.baoyz.pullrefreshlayout:library:1.2.0'
+    //ZXing
+    implementation 'com.google.zxing:core:3.3.0'
+    //微信登录
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:5.1.4'
+
+    compile 'com.bartoszlipinski:recyclerviewheader2:2.0.1'
 }

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <SurfaceView
+            android:id="@+id/scanner_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"/>
+
+        <com.google.zxing.view.ViewfinderView
+            android:id="@+id/viewfinder_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:corner_color="@color/corner_color"
+            app:frame_color="@color/viewfinder_frame"
+            app:label_text="二维码/条形码扫描"
+            app:label_text_color="#ffffff"
+            app:label_text_size="40"
+            app:laser_color="@color/laser_color"
+            app:mask_color="@color/viewfinder_mask"
+            app:result_color="@color/result_view"
+            app:result_point_color="@color/result_point_color"/>
+
+        <RelativeLayout
+            android:background="#33000000"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/action_bar">
+            <android.support.v7.widget.AppCompatImageButton
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_back_white_24dp"
+                android:background="@null"
+                android:layout_marginStart="5dip"
+                android:padding="10dip"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/str_scan"
+                android:textSize="16sp"
+                android:textColor="@color/white"/>
+        </RelativeLayout>
+    </FrameLayout>
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="60dip"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:id="@+id/btn_open"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:background="@drawable/selector_scan_flash_light" />
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_gallery"
+            android:layout_marginStart="60dip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_menu_photo"/>
+    </LinearLayout>
+</RelativeLayout>

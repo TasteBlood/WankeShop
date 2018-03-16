@@ -48,6 +48,35 @@ public class GlideUtils {
     /**
      *
      * @param context 上下文
+     * @param file 文件
+     * @param imageView 目标控件
+     *                  加载缩略图
+     */
+    public static void loadFileThumbs(Context context, File file, final ImageView imageView){
+        Glide.with(context)
+                .load(file)
+                .apply(new RequestOptions()
+                        .placeholder(R.mipmap.ic_launcher)
+                        .error(R.mipmap.ic_launcher))
+                .thumbnail(0.2f)
+                .into(imageView);
+    }
+
+    /**
+     *
+     * @param context 上下文
+     * @param url 图片路径
+     * @param imageView 目标控件
+     */
+    public static void loadThumbs(Context context, String url, ImageView imageView){
+        Glide.with(context)
+                .load(url)
+                .thumbnail(0.2f)
+                .into(imageView);
+    }
+    /**
+     *
+     * @param context 上下文
      * @param url 路径
      * @param imageView 目标控件
      */

@@ -27,19 +27,19 @@ public class ToastUtils {
     }
 
     public static void showShortToast(Context context, CharSequence msg) {
-        showToast(context.getApplicationContext(), msg, Toast.LENGTH_SHORT);
+        showToast(context, msg, Toast.LENGTH_SHORT);
     }
 
     public static void showShortToast(Context context, int resId) {
-        showToast(context.getApplicationContext(), resId, Toast.LENGTH_SHORT);
+        showToast(context, resId, Toast.LENGTH_SHORT);
     }
 
     public static void showLongToast(Context context, CharSequence msg) {
-        showToast(context.getApplicationContext(), msg, Toast.LENGTH_SHORT);
+        showToast(context, msg, Toast.LENGTH_SHORT);
     }
 
     public static void showLongToast(Context context, int resId) {
-        showToast(context.getApplicationContext(), resId, Toast.LENGTH_LONG);
+        showToast(context, resId, Toast.LENGTH_LONG);
     }
 
     private static void showToast(Context context, CharSequence msg, int duration) {
@@ -47,7 +47,7 @@ public class ToastUtils {
             getToast(context);
             toast.setText(msg);
             toast.setDuration(duration);
-            toast.setGravity(Gravity.BOTTOM, 0, 0);
+            toast.setGravity(Gravity.BOTTOM, 0, 30);
             toast.show();
         } catch (Exception e) {
             LogUtils.e(ToastUtils.class.getName(),e.getMessage());
@@ -62,7 +62,7 @@ public class ToastUtils {
             getToast(context);
             toast.setText(resId);
             toast.setDuration(duration);
-            toast.setGravity(Gravity.BOTTOM, 0, 0);
+            toast.setGravity(Gravity.BOTTOM, 0, 30);
             toast.show();
         } catch (Exception e) {
             LogUtils.e(ToastUtils.class.getName(),e.getMessage());

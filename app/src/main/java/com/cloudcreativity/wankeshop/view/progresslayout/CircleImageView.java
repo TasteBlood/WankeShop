@@ -9,8 +9,8 @@ import android.graphics.Shader;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.AppCompatImageView;
 import android.view.animation.Animation;
-import android.widget.ImageView;
 
 /**
  * Private class created to work around issues with AnimationListeners being
@@ -18,7 +18,7 @@ import android.widget.ImageView;
  * platforms.
  *
  */
-public class CircleImageView extends ImageView {
+public class CircleImageView extends AppCompatImageView {
 
     private static final int KEY_SHADOW_COLOR = 0x1E000000;
     private static final int FILL_SHADOW_COLOR = 0x3D000000;
@@ -119,8 +119,8 @@ public class CircleImageView extends ImageView {
             mCircleDiameter = circleDiameter;
             mRadialGradient = new RadialGradient(mCircleDiameter / 2, mCircleDiameter / 2,
                     mShadowRadius, new int[] {
-                            FILL_SHADOW_COLOR, Color.TRANSPARENT
-                    }, null, Shader.TileMode.CLAMP);
+                    FILL_SHADOW_COLOR, Color.TRANSPARENT
+            }, null, Shader.TileMode.CLAMP);
             mShadowPaint.setShader(mRadialGradient);
         }
 

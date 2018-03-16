@@ -32,4 +32,13 @@ public class AppConfig {
      * 这是统一的文件名
      */
     public static String FILE_NAME = "wk_image_%d.%s";
+
+    /**
+     * 这是微信的app_id
+     */
+    public static String WX_APP_ID = "wx93fee6f47dbda966";
+    /**
+     * 这是微信的app_secret
+     */
+    public static String WX_APP_SECRET = "36e7d764490c08b3ec4cb97fabad20a5";
 }

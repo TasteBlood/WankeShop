@@ -67,7 +67,7 @@ public class AddressAdapter extends BaseBindingRecyclerViewAdapter<AddressEntity
             public void onClick(View v) {
                 if(item.getIsDefault()==0&&binding.cbAddressManageIsDefault.isChecked()){
                     //说明就是选中，修改默认选中地址
-                    HttpUtils.getInstance().editAddress(SPUtils.get().getUid(),SPUtils.get().getToken(),item.getId(),
+                    HttpUtils.getInstance().editAddress(item.getId(),
                             Integer.parseInt(item.getProvinceId()),Integer.parseInt(item.getCityId()),Integer.parseInt(item.getAreaId()),
                             TextUtils.isEmpty(item.getStreetId())?0:Integer.parseInt(item.getStreetId()),
                             item.getAddressInfo(),item.getZipCode(),item.getReceiptName(),item.getReceiptMobile(),1)
@@ -114,7 +114,7 @@ public class AddressAdapter extends BaseBindingRecyclerViewAdapter<AddressEntity
             public void onClick(View v) {
                 //删除
                 dialog.dismiss();
-                HttpUtils.getInstance().deleteAddress(SPUtils.get().getUid(),SPUtils.get().getToken(),entity.getId())
+                HttpUtils.getInstance().deleteAddress(entity.getId())
                         .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new DefaultObserver<String>(baseDialog,true) {
                             @Override

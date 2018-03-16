@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="stepTwo"
+            type="com.cloudcreativity.wankeshop.userCenter.logistics.ApplyToLogisticsModal.StepTwoModal" />
+    </data>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:text="车牌颜色:"/>
+                <TextView
+                    android:id="@+id/tv_applyStepTwo_carColor"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:padding="15dip"
+                    android:textSize="14sp"
+                    android:textColor="@color/gray_717171"
+                    android:onClick="@{(view)->stepTwo.onCarCardColorClick(view)}"
+                    android:hint="请选择车牌颜色"
+                    android:layout_weight="1"/>
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_keyboard_arrow_right_black_24dp"/>
+            </LinearLayout>
+            <View style="@style/myDividerForItemGrayLine" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:text="车牌号码:"/>
+                <EditText
+                    android:id="@+id/et_applyStepTwo_carCode"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gray_717171"
+                    android:padding="15dip"
+                    android:background="@null"
+                    android:textSize="14sp"
+                    android:hint="请输入车牌号码"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+            <View style="@style/myDividerForItemGrayLine" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:text="车辆类型:"/>
+                <TextView
+                    android:id="@+id/tv_applyStepTwo_carType"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:padding="15dip"
+                    android:textSize="14sp"
+                    android:textColor="@color/gray_717171"
+                    android:onClick="@{(view)->stepTwo.onCarTypeClick(view)}"
+                    android:hint="请选择车辆类型"
+                    android:layout_weight="1"/>
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_keyboard_arrow_right_black_24dp"/>
+            </LinearLayout>
+            <View style="@style/myDividerForItemGrayLine" />
+            <Button
+                android:id="@+id/btn_next"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/str_next_step"
+                android:layout_marginTop="40dip"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:onClick="@{(view)->stepTwo.onNextClick(view)}"
+                android:background="@drawable/ripple_red_btn_3corner"/>
+        </LinearLayout>
+
+
+</layout>

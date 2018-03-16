@@ -10,8 +10,11 @@ import android.widget.RadioGroup;
 
 import com.bigkoo.pickerview.TimePickerView;
 import com.cloudcreativity.wankeshop.R;
+import com.cloudcreativity.wankeshop.databinding.ActivityPerfectUserInfoBinding;
 import com.cloudcreativity.wankeshop.entity.UserEntity;
-import com.cloudcreativity.wankeshop.utils.APIService;
+import com.cloudcreativity.wankeshop.entity.address.ProvinceEntity;
+import com.cloudcreativity.wankeshop.userCenter.address.AddressChooseActivity;
+import com.cloudcreativity.wankeshop.userCenter.address.TempAddress;
 import com.cloudcreativity.wankeshop.utils.AppConfig;
 import com.cloudcreativity.wankeshop.utils.DefaultObserver;
 import com.cloudcreativity.wankeshop.utils.GlideUtils;
@@ -21,6 +24,7 @@ import com.cloudcreativity.wankeshop.utils.SPUtils;
 import com.cloudcreativity.wankeshop.utils.StrUtils;
 import com.cloudcreativity.wankeshop.utils.ToastUtils;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.qiniu.android.common.FixedZone;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.Configuration;
@@ -30,14 +34,15 @@ import com.qiniu.android.storage.UploadManager;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import com.cloudcreativity.wankeshop.databinding.ActivityPerfectUserInfoBinding;
 /**
  * 这是完善信息的ViewModal
  */
@@ -61,7 +66,7 @@ public class PerfectUserInfoModal {
 
     //上传照片
     public void selectPhoto(View view){
-        context.openPictureDialog();
+        context.openPictureDialog(true);
     }
 
     //生日选择
@@ -136,10 +141,11 @@ public class PerfectUserInfoModal {
         String headPic = entity.getHeadPic();
         if(!TextUtils.isEmpty(headPic)&&headPic.startsWith("http"))
             headPic = "";
-        HttpUtils.getInstance().editInformation(SPUtils.get().getUid(),SPUtils.get().getToken(),
+        HttpUtils.getInstance().editInformation(
                 entity.getUserName(),entity.getRealName(),entity.getPassword(),
                 headPic,entity.getEmail(),entity.getSex(),entity.getIdCard(),entity.getBirthDay(),
-                AppConfig.USER_TYPE_ONE).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                entity.getType(),entity.getProvinceId(),entity.getCityId(),entity.getAreaId())
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DefaultObserver<String>(context,true) {
                     @Override
                     public void onSuccess(String t) {
@@ -219,5 +225,42 @@ public class PerfectUserInfoModal {
     //跳转到修改手机号
     public void toModifyMobile(View view){
         context.startActivity(new Intent().setClass(context,ModifyMobileActivity.class));
+    }
+
+    //获取地址
+    public void setAddress(String address){
+        //设置地址
+        this.binding.tvPerfectAddress.setText(address);
+        user.setProvinceId(String.valueOf(TempAddress.provinceEntity.getId()));
+        user.setCityId(String.valueOf(TempAddress.cityEntity.getId()));
+        user.setAreaId(String.valueOf(TempAddress.areaEntity.getId()));
+    }
+
+    //跳转到选择地址页面
+    public void skipChooseAddress(View view){
+        //先请求省列表
+        HttpUtils.getInstance().getProvinces()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DefaultObserver<String>(context,true) {
+                    @Override
+                    public void onSuccess(String t) {
+                        Type type = new TypeToken<List<ProvinceEntity>>() {
+                        }.getType();
+                        List<ProvinceEntity> provinceEntities = new Gson().fromJson(t,type);
+                        if(provinceEntities==null||provinceEntities.isEmpty()){
+                            ToastUtils.showShortToast(context, R.string.str_no_data);
+                        }else{
+                            TempAddress.provinceEntities = provinceEntities;
+                            context.startActivity(new Intent().setClass(context,AddressChooseActivity.class));
+                        }
+                    }
+
+                    @Override
+                    public void onFail(ExceptionReason msg) {
+                        ToastUtils.showShortToast(context,"获取地区数据失败");
+                    }
+                });
+
     }
 }

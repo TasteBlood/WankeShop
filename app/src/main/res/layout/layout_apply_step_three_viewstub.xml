@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="stepThree"
+            type="com.cloudcreativity.wankeshop.userCenter.logistics.ApplyToLogisticsModal.StepThreeModal" />
+    </data>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dip"
+            android:background="@color/transparent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <!--line one-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+                    <!--身份证照片-->
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/iv_applyStepThree_IDCard"
+                            android:onClick="@{(view)->stepThree.onSelectPhotoClick(view)}"
+                            android:layout_width="100dip"
+                            android:layout_height="70dip"
+                            android:scaleType="fitXY"
+                            android:src="@mipmap/ic_wireframe" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dip"
+                            android:textColor="@color/gray_717171"
+                            android:text="身份证照片" />
+                    </LinearLayout>
+                    <!--驾驶证照片-->
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_marginStart="60dip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/iv_applyStepThree_DriverLicense"
+                            android:onClick="@{(view)->stepThree.onSelectPhotoClick(view)}"
+                            android:layout_width="100dip"
+                            android:layout_height="70dip"
+                            android:scaleType="fitXY"
+                            android:src="@mipmap/ic_wireframe" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dip"
+                            android:textColor="@color/gray_717171"
+                            android:text="驾驶证照片(可传)" />
+                    </LinearLayout>
+
+                </LinearLayout>
+                <!--line two-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dip"
+                    android:gravity="center">
+                    <!--行驶证照片-->
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/iv_applyStepThree_DriverLicense2"
+                            android:onClick="@{(view)->stepThree.onSelectPhotoClick(view)}"
+                            android:layout_width="100dip"
+                            android:layout_height="70dip"
+                            android:scaleType="fitXY"
+                            android:src="@mipmap/ic_wireframe" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dip"
+                            android:textColor="@color/gray_717171"
+                            android:text="行驶证照片(可传)" />
+                    </LinearLayout>
+                    <!--营运证照片-->
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_marginStart="60dip"
+                        android:visibility="visible"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/iv_applyStepThree_OperationLicense"
+                            android:onClick="@{(view)->stepThree.onSelectPhotoClick(view)}"
+                            android:layout_width="100dip"
+                            android:layout_height="70dip"
+                            android:scaleType="fitXY"
+                            android:src="@mipmap/ic_wireframe" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/gray_717171"
+                            android:text="营运证照片(可传)"
+                            android:layout_marginTop="10dip" />
+                    </LinearLayout>
+                </LinearLayout>
+                <!--line three-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dip"
+                    android:gravity="center">
+                    <!--车辆45度侧面照-->
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/iv_applyStepThree_carPhoto"
+                            android:onClick="@{(view)->stepThree.onSelectPhotoClick(view)}"
+                            android:layout_width="100dip"
+                            android:layout_height="70dip"
+                            android:scaleType="fitXY"
+                            android:src="@mipmap/ic_wireframe" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dip"
+                            android:textColor="@color/gray_717171"
+                            android:text="车辆45°角侧面照片" />
+                    </LinearLayout>
+                    <!--手持身份证照片-->
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_marginStart="60dip"
+                        android:visibility="invisible"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/iv_applyStepThree_HandIDCard"
+                            android:layout_width="100dip"
+                            android:layout_height="70dip"
+                            android:scaleType="fitXY"
+                            android:src="@mipmap/ic_wireframe" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dip"
+                            android:textColor="@color/gray_717171"
+                            android:text="手持身份证照片" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_submit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/str_submit"
+                android:textColor="@color/white"
+                android:layout_marginTop="40dip"
+                android:textSize="16sp"
+                android:onClick="@{(view)->stepThree.onSaveClick(view)}"
+                android:background="@drawable/ripple_red_btn_3corner"/>
+            <TextView
+                android:text="@string/str_apply_logistics_upload"
+                android:textColor="@color/gray_313131"
+                android:layout_marginTop="5dip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+</layout>

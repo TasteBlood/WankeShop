@@ -68,7 +68,7 @@ public class SettingModal {
 
     //退出登录
     private void logout(){
-        HttpUtils.getInstance().logout(SPUtils.get().getUid(),SPUtils.get().getToken())
+        HttpUtils.getInstance().logout()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DefaultObserver<String>(baseDialog,true) {

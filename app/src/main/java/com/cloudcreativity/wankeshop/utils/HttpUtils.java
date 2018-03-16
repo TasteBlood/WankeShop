@@ -24,7 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * 自定义的网络请求框架，采用Retrofit+RxJava+OkHttp
  * description:
- * 1:实现了自定义的错误处理方式。
+ * 1: 实现了自定义的错误处理方式。
  * 2：实现了缓存，有网络时在一定的时间内加载缓存，没有网络时直接加载缓存的内容。
  * 3：实现自定义OkHttp，可以在请求时加入统一参数，比如用户token和appKey等。
  */
@@ -34,7 +34,7 @@ public class HttpUtils {
     private HttpUtils(){
         LoggingInterceptor interceptor = new LoggingInterceptor();
         //初始化缓存
-        File cacheFile = new File(BaseApp.app.getCacheDir(),AppConfig.CACHE_FILE_NAME);
+        File cacheFile = new File(BaseApp.app.getExternalCacheDir(),AppConfig.CACHE_FILE_NAME);
         Cache cache = new Cache(cacheFile,1024*1024*100);//100M的缓存
         //初始化OkHttp
         OkHttpClient client = new OkHttpClient().newBuilder()
@@ -44,7 +44,7 @@ public class HttpUtils {
                 .addNetworkInterceptor(new HttpCacheInterceptor())
                 .cache(cache)
                 .build();
-        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").serializeNulls().create();
+//        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").serializeNulls().create();
         Retrofit retrofit = new Retrofit.Builder().client(client)
 //                .addConverterFactory(GsonConverterFactory.create(gson))
                 .addConverterFactory(StringConverterFactory.create())
@@ -77,14 +77,16 @@ public class HttpUtils {
 
             Response originalResponse = chain.proceed(request);
             if (NetworkUtils.isAvailable()) {
-                int maxAge = 60 * 30;// 有网 半个小时可用
+                int maxAge = 60*60;// 有网，1个小时可用
                 return originalResponse.newBuilder()
                         .header("Cache-Control", "public, max-age=" + maxAge)
+                        .removeHeader("Pragma")
                         .build();
             } else {
-                int maxStale = 60 * 60 * 24;// 没网 就1天可用
+                int maxStale = 60 * 60 * 6;// 没网 就6小时可用
                 return originalResponse.newBuilder()
                         .header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)
+                        .removeHeader("Pragma")
                         .build();
             }
         }

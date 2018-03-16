@@ -8,70 +8,62 @@
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
-        android:padding="20dp"
+        android:background="#ffffff"
         android:orientation="vertical">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-            <ImageView
-                android:contentDescription="@string/app_name"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@mipmap/start_index"
-                android:scaleType="fitXY"
-                android:layout_centerInParent="true" />
+            android:layout_height="@dimen/action_bar"
+            android:elevation="3dip"
+            android:background="@color/colorPrimary">
+            <TextView
+                android:textSize="@dimen/action_bar_font_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@color/white"
+                android:text="@string/str_login"/>
+            <android.support.v7.widget.AppCompatImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:onClick="@{(view)->loginModal.onBackClick(view)}"
+                android:src="@drawable/ic_arrow_back_white_24dp"/>
         </RelativeLayout>
         <LinearLayout
-            android:layout_marginTop="40dp"
             android:layout_width="match_parent"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:padding="15dip"
             android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:orientation="horizontal">
                 <EditText
                     android:id="@+id/et_loginPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/gray_313131"
+                    android:textColor="@color/gray_717171"
                     android:hint="@string/str_hint_input_mobile"
                     android:inputType="phone"
-                    android:textColorHint="@color/gray_717171"
-                    android:padding="10dp"
+                    android:padding="7dp"
                     android:textSize="14sp"
-                    android:background="@null" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+                    android:background="@drawable/shape_input_bottom_line" />
                 <EditText
                     android:id="@+id/et_loginPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/str_hint_input_pwd"
                     android:textSize="14sp"
+                    android:layout_marginTop="15dip"
                     android:inputType="textPassword"
-                    android:textColorHint="@color/gray_717171"
-                    android:textColor="@color/gray_313131"
-                    android:padding="10dp"
-                    android:background="@null" />
-            </LinearLayout>
+                    android:textColor="@color/gray_717171"
+                    android:padding="7dp"
+                    android:background="@drawable/shape_input_bottom_line" />
             <android.support.v7.widget.AppCompatButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:layout_marginTop="20dp"
+                android:background="@drawable/ripple_red_btn_3corner"
+                android:layout_marginTop="15dp"
                 android:textSize="16sp"
+                android:textColor="@color/white"
                 android:onClick="@{(view)->loginModal.loginClick(view)}"
                 android:text="@string/str_login"/>
             <FrameLayout
@@ -82,7 +74,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/str_register_new_account"
-                    android:textColor="@color/white"
+                    android:textColor="@color/gray_717171"
                     android:padding="5dp"
                     android:textSize="14sp"
                     android:layout_gravity="start|center_vertical"
@@ -92,7 +84,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/str_forget_pwd_ask"
-                    android:textColor="@color/white"
+                    android:textColor="@color/gray_717171"
                     android:padding="5dp"
                     android:textSize="14sp"
                     android:layout_gravity="end|center_vertical"
@@ -100,11 +92,38 @@
                     />
             </FrameLayout>
         </LinearLayout>
+        <!--微信登录-->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <View
+                android:layout_width="100dip"
+                android:layout_height="1px"
+                android:background="@color/gray_919191"/>
+            <LinearLayout
+                android:onClick="@{(view)->loginModal.onWeChatLoginClick(view)}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_margin="5dip"
+                android:orientation="vertical">
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_thirdparty_wechat"/>
+                <TextView
+                    android:layout_marginTop="5dip"
+                    android:textColor="@color/gray_717171"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="微信登录"/>
+            </LinearLayout>
+            <View
+                android:layout_width="100dip"
+                android:layout_height="1px"
+                android:background="@color/gray_919191"/>
         </LinearLayout>
     </android.support.v7.widget.LinearLayoutCompat>
 </layout>

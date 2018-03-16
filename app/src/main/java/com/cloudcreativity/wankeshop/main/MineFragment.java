@@ -1,5 +1,6 @@
 package com.cloudcreativity.wankeshop.main;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,7 +25,7 @@ public class MineFragment extends LazyFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_mine,container,false);
-        binding.setMineModal(mineFragmentModal = new MineFragmentModal(context,binding));
+        binding.setMineModal(mineFragmentModal = new MineFragmentModal(context,binding,this));
         return binding.getRoot();
     }
 
@@ -38,5 +39,18 @@ public class MineFragment extends LazyFragment {
         super.onResume();
         mineFragmentModal.user = SPUtils.get().getUser();
         binding.invalidateAll();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==MineFragmentModal.REQUEST_SCAN){
+            if(resultCode==MineFragmentModal.RESULT_OK){
+                //这里就是扫描后的结果
+                Bundle bundle = data.getExtras();
+                String scanResult = bundle.getString("qr_scan_result");
+                mineFragmentModal.dealScanCode(scanResult);
+            }
+        }
     }
 }

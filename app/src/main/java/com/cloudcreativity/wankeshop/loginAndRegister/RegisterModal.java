@@ -1,5 +1,6 @@
 package com.cloudcreativity.wankeshop.loginAndRegister;
 
+import android.content.Intent;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -14,10 +15,18 @@ import com.cloudcreativity.wankeshop.databinding.ActivityRegisterBinding;
 import com.cloudcreativity.wankeshop.databinding.LayoutRegisterStepOneBinding;
 import com.cloudcreativity.wankeshop.databinding.LayoutRegisterStepThreeBinding;
 import com.cloudcreativity.wankeshop.databinding.LayoutRegisterStepTwoBinding;
+import com.cloudcreativity.wankeshop.entity.address.ProvinceEntity;
+import com.cloudcreativity.wankeshop.userCenter.address.AddressChooseActivity;
+import com.cloudcreativity.wankeshop.userCenter.address.TempAddress;
 import com.cloudcreativity.wankeshop.utils.DefaultObserver;
 import com.cloudcreativity.wankeshop.utils.HttpUtils;
 import com.cloudcreativity.wankeshop.utils.StrUtils;
 import com.cloudcreativity.wankeshop.utils.ToastUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -166,6 +175,8 @@ public class RegisterModal {
         public void onSendClick(View view){
             sendSms(registerPhone);
         }
+
+
         public void onRegisterClick(View view){
             String password = threeBinding.etRegisterThreePassword.getText().toString().trim();
             String sms = threeBinding.etRegisterThreeVerifyCode.getText().toString().trim();
@@ -175,6 +186,10 @@ public class RegisterModal {
             }
             if(TextUtils.isEmpty(sms)){
                 ToastUtils.showShortToast(context,R.string.str_sms_not_null);
+                return;
+            }
+            if(TempAddress.provinceEntity==null){
+                ToastUtils.showShortToast(context,"所在地区不能为空");
                 return;
             }
             register(registerPhone,password,sms);
@@ -201,7 +216,10 @@ public class RegisterModal {
         }
         //注册提交
         private void register(String mobile,String password,String sms){
-            HttpUtils.getInstance().registerFinalStep(mobile,password,sms)
+            HttpUtils.getInstance().registerFinalStep(mobile,password,sms,
+                    String.valueOf(TempAddress.provinceEntity.getId()),
+                    String.valueOf(TempAddress.cityEntity.getId()),
+                    String.valueOf(TempAddress.areaEntity.getId()))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new DefaultObserver<String>(baseDialog,true) {
@@ -229,7 +247,38 @@ public class RegisterModal {
             if(timer!=null)
                 timer.cancel();
         }
-        
+
+        //跳转到选择地址页面
+        public void skipChooseAddress(View view){
+            //先请求省列表
+            HttpUtils.getInstance().getProvinces()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new DefaultObserver<String>(context,true) {
+                        @Override
+                        public void onSuccess(String t) {
+                            Type type = new TypeToken<List<ProvinceEntity>>() {
+                            }.getType();
+                            List<ProvinceEntity> provinceEntities = new Gson().fromJson(t,type);
+                            if(provinceEntities==null||provinceEntities.isEmpty()){
+                                ToastUtils.showShortToast(context, R.string.str_no_data);
+                            }else{
+                                TempAddress.provinceEntities = provinceEntities;
+                                context.startActivity(new Intent().setClass(context,AddressChooseActivity.class));
+                            }
+                        }
+
+                        @Override
+                        public void onFail(ExceptionReason msg) {
+                            ToastUtils.showShortToast(context,"获取地区数据失败");
+                        }
+                    });
+
+        }
+
+        public void setAddress(String address){
+            threeBinding.tvRegisterThreeAddress.setText(address);
+        }
     }
 
 }

@@ -1,28 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable
             name="homeStartModal"
             type="com.cloudcreativity.wankeshop.main.fragment.HomeStartViewModal" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
         <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
             android:id="@+id/refreshHomeStart"
             app:tr_enable_loadmore="true"
             app:tr_head_height="50dip"
+            app:tr_autoLoadMore="false"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <com.cloudcreativity.wankeshop.view.HeaderGridView
-                android:id="@+id/gvHomeStart"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rcv_homeStartMain"
+                android:layout_marginTop="10dip"
+                android:layout_marginStart="10dip"
+                android:layout_marginEnd="10dip"
+                android:adapter="@{homeStartModal.goodsAdapter}"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:overScrollMode="never"
-                android:adapter="@{homeStartModal.adapter}"
-                android:numColumns="2" />
+                android:layout_height="match_parent" />
         </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
-    </LinearLayout>
 </layout>

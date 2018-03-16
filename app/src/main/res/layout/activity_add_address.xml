@@ -12,6 +12,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/action_bar"
+            android:elevation="3dip"
             android:background="@color/colorPrimary">
             <TextView
                 android:textSize="@dimen/action_bar_font_size"
@@ -114,6 +115,7 @@
                     android:text="@string/str_area" />
                 <TextView
                     android:id="@+id/tv_addAddress_address"
+                    android:text="@{addressModal.locationCityAndArea.get()}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:padding="7dp"

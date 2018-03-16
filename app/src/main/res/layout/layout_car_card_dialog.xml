@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="utils"
+            type="com.cloudcreativity.wankeshop.utils.CarCardDialogUtils" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:padding="20dip"
+        android:background="@drawable/shape_3corner_white_bg"
+        android:gravity="center_horizontal"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray_717171"
+            android:textSize="14sp"
+            android:text="@string/str_card_color"/>
+        <ImageView
+            android:id="@+id/iv_blueCard"
+            android:onClick="@{(view)->utils.onBlueClick(view)}"
+            android:layout_marginTop="20dip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_bluecard"/>
+        <ImageView
+            android:id="@+id/iv_yellowCard"
+            android:onClick="@{(view)->utils.onYellowClick(view)}"
+            android:layout_marginTop="20dip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_yellowcard"/>
+        <ImageView
+            android:onClick="@{(view)->utils.onGreenClick(view)}"
+            android:id="@+id/iv_greenCard"
+            android:layout_marginTop="20dip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_greencard"/>
+        <ImageView
+            android:id="@+id/iv_yellowAndGreenCard"
+            android:onClick="@{(view)->utils.onYellowAndGreenClick(view)}"
+            android:layout_marginTop="20dip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dip"
+            android:src="@mipmap/ic_yellowandgreencard"/>
+    </LinearLayout>
+</layout>

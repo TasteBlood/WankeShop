@@ -12,6 +12,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/action_bar"
+            android:elevation="3dip"
             android:background="@color/colorPrimary">
             <TextView
                 android:textSize="@dimen/action_bar_font_size"
@@ -52,6 +53,7 @@
                         android:background="@drawable/shape_input_bottom_line"
                         android:padding="7dp"
                         android:inputType="number"
+                        android:textColor="@color/gray_717171"
                         android:hint="@string/str_register_hint_input_code"
                         android:textSize="14sp" />
                     <TextView
@@ -74,9 +76,22 @@
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
                     android:inputType="textPassword"
+                    android:textColor="@color/gray_717171"
                     android:background="@drawable/shape_input_bottom_line"
                     android:padding="7dp"
                     android:hint="@string/str_register_input_pwd_hint" />
+                <TextView
+                    android:id="@+id/tv_registerThreeAddress"
+                    android:onClick="@{(view)->stubThree.skipChooseAddress(view)}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dip"
+                    android:padding="7dip"
+                    android:textSize="13sp"
+                    android:textColor="@color/gray_717171"
+                    android:drawableEnd="@drawable/ic_keyboard_arrow_right_black_24dp"
+                    android:background="@drawable/shape_input_bottom_line"
+                    android:hint="@string/str_choose_location_area"/>
             </LinearLayout>
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/btn_registerRegister"

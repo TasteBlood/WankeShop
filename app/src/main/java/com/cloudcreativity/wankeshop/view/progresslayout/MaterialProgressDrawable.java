@@ -55,7 +55,7 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
     private static final float STROKE_WIDTH_LARGE = 3f;
 
     private final int[] COLORS = new int[] {
-        Color.BLACK
+            Color.BLACK
     };
 
     /**
@@ -110,7 +110,7 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
     }
 
     private void setSizeParameters(double progressCircleWidth, double progressCircleHeight,
-            double centerRadius, double strokeWidth, float arrowWidth, float arrowHeight) {
+                                   double centerRadius, double strokeWidth, float arrowWidth, float arrowHeight) {
         final Ring ring = mRing;
         final DisplayMetrics metrics = mResources.getDisplayMetrics();
         final float screenDensity = metrics.density;
@@ -180,7 +180,7 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
      */
     public void setBackgroundColor(int color) {
         mRing.setBackgroundColor(color);
-     }
+    }
 
     /**
      * Set the colors used in the progress animation from color resources.
@@ -318,7 +318,7 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
             // transformation from 0 - 1 takes place in the
             // remaining time
             ring.setColor(evaluateColorChange((interpolatedTime - COLOR_START_DELAY_OFFSET)
-                    / (1.0f - COLOR_START_DELAY_OFFSET), ring.getStartingColor(),
+                            / (1.0f - COLOR_START_DELAY_OFFSET), ring.getStartingColor(),
                     ring.getNextColor()));
         }
     }
@@ -344,7 +344,7 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
     private void setupAnimators() {
         final Ring ring = mRing;
         final Animation animation = new Animation() {
-                @Override
+            @Override
             public void applyTransformation(float interpolatedTime, Transformation t) {
                 if (mFinishing) {
                     applyFinishTranslation(interpolatedTime, ring);
@@ -368,7 +368,7 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
                                 / (1.0f - START_TRIM_DURATION_OFFSET);
                         final float startTrim = startingTrim
                                 + ((MAX_PROGRESS_ARC - minProgressArc) * MATERIAL_INTERPOLATOR
-                                        .getInterpolation(scaledTime));
+                                .getInterpolation(scaledTime));
                         ring.setStartTrim(startTrim);
                     }
 
@@ -400,17 +400,17 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
         animation.setInterpolator(LINEAR_INTERPOLATOR);
         animation.setAnimationListener(new Animation.AnimationListener() {
 
-                @Override
+            @Override
             public void onAnimationStart(Animation animation) {
                 mRotationCount = 0;
             }
 
-                @Override
+            @Override
             public void onAnimationEnd(Animation animation) {
                 // do nothing
             }
 
-                @Override
+            @Override
             public void onAnimationRepeat(Animation animation) {
                 ring.storeOriginals();
                 ring.goToNextColor();

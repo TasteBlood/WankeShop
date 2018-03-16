@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">万颗商城</string>
+    <string name="app_name">万颗拼团</string>
     <string name="str_main_home">首页</string>
     <string name="str_main_unit">拼团</string>
     <string name="str_main_shoppingcart">购物车</string>
@@ -9,7 +9,7 @@
     <string name="str_login_phone_format_error">手机号格式不正确</string>
     <string name="str_login_password_error">密码不能为空</string>
     <string name="str_register_seek_pass">验证通过</string>
-    <string name="str_register_time_count">%1$d后</string>
+    <string name="str_register_time_count">%1$dS后</string>
     <string name="str_register_code_sent">验证码已发送</string>
     <string name="str_register_send_code">发送验证码</string>
     <string name="str_register_hint_input_code">请输入验证码</string>
@@ -46,10 +46,10 @@
     <string name="str_address_manage">地址管理</string>
     <string name="str_no_data">暂无数据</string>
     <string name="str_add_address">添加收货地址</string>
-    <string name="str_choose_address">选择收货地址</string>
+    <string name="str_choose_address">选择地址</string>
     <string name="str_receipt_name_not_null">收货人姓名不能为空</string>
     <string name="str_receipt_phone_not_null">收货人电话号码不能为空</string>
-    <string name="str_receipt_address_not_null">收货人地址不能为空</string>
+    <string name="str_receipt_address_not_null">收货人地址乡镇、街道不能为空</string>
     <string name="str_receipt_extra_address_not_null">收货人详细地址不能为空</string>
     <string name="str_add_success">添加成功</string>
     <string name="str_delete_sure">确定删除吗?</string>
@@ -69,7 +69,7 @@
     <string name="str_choose_contact">选联系人</string>
     <string name="str_area">所在地区:</string>
     <string name="srt_address">详细地址:</string>
-    <string name="str_hint_street">街道、楼排号等</string>
+    <string name="str_hint_street">详细地址、楼排号等</string>
     <string name="str_postcode">邮政编码:</string>
     <string name="str_hint_postcode">邮政编码</string>
     <string name="str_set_default_address">设为默认收货地址</string>
@@ -118,4 +118,17 @@
     <string name="str_success">成功</string>
     <string name="str_trans_wait">等待受理</string>
     <string name="str_trans_failed">失败</string>
+    <string name="str_card_color">车牌颜色</string>
+    <string name="str_apply_logistics">申请成为物流小二</string>
+    <string name="str_apply_logistics_upload">(标有“可传”字样的属于选择性操作，如果拥有该项证书，请上传)</string>
+    <string name="str_scan">扫一扫</string>
+    <string name="str_scan_result">扫描结果</string>
+    <string name="str_bind_mobile">绑定手机号</string>
+    <string name="str_set_pwd">密码设置</string>
+    <string name="str_choose_location_area">请选择所在地区</string>
+    <string name="str_account_info_complete">账户信息完善</string>
+    <string name="str_hint_six_pwd">请输入6位以上密码</string>
+    <string name="str_area2">所在地区</string>
+    <string name="str_rmb_character">￥:%1$f</string>
+    <string name="str_sale_count">销量:%1$d</string>
 </resources>

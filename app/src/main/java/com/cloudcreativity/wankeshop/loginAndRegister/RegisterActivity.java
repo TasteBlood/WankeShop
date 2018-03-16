@@ -11,6 +11,8 @@ import com.cloudcreativity.wankeshop.databinding.ActivityRegisterBinding;
 import com.cloudcreativity.wankeshop.databinding.LayoutRegisterStepOneBinding;
 import com.cloudcreativity.wankeshop.databinding.LayoutRegisterStepTwoBinding;
 import com.cloudcreativity.wankeshop.databinding.LayoutRegisterStepThreeBinding;
+import com.cloudcreativity.wankeshop.userCenter.address.TempAddress;
+
 /**
  * 注册的Activity
  */
@@ -60,5 +62,25 @@ public class RegisterActivity extends BaseActivity {
         //在这里停止获取验证码的计时器
         if(threeModal!=null)
             threeModal.stopTimer();
+
+        TempAddress.clear();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        //在这里判断当前的地址信息是否存在
+        StringBuffer buffer = new StringBuffer();
+        if(TempAddress.provinceEntity!=null)
+            buffer.append(TempAddress.provinceEntity.getName());
+        if(TempAddress.cityEntity!=null)
+            buffer.append(TempAddress.cityEntity.getName());
+        if(TempAddress.areaEntity!=null)
+            buffer.append(TempAddress.areaEntity.getName());
+        if(TempAddress.streetEntity!=null)
+            buffer.append(TempAddress.streetEntity.getName());
+
+        if(buffer.length()>0)
+            threeModal.setAddress(buffer.toString());
     }
 }

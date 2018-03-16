@@ -12,6 +12,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/action_bar"
+            android:elevation="3dip"
             android:background="@color/colorPrimary">
             <TextView
                 android:textSize="@dimen/action_bar_font_size"
@@ -41,11 +42,12 @@
                 android:layout_height="wrap_content">
                 <EditText
                     android:id="@+id/et_registerOnePhone"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:hint="@string/str_hint_input_phone"
                     android:background="@drawable/shape_input_bottom_line"
                     android:padding="7dp"
                     android:inputType="phone"
+                    android:textColor="@color/gray_717171"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>

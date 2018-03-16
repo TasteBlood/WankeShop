@@ -66,7 +66,8 @@ public class CityFragmentModal {
 
     public void refreshData(){
         cityAdapter.getItems().clear();
-        cityAdapter.getItems().addAll(TempAddress.cityEntities);
+        if(TempAddress.cityEntities!=null&&!TempAddress.cityEntities.isEmpty())
+            cityAdapter.getItems().addAll(TempAddress.cityEntities);
     }
 
     //条目点击事件

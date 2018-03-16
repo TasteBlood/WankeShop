@@ -13,6 +13,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/action_bar"
+            android:elevation="3dip"
             android:background="@color/colorPrimary">
             <TextView
                 android:textSize="@dimen/action_bar_font_size"
@@ -175,6 +176,27 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="end|center_vertical"
                         android:text="@{userModal.userEntity.mobile}"
+                        android:textSize="14sp"
+                        android:textColor="@color/gray_717171" />
+                </FrameLayout>
+                <View style="@style/myDividerForItem"/>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="15dp"
+                    android:background="@color/white">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="14sp"
+                        android:text="@string/str_area2"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:text='@{userModal.userEntity.provinceName+userModal.userEntity.cityName+userModal.userEntity.areaName}'
                         android:textSize="14sp"
                         android:textColor="@color/gray_717171" />
                 </FrameLayout>

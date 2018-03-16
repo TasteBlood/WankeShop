@@ -28,7 +28,7 @@ public interface BaseDialogImpl {
     /**
      * 显示获取照片和拍照的对话框
      */
-    void openPictureDialog();
+    void openPictureDialog(boolean isCrop);
     /**
      * 显示网络请求的错误信息
      */

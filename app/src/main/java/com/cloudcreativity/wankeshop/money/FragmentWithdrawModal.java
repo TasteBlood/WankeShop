@@ -71,7 +71,7 @@ public class FragmentWithdrawModal {
     //加载数据
     private void loadData(final int page){
         //load data by page
-        HttpUtils.getInstance().getMoneyList(SPUtils.get().getUid(),SPUtils.get().getToken(),2,page,pageSize)
+        HttpUtils.getInstance().getMoneyList(2,page,pageSize)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DefaultObserver<String>(baseDialog,false) {

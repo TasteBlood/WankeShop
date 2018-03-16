@@ -49,9 +49,41 @@ public class AddressChooseActivity extends BaseActivity {
         binding.tlChooseAddress.setupWithViewPager(binding.vpChooseAddress);
         binding.vpChooseAddress.setOffscreenPageLimit(4);
         binding.setAddressModal(addressModal);
-        fragments.add(provinceFragment = new ProvinceFragment());
-        titles.add("请选择");
-        addressModal.fragmentAdapter.notifyDataSetChanged();
+        if(getIntent().getBooleanExtra("is_from_add_address",false)){
+            provinceFragment = new ProvinceFragment();
+            cityFragment = new CityFragment();
+            areaFragment = new AreaFragment();
+            streetFragment = new StreetFragment();
+            //先清空别的数据
+            fragments.clear();
+            titles.clear();
+
+            fragments.add(provinceFragment);
+            fragments.add(cityFragment);
+            fragments.add(areaFragment);
+
+            fragments.add(streetFragment);
+            streetFragment.refreshData();
+
+            titles.add(TempAddress.provinceEntity.getName());
+            titles.add(TempAddress.cityEntity.getName());
+            titles.add(TempAddress.areaEntity.getName());
+            titles.add("请选择");
+
+            addressModal.fragmentAdapter.notifyDataSetChanged();
+            binding.vpChooseAddress.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    binding.vpChooseAddress.setCurrentItem(3);
+                }
+            },300);
+
+        }else{
+            fragments.add(provinceFragment = new ProvinceFragment());
+            titles.add("请选择");
+            addressModal.fragmentAdapter.notifyDataSetChanged();
+        }
+
 
     }
 
@@ -137,13 +169,13 @@ public class AddressChooseActivity extends BaseActivity {
     public void onBackPressed() {
         super.onBackPressed();
         //用户自己退出，清空所有数据
-        TempAddress.provinceEntities = null;
+        TempAddress.provinceEntities.clear();
         TempAddress.provinceEntity = null;
-        TempAddress.cityEntities = null;
+        TempAddress.cityEntities.clear();
         TempAddress.cityEntity = null;
-        TempAddress.areaEntities = null;
+        TempAddress.areaEntities.clear();
         TempAddress.areaEntity = null;
-        TempAddress.streetEntities = null;
+        TempAddress.streetEntities.clear();
         TempAddress.streetEntity = null;
     }
 }

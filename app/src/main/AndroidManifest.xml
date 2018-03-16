@@ -4,28 +4,30 @@
     package="com.cloudcreativity.wankeshop">
 
     <!-- 权限开始配置 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /><!--获取网络状态-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /><!--读存储设备-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /><!--写存储设备-->
+    <uses-permission android:name="android.permission.INTERNET" /><!--互联网-->
+    <uses-permission android:name="android.permission.CAMERA" /><!--相机-->
+    <uses-permission android:name="android.permission.READ_CONTACTS" /><!--读取联系人-->
+    <uses-permission android:name="android.permission.VIBRATE" /> <!-- 震动权限 -->
+    <uses-feature android:name="android.hardware.camera.autofocus" /> <!-- 自动聚焦权限 -->
+    <uses-permission android:name="android.permission.FLASHLIGHT"/><!--闪光灯-->
 
     <!-- 权限配置结束 -->
     <application
         android:name=".base.BaseApp"
-        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        android:fullBackupContent="true">
 
         <!-- 配置Glide加载图片的关联module -->
-        <meta-data
+        <!--<meta-data
             android:name="com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"
-            android:value="GlideModule" />
+            android:value="GlideModule" />-->
         <meta-data
             android:name="com.cloudcreativity.wankeshop.utils.GlideModuleConfig"
             android:value="GlideModule" />
@@ -33,6 +35,8 @@
 
 
         <!-- Activity注册 -->
+        <activity android:name="com.google.zxing.activity.CaptureActivity" android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
+        <activity android:name=".utils.ScanResultActivity"/>
         <activity android:name=".IndexActivity" android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -56,6 +60,16 @@
         <activity android:name=".money.MoneyRecordsActivity" />
         <activity android:name=".collect.GoodsCollectActivity" />
         <activity android:name=".collect.ShopCollectActivity" />
+        <activity android:name=".userCenter.logistics.ApplyToLogistics2Activity" />
+        <activity android:name=".wxapi.WXEntryActivity"
+            android:exported="true"
+            android:theme="@style/WXActivityTheme"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <activity android:name=".loginAndRegister.wxLogin.WxLoginBindMobileActivity" />
+        <activity android:name=".loginAndRegister.wxLogin.WxLoginRegisterActivity" />
+        <activity android:name=".base.CommonWebActivity" />
+        <activity android:name=".goods.GoodsListActivity" />
+        <activity android:name=".shop.ShopListActivity" />
 
 
         <!-- Activity配置结束 -->

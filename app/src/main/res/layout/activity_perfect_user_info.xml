@@ -14,6 +14,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/action_bar"
+            android:elevation="3dip"
             android:background="@color/colorPrimary">
             <TextView
                 android:textSize="@dimen/action_bar_font_size"
@@ -262,6 +263,43 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|center_vertical"
                             android:text="@{userModal.user.mobile}"
+                            android:padding="5dp"
+                            android:textSize="14sp"
+                            android:textColor="@color/gray_717171" />
+                        <ImageView
+                            android:contentDescription="@string/app_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end|center_vertical"
+                            android:src="@drawable/ic_keyboard_arrow_right_black_24dp"/>
+                    </FrameLayout>
+                </LinearLayout>
+                <!--address-->
+                <View style="@style/myDividerForItem"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:background="@color/white">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="14sp"
+                        android:text="@string/str_area2"/>
+                    <FrameLayout
+                        android:onClick="@{(view)->userModal.skipChooseAddress(view)}"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3">
+                        <TextView
+                            android:id="@+id/tv_perfectAddress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start|center_vertical"
+                            android:text="@{userModal.user.provinceName+userModal.user.cityName+userModal.user.areaName}"
                             android:padding="5dp"
                             android:textSize="14sp"
                             android:textColor="@color/gray_717171" />

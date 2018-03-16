@@ -59,7 +59,6 @@ public abstract class DefaultObserver<T> implements Observer<T> {
     @Override
     public void onNext(T t) {
         impl.dismissProgress();
-        //这里是模仿该账号是否在其他地方登录了
         if(t instanceof String){
             try {
                 JSONObject object = new JSONObject((String)t);

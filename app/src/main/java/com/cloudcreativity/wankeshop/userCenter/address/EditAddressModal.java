@@ -146,7 +146,7 @@ public class EditAddressModal {
     private void save(int addressId,int provinceId,int cityId,int areaId,int streetId,
                       String addressInfo,String postCode,String receiptName,String receiptMobile,
                       int isDefault){
-        HttpUtils.getInstance().editAddress(SPUtils.get().getUid(),SPUtils.get().getToken(),
+        HttpUtils.getInstance().editAddress(
                 addressId,provinceId,cityId,areaId,streetId,addressInfo,postCode,receiptName,receiptMobile,isDefault)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -22,6 +22,7 @@ public class HomeFragment extends LazyFragment {
         FragmentHomeBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home,container,false);
         binding.setHomeModal(new HomeFragmentModal(getChildFragmentManager()));
         binding.homeTabLayout.setupWithViewPager(binding.homeViewPager);
+        binding.homeViewPager.setOffscreenPageLimit(10);
         return binding.getRoot();
     }
 

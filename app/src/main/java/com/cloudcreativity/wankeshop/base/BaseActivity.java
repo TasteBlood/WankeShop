@@ -3,6 +3,7 @@ package com.cloudcreativity.wankeshop.base;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableField;
 import android.graphics.Bitmap;
@@ -45,6 +46,8 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseDial
     public static final int CROP_REQUEST =3;//启动裁剪
     private File tempFile;//这是临时文件
 
+    //是否裁剪
+    private boolean isCrop = true;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -138,7 +141,8 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseDial
      * 打开照片选择对话框
      */
     @Override
-    public void openPictureDialog() {
+    public void openPictureDialog(boolean isCrop) {
+        this.isCrop = isCrop;
         //这里不进行权限的检查，直接在闪屏页面进行权限检查就行
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setItems(new String[]{"拍照", "相册"}, new DialogInterface.OnClickListener() {
@@ -187,15 +191,50 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseDial
             return;
         if(requestCode==TAKE_PHOTO){
             //用相机返回的照片去调用剪裁也需要对Uri进行处理
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                Uri contentUri = FileProvider.getUriForFile(this, getApplicationInfo().packageName+".provider", tempFile);
-                cropPhoto(contentUri);
-            } else {
-                cropPhoto(Uri.fromFile(tempFile));
+            if(isCrop){
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    Uri contentUri = FileProvider.getUriForFile(this, getApplicationInfo().packageName+".provider", tempFile);
+                    cropPhoto(contentUri);
+                } else {
+                    cropPhoto(Uri.fromFile(tempFile));
+                }
+            }else{
+                //进行图片处理直接返回path
+                try {
+                    Bitmap bitmap = BitmapFactory.decodeFile(tempFile.getAbsolutePath());
+                    bitmap.compress(Bitmap.CompressFormat.JPEG,90,new FileOutputStream(tempFile));
+                    bitmap.recycle();
+                    //回掉地址
+                    onPhotoSuccess(tempFile.getAbsolutePath());
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
             }
         }else if(requestCode==SELECT_PHOTO){
             Uri uri = data.getData();
-            cropPhoto(uri);
+            if(uri==null)
+                return;
+            if(isCrop){
+                cropPhoto(uri);
+            }else{
+                //好像是android多媒体数据库的封装接口，具体的看Android文档
+                if("file".equals(uri.getScheme())&&data.getType().contains("image")){
+                    //处理特殊情况
+                    onPhotoSuccess(uri.getPath());
+                }else{
+                    //获取图片的路径：
+                    String[] proj = {MediaStore.Images.Media.DATA};
+                    Cursor cursor = managedQuery(uri, proj, null, null, null);
+                    //按我个人理解 这个是获得用户选择的图片的索引值
+                    int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                    //将光标移至开头 ，这个很重要，不小心很容易引起越界
+                    cursor.moveToFirst();
+                    //最后根据索引值获取图片路径
+                    String path = cursor.getString(column_index);
+                    //进行图片处理直接返回path
+                    onPhotoSuccess(path);
+                }
+            }
         }else if(requestCode==CROP_REQUEST){
             //这是最终结果
             Bundle bundle = data.getExtras();
@@ -210,18 +249,15 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseDial
                     image.compress(Bitmap.CompressFormat.JPEG,90,new FileOutputStream(tempFile));
                     stream.close();
                     //回掉地址
-
                     onPhotoSuccess(tempFile.getAbsolutePath());
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
             }
         }
     }
-
     //图片处理成功的回掉
     protected void onPhotoSuccess(String filePath){LogUtils.e(getClass().getName(),filePath);}
     /**
@@ -240,7 +276,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseDial
         intent.putExtra("return-data", true);
         startActivityForResult(intent, CROP_REQUEST);
     }
-
     /**
      *
      * @param message 消息

@@ -66,7 +66,7 @@ public class AddressManageModal {
 
     //初始化加载数据
     private void initialData(){
-        HttpUtils.getInstance().getMyAddress(SPUtils.get().getUid(),SPUtils.get().getToken())
+        HttpUtils.getInstance().getMyAddress()
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DefaultObserver<String>(context,false) {
                     @Override
