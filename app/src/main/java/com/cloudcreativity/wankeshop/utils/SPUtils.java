@@ -18,6 +18,7 @@ public class SPUtils {
         String UID = "app_login_user_id";
         String TOKEN = "app_request_token";
         String USER = "app_login_user";
+        String DEFAULT_ADDRESS = "app_default_address";
     }
 
     private static SharedPreferences preferences;

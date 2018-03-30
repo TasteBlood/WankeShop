@@ -18,6 +18,7 @@ import com.cloudcreativity.wankeshop.entity.address.AreaEntity;
 import com.cloudcreativity.wankeshop.entity.address.CityEntity;
 import com.cloudcreativity.wankeshop.entity.address.ProvinceEntity;
 import com.cloudcreativity.wankeshop.entity.address.StreetEntity;
+import com.cloudcreativity.wankeshop.goods.GoodsIndexFragment;
 import com.cloudcreativity.wankeshop.userCenter.AddressManageActivity;
 import com.cloudcreativity.wankeshop.utils.DefaultObserver;
 import com.cloudcreativity.wankeshop.utils.HttpUtils;
@@ -117,7 +118,7 @@ public class AddAddressModal {
     //设置选择的地址
     public void setAddress(String address){
          //业务转变，只能选择街区
-         locationCityAndArea.set(locationCityAndArea.get().concat(address));
+         locationCityAndArea.set(address);
     }
 
     //保存地址
@@ -167,6 +168,7 @@ public class AddAddressModal {
                     public void onSuccess(String t) {
                         ToastUtils.showShortToast(context,R.string.str_add_success);
                         EventBus.getDefault().post(AddressManageActivity.MSG_REFRESH_DATA);
+                        EventBus.getDefault().post(GoodsIndexFragment.MSG_REFRESH_ADDRESS);
                         context.finish();
                     }
 

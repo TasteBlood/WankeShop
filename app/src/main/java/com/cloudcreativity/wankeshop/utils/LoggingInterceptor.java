@@ -3,6 +3,8 @@ package com.cloudcreativity.wankeshop.utils;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.cloudcreativity.wankeshop.entity.UserEntity;
+
 import java.io.IOException;
 
 import okhttp3.FormBody;
@@ -33,12 +35,20 @@ public class LoggingInterceptor implements Interceptor {
                     builder.addEncoded(body.encodedName(i), body.encodedValue(i));
                 }
                 //添加公共参数
-                if(SPUtils.get().getUser()!=null){
-                    body = builder.addEncoded("token",SPUtils.get().getToken())
-                            .addEncoded("userId",String.valueOf(SPUtils.get().getUid()))
-                            .addEncoded("cityId",SPUtils.get().getUser().getCityId())
-                            .addEncoded("areaId",SPUtils.get().getUser().getAreaId())
-                            .build();
+                UserEntity user = SPUtils.get().getUser();
+                if(user!=null){
+                    builder.addEncoded("token",SPUtils.get().getToken())
+                            .addEncoded("userId",String.valueOf(SPUtils.get().getUid()));
+                    sb.append("token" + "=" + SPUtils.get().getToken() + ",");
+                    sb.append("userId" + "=" + SPUtils.get().getUid() + ",");
+                    //如果不是编辑资料的话，就添加areaId和cityId
+                    if(!request.url().toString().endsWith("updateUser.do")){
+                        builder.add("cityId",user.getCityId())
+                                .add("areaId",user.getAreaId());
+                        sb.append("cityId" + "=" +user.getCityId()+ ",");
+                        sb.append("areaId" + "=" +user.getAreaId()+",");
+                    }
+                    body = builder.build();
                 }
                 sb.delete(sb.length() - 1, sb.length());
                 LogUtils.e(TAG, "| RequestParams:{"+sb.toString()+"}");

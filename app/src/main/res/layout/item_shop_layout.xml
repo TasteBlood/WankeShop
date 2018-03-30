@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="shop"
+            type="com.cloudcreativity.wankeshop.entity.ShopEntity" />
+    </data>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="5dip"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/iv_shopIcon"
+                    android:layout_width="30dip"
+                    android:layout_height="30dip"
+                    app:shopIcon="@{shop.stores.storesLog}"
+                    android:src="@mipmap/start_index"
+                    android:scaleType="centerCrop"/>
+                <TextView
+                    android:id="@+id/tv_shopName"
+                    android:layout_marginStart="10dip"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="16sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="@{shop.stores.storesName}"/>
+            </LinearLayout>
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_shopPic"
+                android:layout_width="match_parent"
+                android:layout_height="140dip"
+                android:layout_marginTop="5dip"
+                android:src="@mipmap/start_index"
+                app:shopPic="@{shop.stores.bgImg}"
+                android:scaleType="centerCrop"/>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</layout>

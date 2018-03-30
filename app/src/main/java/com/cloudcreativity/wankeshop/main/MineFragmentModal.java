@@ -16,6 +16,7 @@ import com.cloudcreativity.wankeshop.databinding.FragmentMineBinding;
 import com.cloudcreativity.wankeshop.entity.ApplyLogisticsEntity;
 import com.cloudcreativity.wankeshop.entity.UserEntity;
 import com.cloudcreativity.wankeshop.money.MoneyRecordsActivity;
+import com.cloudcreativity.wankeshop.order.AllOrderActivity;
 import com.cloudcreativity.wankeshop.userCenter.AddressManageActivity;
 import com.cloudcreativity.wankeshop.userCenter.SettingActivity;
 import com.cloudcreativity.wankeshop.userCenter.UserInformationActivity;
@@ -49,6 +50,11 @@ public class MineFragmentModal {
 
     public static final int REQUEST_SCAN = 0x08;//这是扫码的请求
     public static final int RESULT_OK = 0xA1;//这是扫描后的结果
+
+    //这是状态
+    public static final String STATE_ALL = "state_all";
+    public static final String STATE_WAIT_RECEIVE = "state_wait_receive";
+    public static final String STATE_RETURN = "state_wait_return";
 
     MineFragmentModal(Activity context, FragmentMineBinding binding, BaseDialogImpl baseDialog) {
         this.context = context;
@@ -105,6 +111,27 @@ public class MineFragmentModal {
     //setting click
     public void onSettingClick(View view){
         context.startActivity(new Intent().setClass(context, SettingActivity.class));
+    }
+
+    //all order click
+    public void onAllOrderClick(View view){
+        Intent intent = new Intent(context, AllOrderActivity.class);
+        intent.putExtra("state",STATE_ALL);
+        context.startActivity(intent);
+    }
+
+    //wait receive click
+    public void onWaitReceiveClick(View view){
+        Intent intent = new Intent(context, AllOrderActivity.class);
+        intent.putExtra("state",STATE_WAIT_RECEIVE);
+        context.startActivity(intent);
+    }
+
+    //return click
+    public void onReturnClick(View view){
+        Intent intent = new Intent(context, AllOrderActivity.class);
+        intent.putExtra("state",STATE_RETURN);
+        context.startActivity(intent);
     }
 
     //address click

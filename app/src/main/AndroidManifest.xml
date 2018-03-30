@@ -44,7 +44,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".main.MainActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".main.MainActivity" android:windowSoftInputMode="adjustPan" android:launchMode="singleTask"/>
+
         <activity android:name=".loginAndRegister.LoginActivity" />
         <activity android:name=".loginAndRegister.RegisterActivity" />
         <activity android:name=".loginAndRegister.ForgetActivity" />
@@ -70,6 +71,16 @@
         <activity android:name=".base.CommonWebActivity" />
         <activity android:name=".goods.GoodsListActivity" />
         <activity android:name=".shop.ShopListActivity" />
+        <activity android:name=".goods.GoodsListForBannerActivity" />
+        <activity android:name=".goods.GoodsDetailActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
+        <activity android:name=".goods.ChooseReceiveAddressActivity" />
+        <activity android:name=".order.FillOrderActivity" />
+        <activity android:name=".order.PayOrderActivity" />
+        <activity android:name=".goods.ShoppingCarActivity" android:launchMode="singleTask"/>
+        <activity android:name=".order.AllOrderActivity" />
+        <activity android:name=".shop.ShopGoodsListActivity" android:theme="@style/TranslucentTheme">
+        </activity>
+        <activity android:name=".order.OrderDetailActivity" />
 
 
         <!-- Activity配置结束 -->

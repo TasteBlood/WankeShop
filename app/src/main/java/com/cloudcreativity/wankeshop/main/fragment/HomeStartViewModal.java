@@ -26,6 +26,7 @@ import com.cloudcreativity.wankeshop.entity.GoodsWrapper;
 import com.cloudcreativity.wankeshop.entity.HomeNavEntity;
 import com.cloudcreativity.wankeshop.entity.HomeNavWrapper;
 import com.cloudcreativity.wankeshop.goods.GoodsListActivity;
+import com.cloudcreativity.wankeshop.goods.GoodsListForBannerActivity;
 import com.cloudcreativity.wankeshop.utils.DefaultObserver;
 import com.cloudcreativity.wankeshop.utils.GlideUtils;
 import com.cloudcreativity.wankeshop.utils.HttpUtils;
@@ -153,7 +154,7 @@ public class HomeStartViewModal {
                                 .setOnItemClickListener(new OnItemClickListener() {
                                     @Override
                                     public void onItemClick(int position) {
-                                        ToastUtils.showShortToast(context,bannerEntities.get(position).getTitle());
+                                        onBannerClick(bannerEntities.get(position));
                                     }
                                 })
                                 //设置手动影响（设置了该项无法手动切换）
@@ -261,6 +262,35 @@ public class HomeStartViewModal {
                             intent.putExtra("title",entity.getName());
                             intent.putParcelableArrayListExtra("list", (ArrayList<? extends Parcelable>) goodsWrapper.getData());
                             context.startActivity(intent);
+                        }
+                    }
+
+                    @Override
+                    public void onFail(ExceptionReason msg) {
+
+                    }
+                });
+    }
+
+    //这是banner点击事件
+    private void onBannerClick(final BannerEntity entity){
+        HttpUtils.getInstance().getBannerContent(1,entity.getKeyWords(),String.valueOf(entity.getThirdClassId()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DefaultObserver<String>(dialogImpl,true) {
+                    @Override
+                    public void onSuccess(String t) {
+                        GoodsWrapper wrapper = new Gson().fromJson(t, GoodsWrapper.class);
+                        if(wrapper.getData()!=null||!wrapper.getData().isEmpty()){
+                            //跳转到商品列表界面
+                            Intent intent = new Intent(context, GoodsListForBannerActivity.class);
+                            intent.putExtra("title",entity.getTitle());
+                            intent.putExtra("keyWords",entity.getKeyWords());
+                            intent.putExtra("thirdClassId",String.valueOf(entity.getThirdClassId()));
+                            intent.putParcelableArrayListExtra("list", (ArrayList<? extends Parcelable>) wrapper.getData());
+                            context.startActivity(intent);
+                        }else{
+                            ToastUtils.showShortToast(context,R.string.str_no_data);
                         }
                     }
 

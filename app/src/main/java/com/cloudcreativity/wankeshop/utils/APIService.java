@@ -14,7 +14,7 @@ public interface APIService {
     /**
      * 网络请求的配置
      */
-    long timeOut = 10 * 1000;//网络超时
+    long timeOut =10;//网络超时
     /**
      * 整体的接口配置
      */
@@ -61,8 +61,7 @@ public interface APIService {
                                     @Field("sms") String sms);
 
     //退出登录
-    @FormUrlEncoded
-    @POST("outLogin.do")
+    @GET("outLogin.do")
     Observable<String> logout();
 
     //编辑和完善资料
@@ -169,6 +168,9 @@ public interface APIService {
     @GET("deleteMyMallAddress.do")
     Observable<String> deleteAddress(@Query("addressId") int addressId);
 
+    //获取单条收货地址
+    @GET("getMallAddressDetail.do")
+    Observable<String> getAddressDetail(@Query("id") int id);
 
     //获取省列表
     @GET("getProvinceList.do")
@@ -259,5 +261,124 @@ public interface APIService {
                                             @Query("typeId") String typeId);
 
     //banner的信息
-    Observable<String> getBannerContent();
+
+    /**
+     *
+     * @param pageNum 分页数
+     * @param keyWords 关键字
+     * @param thirdClassId 三级分类id
+     */
+    @GET("getPageSpuList4Carousel.do")
+    Observable<String> getBannerContent(@Query("pageNum") int pageNum,
+                                        @Query("keyWords") String keyWords,
+                                        @Query("thirdClassId") String thirdClassId);
+
+
+    //获取商品详情
+    @GET("getSpuByChannel.do")
+    Observable<String> getGoodsDetail(@Query("spuId") int spuId);
+
+    //添加到购物车
+    @FormUrlEncoded
+    @POST("addShoppingCart.do")
+    Observable<String> addToShoppingCar(@Field("spuId") String spuId,
+                                        @Field("skuId") String skuId,
+                                        @Field("num") String number);
+
+    //修改购物车条目的数量
+    @FormUrlEncoded
+    @POST("editShoppingCart.do")
+    Observable<String> editShoppingCarItem(@Field("id") int id,
+                                           @Field("num") String number);
+
+    //删除购物车的条目  id 可能是多个
+    @FormUrlEncoded
+    @POST("deleteShoppingCart.do")
+    Observable<String> deleteShoppingCarItem(@Field("ids") String ids);
+
+    //分页查询购物车
+    @GET("getPageShoppingCart.do")
+    Observable<String> getShoppingCarItems(@Query("pageNum") int pageNum);
+
+    //添加收藏   type=1 商家  type=2 商品
+    @GET("addCollection.do")
+    Observable<String> addCollection(@Query("type") int type,
+                                     @Query("collectId") int collectId);
+
+    //删除收藏,这是对于收藏列表来说的
+    @GET("deleteCollection.do")
+    Observable<String> editCollection(@Query("id") int id,
+                                      @Query("type") int type);
+
+    //取消收藏，这是对于单个商品或者商家来说的
+    @GET("deleteSingleCollect.do")
+    Observable<String> editCollectionForOther(@Query("collectId") int goodsOrShopId,
+                                              @Query("type") int type);
+
+    //分页查询收藏 type=1 商家  type=2 商品
+    @GET("getPageCollection.do")
+    Observable<String> getCollections(@Query("pageNum") int pageNum,
+                                      @Query("type") int type);
+
+    //分页查询商户
+    @GET("getPageShopByFront.do")
+    Observable<String> getShops(@Query("pageNum") int pageNum);
+
+    //分页查询商家下面的商品列表
+    @GET("getPageSpuByShopFront.do")
+    Observable<String> getGoodsByShop(@Query("pageNum") int pageNum,
+                                      @Query("shopId") int shopId);
+
+    //生成订单
+    @FormUrlEncoded
+    @POST("addOrder.do")
+    Observable<String> addOrder(@Field("shoppingCartIds") String shoppingCartIds,
+                                @Field("addressId") int addressId);
+
+    //查询订单
+    //payState  1 未支付   2 已支付
+    //shipState 1 未发货   2 已发货   3 已完成
+    //state     0 已取消/已弃用       1 可用  这是查询已发货和已完成的订单
+    @GET("getPageOrderByUser.do")
+    Observable<String> getOrderByType(@Query("pageNum") int pageNum,
+                                      @Query("payState") int payState,
+                                      @Query("shipState") int shipState,
+                                      @Query("state") int state);
+
+    //查询订单2 这是查询待支付和已取消的订单
+    @GET("getPageOrderByUser1.do")
+    Observable<String> getOrdersByType(@Query("pageNum") int pageNum,
+                                       @Query("payState") int payState,
+                                       @Query("shipState") int shipState,
+                                       @Query("state") int state);
+
+    //废弃订单
+    @GET("scrapOrder.do")
+    Observable<String> scrapOrders(@Query("ids") String ids);
+
+    //删除订单
+    @GET("deleteOrder.do")
+    Observable<String> deleteOrders(@Query("ids") String ids);
+
+
+    //修改订单的状态
+    @GET("editOrder.do")
+    Observable<String> updateOrderState(@Query("id") int orderId,
+                                        @Query("shipState") int shipState);
+
+    //申请退货
+    @GET("addReturnOrder.do")
+    Observable<String> addReturnOrder(@Query("orderId") int orderId,
+                                      @Query("shopId") int shopId,
+                                      @Query("skuId") int skuId,
+                                      @Query("returnDes") String returnDes,
+                                      @Query("skuNum") int skuNum);
+
+    //删除退货单
+    @GET("deleteReturnOrder.do")
+    Observable<String> deleteReturnOrders(@Query("ids") String ids);
+
+    //获取退货单列表数据
+    @GET("getPageReturnOrderByUser.do")
+    Observable<String> getReturnOrders(@Query("pageNum") int pageNum);
 }

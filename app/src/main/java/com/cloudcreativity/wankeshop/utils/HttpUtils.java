@@ -77,7 +77,7 @@ public class HttpUtils {
 
             Response originalResponse = chain.proceed(request);
             if (NetworkUtils.isAvailable()) {
-                int maxAge = 60*60;// 有网，1个小时可用
+                int maxAge = 0;// 有网，1个小时可用
                 return originalResponse.newBuilder()
                         .header("Cache-Control", "public, max-age=" + maxAge)
                         .removeHeader("Pragma")

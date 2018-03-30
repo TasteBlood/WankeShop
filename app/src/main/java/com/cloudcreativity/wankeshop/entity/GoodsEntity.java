@@ -2,12 +2,18 @@ package com.cloudcreativity.wankeshop.entity;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 import com.cloudcreativity.wankeshop.R;
 import com.cloudcreativity.wankeshop.base.BaseApp;
+import com.cloudcreativity.wankeshop.utils.StrUtils;
 
 import java.io.Serializable;
+import java.util.List;
 
+/**
+ * 商品信息
+ */
 public class GoodsEntity implements Parcelable {
 //    private List<Attrs> attrs ;
 
@@ -21,7 +27,7 @@ public class GoodsEntity implements Parcelable {
 
     private int available;
 
-    private String brand;
+    private Brand brand;
 
     private int brandId;
 
@@ -35,19 +41,19 @@ public class GoodsEntity implements Parcelable {
 
     private int goodsUnit;
 
-    private float salePrice;
+    private String salePrice;
 
     private String icon;
 
     private int id;
 
-//    private List<Pics> pics ;
+    private List<Pics> pics ;
 
     private int saleNum;
 
-//    private List<Skus> skus ;
+    private List<SKU> skus ;
 
-//    private List<Specs> specs ;
+    private List<Specs> specs ;
 
     private String spuCode;
 
@@ -59,7 +65,14 @@ public class GoodsEntity implements Parcelable {
 
     private int supplierId;
 
+    private Unit unit;
+
     private String unitQuality;
+
+    private int isCollect;
+
+    public GoodsEntity() {
+    }
 
     protected GoodsEntity(Parcel in) {
         auditCause = in.readString();
@@ -67,23 +80,58 @@ public class GoodsEntity implements Parcelable {
         auditStatus = in.readInt();
         auditTime = in.readString();
         available = in.readInt();
-        brand = in.readString();
         brandId = in.readInt();
         caregoryId = in.readInt();
         caregoryName = in.readString();
         createTime = in.readString();
         disableleCause = in.readString();
         goodsUnit = in.readInt();
-        salePrice = in.readFloat();
+        salePrice = in.readString();
         icon = in.readString();
         id = in.readInt();
         saleNum = in.readInt();
+        skus = in.createTypedArrayList(SKU.CREATOR);
         spuCode = in.readString();
         spuName = in.readString();
         spuPic = in.readString();
         spuStatus = in.readInt();
         supplierId = in.readInt();
+        unit = in.readParcelable(Unit.class.getClassLoader());
         unitQuality = in.readString();
+        isCollect = in.readInt();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(auditCause);
+        dest.writeInt(auditId);
+        dest.writeInt(auditStatus);
+        dest.writeString(auditTime);
+        dest.writeInt(available);
+        dest.writeInt(brandId);
+        dest.writeInt(caregoryId);
+        dest.writeString(caregoryName);
+        dest.writeString(createTime);
+        dest.writeString(disableleCause);
+        dest.writeInt(goodsUnit);
+        dest.writeString(salePrice);
+        dest.writeString(icon);
+        dest.writeInt(id);
+        dest.writeInt(saleNum);
+        dest.writeTypedList(skus);
+        dest.writeString(spuCode);
+        dest.writeString(spuName);
+        dest.writeString(spuPic);
+        dest.writeInt(spuStatus);
+        dest.writeInt(supplierId);
+        dest.writeParcelable(unit, flags);
+        dest.writeString(unitQuality);
+        dest.writeInt(isCollect);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<GoodsEntity> CREATOR = new Creator<GoodsEntity>() {
@@ -98,14 +146,51 @@ public class GoodsEntity implements Parcelable {
         }
     };
 
-    public GoodsEntity() {
+    public int getIsCollect() {
+        return isCollect;
     }
 
-    public float getSalePrice() {
+    public void setIsCollect(int isCollect) {
+        this.isCollect = isCollect;
+    }
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+
+    public List<Pics> getPics() {
+        return pics;
+    }
+
+    public void setPics(List<Pics> pics) {
+        this.pics = pics;
+    }
+
+    public List<SKU> getSkus() {
+        return skus;
+    }
+
+    public void setSkus(List<SKU> skus) {
+        this.skus = skus;
+    }
+
+    public List<Specs> getSpecs() {
+        return specs;
+    }
+
+    public void setSpecs(List<Specs> specs) {
+        this.specs = specs;
+    }
+
+    public String getSalePrice() {
         return salePrice;
     }
 
-    public void setSalePrice(float salePrice) {
+    public void setSalePrice(String salePrice) {
         this.salePrice = salePrice;
     }
 
@@ -139,10 +224,10 @@ public class GoodsEntity implements Parcelable {
     public int getAvailable(){
         return this.available;
     }
-    public void setBrand(String brand){
+    public void setBrand(Brand brand){
         this.brand = brand;
     }
-    public String getBrand(){
+    public Brand getBrand(){
         return this.brand;
     }
     public void setBrandId(int brandId){
@@ -238,42 +323,498 @@ public class GoodsEntity implements Parcelable {
     }
 
     public String formatPrice(){
-        return String.format(BaseApp.app.getResources().getString(R.string.str_rmb_character),this.salePrice);
+        return String.format(BaseApp.app.getResources().getString(R.string.str_rmb_character), StrUtils.get2BitDecimal(TextUtils.isEmpty(this.salePrice)?0.00f:Float.parseFloat(this.salePrice)));
     }
 
     public String formatSaleNum(){
         return String.format(BaseApp.app.getResources().getString(R.string.str_sale_count),this.saleNum);
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    /**
+     * 这是SKU实体数据
+     */
+    public static class SKU implements Parcelable,Serializable{
+        private int alertNum;
+
+        private int clickCount;
+
+        private String createTime;
+
+        private int depositNum;
+
+        private int hotSell;
+
+        private String icon;
+
+        private int id;
+
+        private int maxQuality;
+
+        private int minQuality;
+
+        private String regionOperator;
+
+        private int saleNum;
+
+        private String salePrice;
+
+        private String scanCode;
+
+        private String skuCode;
+
+        private String skuName;
+
+        private String skuTagPrice;
+
+        private List<Specs> specs ;
+
+        private int spuId;
+
+        private int status;
+
+        protected SKU(Parcel in) {
+            alertNum = in.readInt();
+            clickCount = in.readInt();
+            createTime = in.readString();
+            depositNum = in.readInt();
+            hotSell = in.readInt();
+            icon = in.readString();
+            id = in.readInt();
+            maxQuality = in.readInt();
+            minQuality = in.readInt();
+            regionOperator = in.readString();
+            saleNum = in.readInt();
+            salePrice = in.readString();
+            scanCode = in.readString();
+            skuCode = in.readString();
+            skuName = in.readString();
+            skuTagPrice = in.readString();
+            spuId = in.readInt();
+            status = in.readInt();
+        }
+
+        public static final Creator<SKU> CREATOR = new Creator<SKU>() {
+            @Override
+            public SKU createFromParcel(Parcel in) {
+                return new SKU(in);
+            }
+
+            @Override
+            public SKU[] newArray(int size) {
+                return new SKU[size];
+            }
+        };
+
+        public void setAlertNum(int alertNum){
+            this.alertNum = alertNum;
+        }
+        public int getAlertNum(){
+            return this.alertNum;
+        }
+        public void setClickCount(int clickCount){
+            this.clickCount = clickCount;
+        }
+        public int getClickCount(){
+            return this.clickCount;
+        }
+        public void setCreateTime(String createTime){
+            this.createTime = createTime;
+        }
+        public String getCreateTime(){
+            return this.createTime;
+        }
+        public void setDepositNum(int depositNum){
+            this.depositNum = depositNum;
+        }
+        public int getDepositNum(){
+            return this.depositNum;
+        }
+        public void setHotSell(int hotSell){
+            this.hotSell = hotSell;
+        }
+        public int getHotSell(){
+            return this.hotSell;
+        }
+        public void setIcon(String icon){
+            this.icon = icon;
+        }
+        public String getIcon(){
+            return this.icon;
+        }
+        public void setId(int id){
+            this.id = id;
+        }
+        public int getId(){
+            return this.id;
+        }
+        public void setMaxQuality(int maxQuality){
+            this.maxQuality = maxQuality;
+        }
+        public int getMaxQuality(){
+            return this.maxQuality;
+        }
+        public void setMinQuality(int minQuality){
+            this.minQuality = minQuality;
+        }
+        public int getMinQuality(){
+            return this.minQuality;
+        }
+        public void setRegionOperator(String regionOperator){
+            this.regionOperator = regionOperator;
+        }
+        public String getRegionOperator(){
+            return this.regionOperator;
+        }
+        public void setSaleNum(int saleNum){
+            this.saleNum = saleNum;
+        }
+        public int getSaleNum(){
+            return this.saleNum;
+        }
+        public void setSalePrice(String salePrice){
+            this.salePrice = salePrice;
+        }
+        public String getSalePrice(){
+            return this.salePrice;
+        }
+        public void setScanCode(String scanCode){
+            this.scanCode = scanCode;
+        }
+        public String getScanCode(){
+            return this.scanCode;
+        }
+        public void setSkuCode(String skuCode){
+            this.skuCode = skuCode;
+        }
+        public String getSkuCode(){
+            return this.skuCode;
+        }
+        public void setSkuName(String skuName){
+            this.skuName = skuName;
+        }
+        public String getSkuName(){
+            return this.skuName;
+        }
+        public void setSkuTagPrice(String skuTagPrice){
+            this.skuTagPrice = skuTagPrice;
+        }
+        public String getSkuTagPrice(){
+            return this.skuTagPrice;
+        }
+        public void setSpecs(List<Specs> specs){
+            this.specs = specs;
+        }
+        public List<Specs> getSpecs(){
+            return this.specs;
+        }
+        public void setSpuId(int spuId){
+            this.spuId = spuId;
+        }
+        public int getSpuId(){
+            return this.spuId;
+        }
+        public void setStatus(int status){
+            this.status = status;
+        }
+        public int getStatus(){
+            return this.status;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(alertNum);
+            dest.writeInt(clickCount);
+            dest.writeString(createTime);
+            dest.writeInt(depositNum);
+            dest.writeInt(hotSell);
+            dest.writeString(icon);
+            dest.writeInt(id);
+            dest.writeInt(maxQuality);
+            dest.writeInt(minQuality);
+            dest.writeString(regionOperator);
+            dest.writeInt(saleNum);
+            dest.writeString(salePrice);
+            dest.writeString(scanCode);
+            dest.writeString(skuCode);
+            dest.writeString(skuName);
+            dest.writeString(skuTagPrice);
+            dest.writeInt(spuId);
+            dest.writeInt(status);
+        }
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    /**
+     * 这是详细的sku信息
+     */
+    public static class Specs{
+        private String goodsSpeciValue;
 
-        dest.writeString(auditCause);
-        dest.writeInt(auditId);
-        dest.writeInt(auditStatus);
-        dest.writeString(auditTime);
-        dest.writeInt(available);
-        dest.writeString(brand);
-        dest.writeInt(brandId);
-        dest.writeInt(caregoryId);
-        dest.writeString(caregoryName);
-        dest.writeString(createTime);
-        dest.writeString(disableleCause);
-        dest.writeInt(goodsUnit);
-        dest.writeFloat(salePrice);
-        dest.writeString(icon);
-        dest.writeInt(id);
-        dest.writeInt(saleNum);
-        dest.writeString(spuCode);
-        dest.writeString(spuName);
-        dest.writeString(spuPic);
-        dest.writeInt(spuStatus);
-        dest.writeInt(supplierId);
-        dest.writeString(unitQuality);
+        private int id;
+
+        private int skuId;
+
+        private String specifactionName;
+
+        private int spuID;
+
+        public void setGoodsSpeciValue(String goodsSpeciValue){
+            this.goodsSpeciValue = goodsSpeciValue;
+        }
+        public String getGoodsSpeciValue(){
+            return this.goodsSpeciValue;
+        }
+        public void setId(int id){
+            this.id = id;
+        }
+        public int getId(){
+            return this.id;
+        }
+        public void setSkuId(int skuId){
+            this.skuId = skuId;
+        }
+        public int getSkuId(){
+            return this.skuId;
+        }
+        public void setSpecifactionName(String specifactionName){
+            this.specifactionName = specifactionName;
+        }
+        public String getSpecifactionName(){
+            return this.specifactionName;
+        }
+        public void setSpuID(int spuID){
+            this.spuID = spuID;
+        }
+        public int getSpuID(){
+            return this.spuID;
+        }
+
+    }
+
+    /**
+     * 这是照片信息实体
+     */
+    public static class Pics{
+        private String createTime;
+
+        private int id;
+
+        private String picExt;
+
+        private String picPath;
+
+        private int picShort;
+
+        private int picType;
+
+        private int spuId;
+
+        public void setCreateTime(String createTime){
+            this.createTime = createTime;
+        }
+        public String getCreateTime(){
+            return this.createTime;
+        }
+        public void setId(int id){
+            this.id = id;
+        }
+        public int getId(){
+            return this.id;
+        }
+        public void setPicExt(String picExt){
+            this.picExt = picExt;
+        }
+        public String getPicExt(){
+            return this.picExt;
+        }
+        public void setPicPath(String picPath){
+            this.picPath = picPath;
+        }
+        public String getPicPath(){
+            return this.picPath;
+        }
+        public void setPicShort(int picShort){
+            this.picShort = picShort;
+        }
+        public int getPicShort(){
+            return this.picShort;
+        }
+        public void setPicType(int picType){
+            this.picType = picType;
+        }
+        public int getPicType(){
+            return this.picType;
+        }
+        public void setSpuId(int spuId){
+            this.spuId = spuId;
+        }
+        public int getSpuId(){
+            return this.spuId;
+        }
+    }
+
+    /**
+     * 这是单位实体
+     */
+    public static class Unit implements Parcelable,Serializable{
+        private String createTime;
+
+        private int creatorId;
+
+        private int id;
+
+        private String remark;
+
+        private int sort;
+
+        private String unityName;
+
+        protected Unit(Parcel in) {
+            createTime = in.readString();
+            creatorId = in.readInt();
+            id = in.readInt();
+            remark = in.readString();
+            sort = in.readInt();
+            unityName = in.readString();
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(createTime);
+            dest.writeInt(creatorId);
+            dest.writeInt(id);
+            dest.writeString(remark);
+            dest.writeInt(sort);
+            dest.writeString(unityName);
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        public static final Creator<Unit> CREATOR = new Creator<Unit>() {
+            @Override
+            public Unit createFromParcel(Parcel in) {
+                return new Unit(in);
+            }
+
+            @Override
+            public Unit[] newArray(int size) {
+                return new Unit[size];
+            }
+        };
+
+        public void setCreateTime(String createTime){
+            this.createTime = createTime;
+        }
+        public String getCreateTime(){
+            return this.createTime;
+        }
+        public void setCreatorId(int creatorId){
+            this.creatorId = creatorId;
+        }
+        public int getCreatorId(){
+            return this.creatorId;
+        }
+        public void setId(int id){
+            this.id = id;
+        }
+        public int getId(){
+            return this.id;
+        }
+        public void setRemark(String remark){
+            this.remark = remark;
+        }
+        public String getRemark(){
+            return this.remark;
+        }
+        public void setSort(int sort){
+            this.sort = sort;
+        }
+        public int getSort(){
+            return this.sort;
+        }
+        public void setUnityName(String unityName){
+            this.unityName = unityName;
+        }
+        public String getUnityName(){
+            return this.unityName;
+        }
+
+    }
+
+    /**
+     * 这是Brand信息
+     */
+    public static class Brand{
+        private String brandDesc;
+
+        private String brandName;
+
+        private int brandSort;
+
+        private String createTime;
+
+        private int creatorId;
+
+        private int id;
+
+        private String logo;
+
+        private int status;
+
+        public void setBrandDesc(String brandDesc){
+            this.brandDesc = brandDesc;
+        }
+        public String getBrandDesc(){
+            return this.brandDesc;
+        }
+        public void setBrandName(String brandName){
+            this.brandName = brandName;
+        }
+        public String getBrandName(){
+            return this.brandName;
+        }
+        public void setBrandSort(int brandSort){
+            this.brandSort = brandSort;
+        }
+        public int getBrandSort(){
+            return this.brandSort;
+        }
+        public void setCreateTime(String createTime){
+            this.createTime = createTime;
+        }
+        public String getCreateTime(){
+            return this.createTime;
+        }
+        public void setCreatorId(int creatorId){
+            this.creatorId = creatorId;
+        }
+        public int getCreatorId(){
+            return this.creatorId;
+        }
+        public void setId(int id){
+            this.id = id;
+        }
+        public int getId(){
+            return this.id;
+        }
+        public void setLogo(String logo){
+            this.logo = logo;
+        }
+        public String getLogo(){
+            return this.logo;
+        }
+        public void setStatus(int status){
+            this.status = status;
+        }
+        public int getStatus(){
+            return this.status;
+        }
     }
 }

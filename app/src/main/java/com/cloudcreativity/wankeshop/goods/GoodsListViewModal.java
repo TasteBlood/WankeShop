@@ -1,5 +1,6 @@
 package com.cloudcreativity.wankeshop.goods;
 
+import android.content.Intent;
 import android.databinding.ObservableField;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -60,7 +61,7 @@ public class GoodsListViewModal {
                     @Override
                     public void onSuccess(String t) {
                         GoodsWrapper goodsWrapper = new Gson().fromJson(t, GoodsWrapper.class);
-                        if(goodsWrapper.getData()!=null&&goodsWrapper.getData().isEmpty()){
+                        if(goodsWrapper.getData()!=null&&!goodsWrapper.getData().isEmpty()){
                             if(pageNum==1){
                                 listBinding.refreshGoodsList.finishRefreshing();
                                 adapter.getItems().clear();
@@ -69,6 +70,12 @@ public class GoodsListViewModal {
                             }
                             adapter.getItems().addAll(goodsWrapper.getData());
                             pageNum++;
+                        }else{
+                            if(pageNum==1){
+                                listBinding.refreshGoodsList.finishRefreshing();
+                            }else{
+                                listBinding.refreshGoodsList.finishLoadmore();
+                            }
                         }
                     }
 
@@ -91,8 +98,8 @@ public class GoodsListViewModal {
         this.type = type;
         this.listBinding = listBinding;
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-        int gridWidth = (int) ((metrics.widthPixels-20*metrics.density)/2);
-        final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(gridWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
+//        int gridWidth = (int) ((metrics.widthPixels-25*metrics.density)/2);
+//        final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(gridWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
         adapter = new BaseBindingRecyclerViewAdapter<GoodsEntity, ItemHomeGoodsListItemBinding>(context) {
             @Override
             protected int getLayoutResId(int viewType) {
@@ -100,9 +107,17 @@ public class GoodsListViewModal {
             }
 
             @Override
-            protected void onBindItem(ItemHomeGoodsListItemBinding binding, GoodsEntity item, int position) {
+            protected void onBindItem(ItemHomeGoodsListItemBinding binding, final GoodsEntity item, int position) {
                     binding.setGoodsItem(item);
-                    binding.getRoot().setLayoutParams(params);
+//                    binding.getRoot().setLayoutParams(params);
+                binding.getRoot().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(v.getContext(),GoodsDetailActivity.class);
+                        intent.putExtra("spuId",item.getId());
+                        context.startActivity(intent);
+                    }
+                });
             }
         };
         adapter.getItems().addAll(entityList);

@@ -19,6 +19,8 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowFullscreen">true</item>
     </style>
+
+
     <!--自定义ProgressBar样式-->
     <style name="myProgressBarStyle">
         <item name="android:minWidth">30dip</item>

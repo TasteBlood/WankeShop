@@ -1,5 +1,6 @@
 package com.cloudcreativity.wankeshop.utils;
 
+import java.math.BigDecimal;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -74,5 +75,11 @@ public class StrUtils {
         char last = id[id.length-1];
         last = last == 'x' ? 'X' : last;
         return last == code;
+    }
+
+    //获取两位小数，四舍五入
+    public static float get2BitDecimal(float number){
+        BigDecimal b   =   new   BigDecimal(number);
+        return b.setScale(2,   BigDecimal.ROUND_HALF_UP).floatValue();
     }
 }

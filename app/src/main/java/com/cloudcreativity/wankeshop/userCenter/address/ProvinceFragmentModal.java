@@ -81,11 +81,14 @@ public class ProvinceFragmentModal {
             return;
 
         //清空省以下的数据
-        TempAddress.cityEntities.clear();
+        if(TempAddress.cityEntities!=null)
+            TempAddress.cityEntities.clear();
         TempAddress.cityEntity = null;
-        TempAddress.areaEntities.clear();
+        if(TempAddress.areaEntities!=null)
+            TempAddress.areaEntities.clear();
         TempAddress.areaEntity = null;
-        TempAddress.streetEntities.clear();
+        if(TempAddress.streetEntities!=null)
+            TempAddress.streetEntities.clear();
         TempAddress.streetEntity = null;
 
 

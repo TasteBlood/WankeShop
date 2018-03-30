@@ -8,6 +8,7 @@
     </data>
     <android.support.v7.widget.LinearLayoutCompat
         android:orientation="vertical"
+        android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <RelativeLayout
