@@ -44,6 +44,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
     private String get_user_info = "https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s";
     private OkHttpClient client;
 
+    private String access_token = "";
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,7 +147,8 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                             LogUtils.e("xuxiwu",content);
                             JSONObject object = new JSONObject(content);
                             if(object.has("access_token")){
-                                getUserInfo(object.getString("access_token"),object.getString("unionid"));
+                                access_token = object.getString("access_token");
+                                getUserInfo(access_token,object.getString("unionid"));
                             }else{
                                 ToastUtils.showShortToast(getApplicationContext(),"获取access_token失败");
                                 dismissProgress();
@@ -175,7 +177,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
         });
     }
 
-    private void getUserInfo(String access_token,String unionId){
+    private void getUserInfo(String access_token, String unionId){
         Request request = new Request.Builder()
                 .url(String.format(get_user_info,access_token,unionId))
                 .get()
@@ -211,6 +213,8 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                             map.put("userName",object.getString("nickname"));
                             map.put("avatar",object.getString("headimgurl"));
                             map.put("openId",object.getString("openid"));
+                            //由于后期业转变，需要access_token进行实现
+                            map.put("access_token",WXEntryActivity.this.access_token);
                             EventBus.getDefault().post(map);
                             finish();
                         } catch (JSONException e) {

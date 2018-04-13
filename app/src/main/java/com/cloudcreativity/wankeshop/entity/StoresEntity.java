@@ -1,9 +1,11 @@
 package com.cloudcreativity.wankeshop.entity;
 
+import java.io.Serializable;
+
 /**
  * 这是店铺实体
  */
-public class StoresEntity {
+public class StoresEntity implements Serializable{
     private String bgImg;
 
     private String createTime;

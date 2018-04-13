@@ -1,5 +1,6 @@
 package com.cloudcreativity.wankeshop.order.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.ObservableField;
@@ -12,6 +13,8 @@ import com.cloudcreativity.wankeshop.databinding.FragmentFinishBinding;
 import com.cloudcreativity.wankeshop.databinding.ItemOrderFinishBinding;
 import com.cloudcreativity.wankeshop.entity.OrderEntity;
 import com.cloudcreativity.wankeshop.entity.OrderEntityWrapper;
+import com.cloudcreativity.wankeshop.goods.ShoppingCarActivity;
+import com.cloudcreativity.wankeshop.main.ShoppingCarFragment;
 import com.cloudcreativity.wankeshop.order.OrderDetailActivity;
 import com.cloudcreativity.wankeshop.utils.DefaultObserver;
 import com.cloudcreativity.wankeshop.utils.HttpUtils;
@@ -112,8 +115,33 @@ public class FinishViewModal {
     }
 
     //再购买
-    private void reBuy(OrderEntity item) {
+    private void reBuy(final OrderEntity item) {
+        HttpUtils.getInstance().orderReBuy(String.valueOf(item.getId()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DefaultObserver<String>(baseDialog,true) {
+                    @Override
+                    public void onSuccess(String t) {
+                        if("0".equals(t)){
+                            //重新购买失败
+                            ToastUtils.showShortToast(context,"该商品暂时无法购买");
+                            Intent intent = new Intent(context,OrderDetailActivity.class);
+                            intent.putExtra("order",item);
+                            context.startActivity(intent);
+                        }else if("1".equals(t)){
+                            //重新购买成功，跳转到购物车
+                            EventBus.getDefault().post(ShoppingCarFragment.MSG_REFRESH_SHOP_CAR);
+                            Intent intent = new Intent(context, ShoppingCarActivity.class);
+                            context.startActivity(intent);
+                            ((Activity)context).finish();
+                        }
+                    }
 
+                    @Override
+                    public void onFail(ExceptionReason msg) {
+
+                    }
+                });
     }
 
     //退换货

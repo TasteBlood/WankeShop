@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="collect"
+            type="com.cloudcreativity.wankeshop.entity.CollectEntity" />
+        <import type="android.view.View" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dip"
+            android:orientation="horizontal">
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="60dip"
+                android:layout_height="60dip"
+                android:scaleType="centerCrop"
+                app:collectGoodsPic="@{collect.shop.stores.storesLog}" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:layout_marginStart="10dip"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:textSize="14sp"
+                    android:maxLines="3"
+                    android:text="@{collect.shop.stores.storesName}"/>
+            </LinearLayout>
+        </LinearLayout>
+        <View style="@style/myDividerForItemGrayLine" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dip"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dip"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:textColor="@color/colorPrimary"
+                android:text="@string/str_delete"/>
+        </RelativeLayout>
+    </LinearLayout>
+</layout>

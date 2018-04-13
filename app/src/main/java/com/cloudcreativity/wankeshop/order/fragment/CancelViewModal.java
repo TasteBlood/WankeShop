@@ -1,9 +1,11 @@
 package com.cloudcreativity.wankeshop.order.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.ObservableField;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.cloudcreativity.wankeshop.R;
@@ -15,9 +17,12 @@ import com.cloudcreativity.wankeshop.databinding.ItemOrderCancelBinding;
 import com.cloudcreativity.wankeshop.entity.BigOrderEntity;
 import com.cloudcreativity.wankeshop.entity.OrderEntity;
 import com.cloudcreativity.wankeshop.entity.ShopCarItemEntity;
+import com.cloudcreativity.wankeshop.goods.ShoppingCarActivity;
+import com.cloudcreativity.wankeshop.main.ShoppingCarFragment;
 import com.cloudcreativity.wankeshop.order.OrderDetailActivity;
 import com.cloudcreativity.wankeshop.utils.DefaultObserver;
 import com.cloudcreativity.wankeshop.utils.HttpUtils;
+import com.cloudcreativity.wankeshop.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
@@ -122,6 +127,12 @@ public class CancelViewModal {
 
             picAdapter.getItems().addAll(item.getData());
             binding.rcvOrderItemCancel.setAdapter(picAdapter);
+            binding.rcvOrderItemCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    orderDetails(item);
+                }
+            });
 
         }else{
             //显示单一内容布局
@@ -205,8 +216,42 @@ public class CancelViewModal {
      * 取消订单
      * @param item 重新购买
      */
-    private void reBuy(BigOrderEntity item) {
+    private void reBuy(final BigOrderEntity item) {
+        StringBuilder ids = new StringBuilder();
+        for(BigOrderEntity entity : adapter.getItems()){
+             for(OrderEntity orderEntity:entity.getData()){
+                 ids.append(orderEntity.getId()).append(",");
+             }
+        }
+        if(TextUtils.isEmpty(ids)){
+            return;
+        }
+        HttpUtils.getInstance().orderReBuy(ids.substring(0,ids.length()-1))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DefaultObserver<String>(baseDialog,true) {
+                    @Override
+                    public void onSuccess(String t) {
+                        if("0".equals(t)){
+                            //重新购买失败
+                            ToastUtils.showShortToast(context,"该商品暂时无法购买");
+                            Intent intent = new Intent(context,OrderDetailActivity.class);
+                            intent.putExtra("order",item);
+                            context.startActivity(intent);
+                        }else if("1".equals(t)){
+                            //重新购买成功，跳转到购物车
+                            EventBus.getDefault().post(ShoppingCarFragment.MSG_REFRESH_SHOP_CAR);
+                            Intent intent = new Intent(context, ShoppingCarActivity.class);
+                            context.startActivity(intent);
+                            ((Activity)context).finish();
+                        }
+                    }
 
+                    @Override
+                    public void onFail(ExceptionReason msg) {
+
+                    }
+                });
     }
 
     //加载数据

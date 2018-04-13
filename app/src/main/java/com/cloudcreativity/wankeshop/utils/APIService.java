@@ -78,7 +78,8 @@ public interface APIService {
                                        @Field("type") int type,
                                        @Field("provinceId") String provinceId,
                                        @Field("cityId") String cityId,
-                                       @Field("areaId") String areaId);
+                                       @Field("areaId") String areaId,
+                                       @Field("isBind")int isBind);
 
     //修改手机号第一步
     @FormUrlEncoded
@@ -129,6 +130,9 @@ public interface APIService {
     Observable<String> bindWxUser(@Field("openId") String openId,
                                   @Field("mobile") String mobile);
 
+    //获取我的信息包含订单的数量以及账户余额以及个人信息
+    @GET("getUserAndOrder.do")
+    Observable<String> getUserInfo();
 
     //获取我的收货地址
     @GET("getMyMallAddress.do")
@@ -241,6 +245,10 @@ public interface APIService {
     //获取物流小二的已经提交的信息
     @GET("getDispatcherFrontInfo.do")
     Observable<String> getApplyToLogisticsInfo();
+
+    //获取首页的类别数据
+    @GET("getFirstAndSecondCate.do")
+    Observable<String> getHomeCategory();
 
     //获取首页轮播图
     @GET("getCarouselList.do")
@@ -366,6 +374,11 @@ public interface APIService {
     Observable<String> updateOrderState(@Query("id") int orderId,
                                         @Query("shipState") int shipState);
 
+    //延长收货 isDelay  1 延长  0 不延长
+    @GET("delayOrder.do")
+    Observable<String> delayReceiveOrder(@Query("id") int orderId,
+                                         @Query("isDelay") int isDelay);
+
     //申请退货
     @GET("addReturnOrder.do")
     Observable<String> addReturnOrder(@Query("orderId") int orderId,
@@ -381,4 +394,45 @@ public interface APIService {
     //获取退货单列表数据
     @GET("getPageReturnOrderByUser.do")
     Observable<String> getReturnOrders(@Query("pageNum") int pageNum);
+
+    //订单的商品重新购买
+    @GET("orderByBuyAgin.do")
+    Observable<String> orderReBuy(@Query("ids") String ids);
+
+    //获取商户的联系方式
+    @GET("getShopDetailFront.do")
+    Observable<String> getShopInfo(@Query("id") int shopId);
+
+    //首页其他页面检索商品
+    @GET("getSpusByGoodsCate.do")
+    Observable<String> getHomeGoodsByCategory(@Query("pageNum") int pageNum,
+                                              @Query("firstId") int firstId,
+                                              @Query("secondId") int secondId,
+                                              @Query("byPrice") int byPrice,
+                                              @Query("bySale") int bySale,
+                                              @Query("keywords") String keyWords);
+
+    /**
+     * 解除绑定微信
+     * @param sms 验证码
+     */
+    @GET("unBindWexin.do")
+    Observable<String> unBindWeChat(@Query("sms") String sms,
+                                    @Query("mobile") String mobile);
+
+    /**
+     *
+     * @param sms 验证码
+     * @param openId openId
+     * @param nickName 昵称
+     * @param headImgUrl 头像
+     * @return 绑定微信
+     */
+    @FormUrlEncoded
+    @POST("changeBindWeixin.do")
+    Observable<String> bindWeChat(@Field("sms") String sms,
+                                  @Field("mobile") String mobile,
+                                  @Field("openId") String openId,
+                                  @Field("nickName") String nickName,
+                                  @Field("headImgUrl") String headImgUrl);
 }

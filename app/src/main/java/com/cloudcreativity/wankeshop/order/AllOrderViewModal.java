@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.View;
 
-import com.cloudcreativity.wankeshop.money.RechargeFragment;
+import com.cloudcreativity.wankeshop.databinding.ActivityAllOrderBinding;
 import com.cloudcreativity.wankeshop.order.fragment.CancelFragment;
 import com.cloudcreativity.wankeshop.order.fragment.FinishFragment;
 import com.cloudcreativity.wankeshop.order.fragment.ReturnOrderFragment;
@@ -28,8 +28,11 @@ public class AllOrderViewModal {
 
     public FragmentPagerAdapter pagerAdapter;
 
-    AllOrderViewModal(AllOrderActivity context) {
+    private ActivityAllOrderBinding binding;
+
+    AllOrderViewModal(AllOrderActivity context,ActivityAllOrderBinding binding) {
         this.context = context;
+        this.binding = binding;
         fragments.add(new WaitPayFragment());
         fragments.add(new WaitReceiveFragment());
         fragments.add(new FinishFragment());
@@ -58,5 +61,9 @@ public class AllOrderViewModal {
 
     public void onBack(View view){
         context.finish();
+    }
+
+    public Fragment getCurrentFragment(){
+        return fragments.get(binding.vpAllOrder.getCurrentItem());
     }
 }

@@ -1,23 +1,34 @@
 package com.cloudcreativity.wankeshop.order;
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.databinding.ObservableField;
+import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.cloudcreativity.wankeshop.R;
 import com.cloudcreativity.wankeshop.base.BaseBindingRecyclerViewAdapter;
 import com.cloudcreativity.wankeshop.base.BaseDialogImpl;
 import com.cloudcreativity.wankeshop.databinding.ActivityOrderDetailBinding;
+import com.cloudcreativity.wankeshop.databinding.ItemOrderDetailGoodLayoutBinding;
 import com.cloudcreativity.wankeshop.entity.AddressEntity;
 import com.cloudcreativity.wankeshop.entity.BigOrderEntity;
 import com.cloudcreativity.wankeshop.entity.OrderEntity;
 import com.cloudcreativity.wankeshop.entity.ReturnOrderEntity;
-import com.cloudcreativity.wankeshop.entity.ShopCarItemEntity;
+import com.cloudcreativity.wankeshop.entity.ShopEntity;
+import com.cloudcreativity.wankeshop.goods.ShoppingCarActivity;
+import com.cloudcreativity.wankeshop.main.ShoppingCarFragment;
 import com.cloudcreativity.wankeshop.utils.DefaultObserver;
 import com.cloudcreativity.wankeshop.utils.HttpUtils;
 import com.cloudcreativity.wankeshop.utils.ReturnGoodsDialogUtils;
+import com.cloudcreativity.wankeshop.utils.ToastUtils;
 import com.google.gson.Gson;
-import com.cloudcreativity.wankeshop.databinding.ItemFillOrderGoodsLayoutBinding;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -53,7 +64,7 @@ public class OrderDetailViewModal {
 
     public ObservableField<String> money = new ObservableField<>();//支付总额
 
-    public BaseBindingRecyclerViewAdapter<OrderEntity,ItemFillOrderGoodsLayoutBinding> adapter;
+    public BaseBindingRecyclerViewAdapter<OrderEntity,ItemOrderDetailGoodLayoutBinding> adapter;
 
 
     //这是消息
@@ -64,23 +75,54 @@ public class OrderDetailViewModal {
     public static final String MSG_RECEIVE_ORDER = "msg_receive_order";//收货
     public static final String MSG_PAY_SUCCESS = "msg_pay_success";//支付成功
 
-    OrderDetailViewModal(OrderDetailActivity context, BaseDialogImpl baseDialog,Serializable order,ActivityOrderDetailBinding binding) {
+    OrderDetailViewModal(OrderDetailActivity context, BaseDialogImpl baseDialog, final Serializable order, ActivityOrderDetailBinding binding) {
         this.context = context;
         this.baseDialog = baseDialog;
         this.order = order;
         this.binding = binding;
 
         //展示商品信息
-        adapter = new BaseBindingRecyclerViewAdapter<OrderEntity, ItemFillOrderGoodsLayoutBinding>(context) {
+        adapter = new BaseBindingRecyclerViewAdapter<OrderEntity, ItemOrderDetailGoodLayoutBinding>(context) {
             @Override
             protected int getLayoutResId(int viewType) {
-                return R.layout.item_fill_order_goods_layout;
+                return R.layout.item_order_detail_good_layout;
             }
 
             @Override
-            protected void onBindItem(ItemFillOrderGoodsLayoutBinding binding, OrderEntity item, int position) {
+            protected void onBindItem(ItemOrderDetailGoodLayoutBinding binding, final OrderEntity item, int position) {
                 binding.setGoods(item.getShoppingCart());
                 binding.tvPrice.setText(String.format(context.getString(R.string.str_rmb_character), Float.parseFloat(item.getShoppingCart().getSku().getSalePrice())));
+                if(order instanceof BigOrderEntity){
+                    if(((BigOrderEntity)order).getData().get(0).getState()==0){
+                        binding.tvAddToCar.setVisibility(View.VISIBLE);
+                        binding.tvAddToCar.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                addToShopCar(String.valueOf(item.getShoppingCart().getSpuId()),
+                                        String.valueOf(item.getShoppingCart().getSkuId()),
+                                        String.valueOf(item.getShoppingCart().getNum()));
+                            }
+                        });
+                    }else{
+                        binding.tvAddToCar.setVisibility(View.GONE);
+                    }
+                }else if(order instanceof OrderEntity){
+                    if(((OrderEntity)order).getShipState()==3){
+                        binding.tvAddToCar.setVisibility(View.VISIBLE);
+                        binding.tvAddToCar.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                addToShopCar(String.valueOf(item.getShoppingCart().getSpuId()),
+                                        String.valueOf(item.getShoppingCart().getSkuId()),
+                                        String.valueOf(item.getShoppingCart().getNum()));
+                            }
+                        });
+                    }else{
+                        binding.tvAddToCar.setVisibility(View.GONE);
+                    }
+                }else{
+                    binding.tvAddToCar.setVisibility(View.GONE);
+                }
             }
         };
 
@@ -195,15 +237,14 @@ public class OrderDetailViewModal {
         }
 
         money.set(String.format(context.getString(R.string.str_rmb_character),Float.parseFloat(order.getPayMoney())));
+
         //展示状态
         if(order.getShipState()==1||order.getShipState()==2){
-            //待收货
+            //待收货,都可以联系卖家的
             orderState.set("待收货".concat("(").concat(order.getShipState()==1?"未发货":"已发货").concat(")"));
-            if(order.getShipState()==1){
-                binding.tvContact.setVisibility(View.VISIBLE);
-            }
+            binding.tvContact.setVisibility(View.VISIBLE);
             binding.tvEnterReceive.setVisibility(View.VISIBLE);
-
+            binding.tvDelay.setVisibility(order.getIsDelay()==1?View.GONE:View.VISIBLE);
         }else if(order.getShipState()==3){
             //完成
             orderState.set("已完成");
@@ -323,7 +364,40 @@ public class OrderDetailViewModal {
 
     //联系卖家
     public void onContactSellerClick(View view){
+        int shopId = 0;
+        if(order instanceof OrderEntity){
+            shopId = ((OrderEntity) order).getShopId();
+        }else if(order instanceof ReturnOrderEntity){
+            shopId = ((ReturnOrderEntity) order).getShopId();
+        }
+        HttpUtils.getInstance().getShopInfo(shopId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DefaultObserver<String>(baseDialog,true) {
+                    @RequiresApi(api = Build.VERSION_CODES.M)
+                    @Override
+                    public void onSuccess(String t) {
+                        ShopEntity entity = new Gson().fromJson(t, ShopEntity.class);
+                        int result = context.checkCallingOrSelfPermission(Manifest.permission.CALL_PHONE);
+                        if(result== PackageManager.PERMISSION_DENIED){
+                            context.requestPermissions(new String[]{Manifest.permission.CALL_PHONE},100);
+                        }else{
+                           Intent intent = new Intent(Intent.ACTION_CALL);
+                           intent.setData(Uri.parse("tel://".concat(entity.getContactMobile())));
+                           context.startActivity(intent);
+                        }
+                    }
 
+                    @Override
+                    public void onFail(ExceptionReason msg) {
+
+                    }
+                });
+    }
+
+    //打电话
+    public void call() {
+        onContactSellerClick(null);
     }
 
     //退货
@@ -382,7 +456,36 @@ public class OrderDetailViewModal {
 
     //再次购买
     public void onReBuyClick(View view){
+        StringBuilder ids = new StringBuilder();
+        for(OrderEntity entity : adapter.getItems()){
+            ids.append(entity.getId()).append(",");
+        }
+        if(TextUtils.isEmpty(ids)){
+            return;
+        }
+        HttpUtils.getInstance().orderReBuy(ids.substring(0,ids.length()-1))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DefaultObserver<String>(baseDialog,true) {
+                    @Override
+                    public void onSuccess(String t) {
+                        if("0".equals(t)){
+                            //重新购买失败
+                            ToastUtils.showShortToast(context,"该商品暂时无法购买");
+                        }else if("1".equals(t)){
+                            //重新购买成功，跳转到购物车
+                            EventBus.getDefault().post(ShoppingCarFragment.MSG_REFRESH_SHOP_CAR);
+                            Intent intent = new Intent(context, ShoppingCarActivity.class);
+                            context.startActivity(intent);
+                            context.finish();
+                        }
+                    }
 
+                    @Override
+                    public void onFail(ExceptionReason msg) {
+
+                    }
+                });
     }
 
     //去支付
@@ -396,5 +499,65 @@ public class OrderDetailViewModal {
         intent.putExtra("orderNum",((BigOrderEntity)order).getOnlyId());
         intent.putExtra("totalMoney",money);
         context.startActivity(intent);
+    }
+
+    //加入购物车
+    private void addToShopCar(String spuId,String skuId,String number){
+        HttpUtils.getInstance().addToShoppingCar(spuId,skuId,number)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DefaultObserver<String>(baseDialog,true) {
+                    @Override
+                    public void onSuccess(String t) {
+                        ToastUtils.showShortToast(context,"已添加到购物车");
+                        //刷新购物车
+                        EventBus.getDefault().post(ShoppingCarFragment.MSG_REFRESH_SHOP_CAR);
+                    }
+
+                    @Override
+                    public void onFail(ExceptionReason msg) {
+
+                    }
+                });
+    }
+
+    //延长收货
+    public void onDelayClick(View view){
+        showDelayReceiveDialog((OrderEntity) order);
+    }
+
+    //延迟收货
+    private void showDelayReceiveDialog(final OrderEntity item){
+        AlertDialog dialog = new AlertDialog.Builder(context)
+                .setTitle("延长收货提示")
+                .setMessage("每个订单只能延长收货一次，确定延长收货吗？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        HttpUtils.getInstance().delayReceiveOrder(item.getId(),1)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new DefaultObserver<String>(baseDialog,true) {
+                                    @Override
+                                    public void onSuccess(String t) {
+                                        //发送消息更新
+
+                                    }
+
+                                    @Override
+                                    public void onFail(ExceptionReason msg) {
+
+                                    }
+                                });
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create();
+        dialog.show();
     }
 }

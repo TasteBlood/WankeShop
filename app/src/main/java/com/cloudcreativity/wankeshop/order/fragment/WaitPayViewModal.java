@@ -124,7 +124,12 @@ public class WaitPayViewModal {
 
             picAdapter.getItems().addAll(item.getData());
             binding.rcvOrderItemNotPay.setAdapter(picAdapter);
-
+            binding.rcvOrderItemNotPay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    orderDetails(item);
+                }
+            });
         }else{
             //显示单一内容布局
             binding.layoutSingle.setVisibility(View.VISIBLE);

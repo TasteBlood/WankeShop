@@ -331,6 +331,20 @@
                 android:textColor="@color/gray_717171"
                 android:text="@string/str_return_goods"/>
             <TextView
+                android:id="@+id/tv_delay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:paddingTop="5dip"
+                android:paddingBottom="5dip"
+                android:paddingStart="10dip"
+                android:paddingEnd="10dip"
+                android:layout_marginStart="20dip"
+                android:onClick="@{(view)->detailModal.onDelayClick(view)}"
+                android:background="@drawable/shape_gray_circle_bg"
+                android:textColor="@color/gray_717171"
+                android:text="@string/str_delay_receive"/>
+            <TextView
                 android:id="@+id/tv_enterReceive"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

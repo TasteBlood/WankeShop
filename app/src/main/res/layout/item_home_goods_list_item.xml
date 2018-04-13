@@ -24,21 +24,21 @@
             <TextView
                 android:id="@+id/tv_goodsName"
                 android:layout_marginTop="5dip"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dip"
+                android:layout_marginEnd="5dip"
                 android:text="@{goodsItem.spuName}"
-                android:lines="2"
-                android:gravity="center"
+                android:lines="1"
+                android:gravity="left"
                 android:textColor="@color/gray_717171"
-                android:paddingStart="2dip"
-                android:paddingEnd="2dip"
-                android:textSize="13sp"
-                android:maxLines="2"
+                android:textSize="14sp"
                 android:ellipsize="end"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dip"
+                android:layout_marginTop="5dip"
                 android:gravity="center"
                 android:orientation="horizontal">
                 <TextView
@@ -46,6 +46,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textSize="13sp"
                     android:text="@{goodsItem.formatPrice()}"
                     android:textColor="@color/refresh_red"
                     />
@@ -54,10 +55,10 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:gravity="end"
+                    android:textSize="13sp"
                     android:layout_height="wrap_content"
                     android:text="@{goodsItem.formatSaleNum()}"
-                    android:textColor="@color/refresh_red"
-                    />
+                    android:textColor="@color/refresh_red" />
             </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>

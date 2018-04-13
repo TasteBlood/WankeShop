@@ -1,16 +1,23 @@
 package com.cloudcreativity.wankeshop.base;
 
+import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -20,7 +27,18 @@ import android.webkit.WebViewClient;
 import android.widget.TextView;
 
 import com.cloudcreativity.wankeshop.R;
+import com.cloudcreativity.wankeshop.databinding.LayoutProgressDialogBinding;
+import com.cloudcreativity.wankeshop.utils.AppConfig;
 import com.cloudcreativity.wankeshop.utils.LogUtils;
+import com.cloudcreativity.wankeshop.utils.QRCodeDecoder;
+import com.cloudcreativity.wankeshop.utils.ToastUtils;
+import com.google.zxing.Result;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * 这是最基本的加载web网页界面
@@ -44,9 +62,10 @@ public class CommonWebActivity extends AppCompatActivity implements View.OnClick
         webView.loadUrl(url);
     }
 
+    @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
     private void initWebView() {
 
-        final WebSettings webSettings = webView.getSettings();
+        WebSettings webSettings = webView.getSettings();
 
         //如果访问的页面中要与Javascript交互，则webview必须设置支持Javascript
         webSettings.setJavaScriptEnabled(true);
@@ -56,7 +75,7 @@ public class CommonWebActivity extends AppCompatActivity implements View.OnClick
 
         //设置自适应屏幕，两者合用
         webSettings.setUseWideViewPort(true); //将图片调整到适合webview的大小
-        webSettings.setLoadWithOverviewMode(true); // 缩放至屏幕的大小
+        webSettings.setLoadWithOverviewMode(true); // 重加载
 
         //缩放操作
         webSettings.setSupportZoom(true); //支持缩放，默认为true。是下面那个的前提。
@@ -64,15 +83,14 @@ public class CommonWebActivity extends AppCompatActivity implements View.OnClick
         webSettings.setDisplayZoomControls(false); //隐藏原生的缩放控件
 
         //其他细节操作
-        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK); //关闭webview中缓存
-        webSettings.setAllowFileAccess(true); //设置可以访问文件
-        webSettings.setJavaScriptCanOpenWindowsAutomatically(true); //支持通过JS打开新窗口
         webSettings.setLoadsImagesAutomatically(true); //支持自动加载图片
         webSettings.setDefaultTextEncodingName("utf-8");//设置编码格式
+        webSettings.setDomStorageEnabled(true);
 
-        webSettings.setDomStorageEnabled(true); // 开启 DOM storage API 功能
-        webSettings.setDatabaseEnabled(true);   //开启 database storage API 功能
-        webSettings.setAppCacheEnabled(true);//开启 Application Caches 功能
+        //需要在这里注入js对象
+        webView.addJavascriptInterface(new OnQrCodeClick(),"wkSaleApi");
+
+
 
         webView.setWebViewClient(new WebViewClient() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -95,6 +113,7 @@ public class CommonWebActivity extends AppCompatActivity implements View.OnClick
                 super.onPageStarted(view, url, favicon);
             }
 
+            @SuppressLint("AddJavascriptInterface")
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
@@ -170,14 +189,37 @@ public class CommonWebActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        webView.pauseTimers();
-        webView.clearCache(true);
-        webView.clearHistory();
-        webView.clearFormData();
+        if (webView!= null) {
+            //这句话是停止js加载或者其他function timeout操作，所以注释，存在bug
+            //webView.pauseTimers();
+            webView.clearFormData();
+            webView.clearCache(true);
+            webView.clearHistory();
+            ((ViewGroup) webView.getParent()).removeView(webView);
+            webView.destroy();
+            webView= null;
+        }
+    }
 
-        ((ViewGroup) webView.getParent()).removeView(webView);
-        webView.destroy();
-        webView = null;
+    //这是添加js interface的接口
+    public class OnQrCodeClick{
+        @JavascriptInterface
+        public void onClick() {
+            startActivity(getPackageManager().getLaunchIntentForPackage("com.tencent.mm"));
+        }
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(webView!=null)
+            webView.pauseTimers();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(webView!=null)
+            webView.resumeTimers();
     }
 }

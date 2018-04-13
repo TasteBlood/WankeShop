@@ -1,9 +1,11 @@
 package com.cloudcreativity.wankeshop.entity;
 
+import java.io.Serializable;
+
 /**
  * 这是商户实体
  */
-public class ShopEntity {
+public class ShopEntity implements Serializable{
     private String address;
 
     private int areaId;
@@ -29,6 +31,8 @@ public class ShopEntity {
     private String contactName;
 
     private String createTime;
+
+    private int isCollect;
 
     private int distId;
 
@@ -83,6 +87,14 @@ public class ShopEntity {
     private String updateTime;
 
     private String wareHouse;
+
+    public int getIsCollect() {
+        return isCollect;
+    }
+
+    public void setIsCollect(int isCollect) {
+        this.isCollect = isCollect;
+    }
 
     public String getAddress() {
         return address;

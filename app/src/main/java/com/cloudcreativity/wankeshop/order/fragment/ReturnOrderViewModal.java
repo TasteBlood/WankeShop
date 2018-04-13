@@ -1,8 +1,14 @@
 package com.cloudcreativity.wankeshop.order.fragment;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.databinding.ObservableField;
+import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.view.View;
 
 import com.cloudcreativity.wankeshop.R;
@@ -11,9 +17,11 @@ import com.cloudcreativity.wankeshop.base.BaseDialogImpl;
 import com.cloudcreativity.wankeshop.databinding.FragmentReturnOrderBinding;
 import com.cloudcreativity.wankeshop.entity.ReturnOrderEntity;
 import com.cloudcreativity.wankeshop.entity.ReturnOrderWrapper;
+import com.cloudcreativity.wankeshop.entity.ShopEntity;
 import com.cloudcreativity.wankeshop.order.OrderDetailActivity;
 import com.cloudcreativity.wankeshop.utils.DefaultObserver;
 import com.cloudcreativity.wankeshop.utils.HttpUtils;
+import com.cloudcreativity.wankeshop.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
@@ -37,6 +45,9 @@ public class ReturnOrderViewModal {
     private BaseDialogImpl baseDialog;
     private FragmentReturnOrderBinding binding;
     private int pageNum =1;
+
+    private int currentPosition;
+
     ReturnOrderViewModal(Context context, BaseDialogImpl baseDialog, FragmentReturnOrderBinding binding) {
         this.context = context;
         this.baseDialog = baseDialog;
@@ -64,7 +75,7 @@ public class ReturnOrderViewModal {
             }
 
             @Override
-            protected void onBindItem(ItemOrderReturnBinding binding, final ReturnOrderEntity item, int position) {
+            protected void onBindItem(ItemOrderReturnBinding binding, final ReturnOrderEntity item, final int position) {
                 binding.setItem(item);
                 binding.tvNumberAndPrice.setText(
                         String.format(context.getString(R.string.str_number_unit_price),
@@ -88,6 +99,7 @@ public class ReturnOrderViewModal {
                 binding.tvContact.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        currentPosition = position;
                         contact(item);
                     }
                 });
@@ -97,7 +109,29 @@ public class ReturnOrderViewModal {
 
     //联系卖家
     private void contact(ReturnOrderEntity item) {
+        HttpUtils.getInstance().getShopInfo(item.getShopId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DefaultObserver<String>(baseDialog,true) {
+                    @RequiresApi(api = Build.VERSION_CODES.M)
+                    @Override
+                    public void onSuccess(String t) {
+                        ShopEntity entity = new Gson().fromJson(t, ShopEntity.class);
+                        int result = context.checkCallingOrSelfPermission(Manifest.permission.CALL_PHONE);
+                        if(result== PackageManager.PERMISSION_DENIED){
+                            ((Activity)context).requestPermissions(new String[]{Manifest.permission.CALL_PHONE},100);
+                        }else{
+                            Intent intent = new Intent(Intent.ACTION_CALL);
+                            intent.setData(Uri.parse("tel://".concat(entity.getContactMobile())));
+                            context.startActivity(intent);
+                        }
+                    }
 
+                    @Override
+                    public void onFail(ExceptionReason msg) {
+
+                    }
+                });
     }
 
     //删除订单
@@ -165,5 +199,9 @@ public class ReturnOrderViewModal {
                         }
                     }
                 });
+    }
+
+    public void call(){
+        contact(adapter.getItems().get(currentPosition));
     }
 }

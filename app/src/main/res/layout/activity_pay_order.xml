@@ -90,6 +90,7 @@
                     android:id="@+id/cb_balance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:enabled="false"
                     android:button="@drawable/selector_shopping_car_item"/>
             </LinearLayout>
             <!--微信-->
@@ -119,6 +120,7 @@
                 </LinearLayout>
                 <CheckBox
                     android:id="@+id/cb_weChat"
+                    android:enabled="false"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:button="@drawable/selector_shopping_car_item"/>
@@ -150,6 +152,7 @@
                 </LinearLayout>
                 <CheckBox
                     android:id="@+id/cb_AliPay"
+                    android:enabled="false"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:button="@drawable/selector_shopping_car_item"/>

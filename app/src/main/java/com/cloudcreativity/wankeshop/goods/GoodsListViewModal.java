@@ -1,10 +1,12 @@
 package com.cloudcreativity.wankeshop.goods;
 
 import android.content.Intent;
+import android.databinding.BindingAdapter;
 import android.databinding.ObservableField;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.cloudcreativity.wankeshop.R;
@@ -15,6 +17,7 @@ import com.cloudcreativity.wankeshop.databinding.ItemHomeGoodsListItemBinding;
 import com.cloudcreativity.wankeshop.entity.GoodsEntity;
 import com.cloudcreativity.wankeshop.entity.GoodsWrapper;
 import com.cloudcreativity.wankeshop.utils.DefaultObserver;
+import com.cloudcreativity.wankeshop.utils.GlideUtils;
 import com.cloudcreativity.wankeshop.utils.HttpUtils;
 import com.google.gson.Gson;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
@@ -97,7 +100,7 @@ public class GoodsListViewModal {
         this.style = style;
         this.type = type;
         this.listBinding = listBinding;
-        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        //DisplayMetrics metrics = context.getResources().getDisplayMetrics();
 //        int gridWidth = (int) ((metrics.widthPixels-25*metrics.density)/2);
 //        final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(gridWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
         adapter = new BaseBindingRecyclerViewAdapter<GoodsEntity, ItemHomeGoodsListItemBinding>(context) {

@@ -43,6 +43,7 @@ public class FillOrderViewModal {
 
     public ObservableField<String> totalMoney = new ObservableField<>();
 
+    private float final_money = 0.00f;
 
     //收货人信息
 
@@ -72,11 +73,10 @@ public class FillOrderViewModal {
         adapter.getItems().addAll(entities);
 
         //计算出总价
-        float total = 0.00f;
         for (ShopCarItemEntity entity : adapter.getItems()) {
-            total += (entity.getNum() * Float.parseFloat(entity.getSku().getSalePrice()));
+            final_money += (entity.getNum() * Float.parseFloat(entity.getSku().getSalePrice()));
         }
-        totalMoney.set(String.format(context.getString(R.string.str_rmb_character), total));
+        totalMoney.set(String.format(context.getString(R.string.str_rmb_character), final_money));
 
         loadAddress();
 
@@ -177,11 +177,11 @@ public class FillOrderViewModal {
                         //跳转到支付页面，并且清空购物车
                         Intent intent = new Intent(context,PayOrderActivity.class);
                         intent.putExtra("orderNum",t);
-                        intent.putExtra("totalMoney",totalMoney);
+                        intent.putExtra("totalMoney",final_money);
                         context.startActivity(intent);
-                        context.finish();
                         //刷新购物车
                         EventBus.getDefault().post(ShoppingCarFragment.MSG_REFRESH_SHOP_CAR);
+                        context.finish();
                     }
 
                     @Override

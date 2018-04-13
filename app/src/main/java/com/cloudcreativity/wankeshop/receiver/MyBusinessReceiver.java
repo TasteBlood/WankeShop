@@ -14,12 +14,16 @@ import com.cloudcreativity.wankeshop.utils.SPUtils;
  * 自己业务的广播接收者
  */
 public class MyBusinessReceiver extends BroadcastReceiver {
+
     //重新登录
     public static final String ACTION_RE_LOGIN = "action_re_login";
+
     //关闭应用
     public static final String ACTION_EXIT_APP = "action_exit_application";
+
     //退出登录
     public static final String ACTION_LOGOUT = "action_logout";
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public void onReceive(Context context, Intent intent) {

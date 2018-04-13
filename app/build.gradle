@@ -78,8 +78,9 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.1.1'
     //ZXing
     implementation 'com.google.zxing:core:3.3.0'
-    //微信登录
-    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:5.1.4'
 
-    compile 'com.bartoszlipinski:recyclerviewheader2:2.0.1'
+    //微信登录和支付
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.1.4'
+
+    implementation 'com.bartoszlipinski:recyclerviewheader2:2.0.1'
 }

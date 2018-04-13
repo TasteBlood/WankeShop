@@ -26,6 +26,8 @@ public class ReturnOrderFragment extends LazyFragment {
 
     private FragmentReturnOrderBinding binding;
 
+    private ReturnOrderViewModal returnModal;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,12 +55,19 @@ public class ReturnOrderFragment extends LazyFragment {
         itemDecoration.setDrawable(context.getResources().getDrawable(R.drawable.shape_list_item_10dp_tranparent));
         binding.rcvReturn.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         binding.rcvReturn.addItemDecoration(itemDecoration);
-        binding.setReturnModal(new ReturnOrderViewModal(context, this, binding));
+        returnModal = new ReturnOrderViewModal(context, this, binding);
+        binding.setReturnModal(returnModal);
         return binding.getRoot();
     }
 
     @Override
     public void initialLoadData() {
         binding.refreshReturn.startRefresh();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        returnModal.call();
     }
 }

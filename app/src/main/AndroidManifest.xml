@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.VIBRATE" /> <!-- 震动权限 -->
     <uses-feature android:name="android.hardware.camera.autofocus" /> <!-- 自动聚焦权限 -->
     <uses-permission android:name="android.permission.FLASHLIGHT"/><!--闪光灯-->
+    <uses-permission android:name="android.permission.CALL_PHONE" /><!--拨打电话-->
 
     <!-- 权限配置结束 -->
     <application
@@ -63,6 +64,7 @@
         <activity android:name=".collect.ShopCollectActivity" />
         <activity android:name=".userCenter.logistics.ApplyToLogistics2Activity" />
         <activity android:name=".wxapi.WXEntryActivity"
+            android:launchMode="singleTop"
             android:exported="true"
             android:theme="@style/WXActivityTheme"
             android:configChanges="orientation|keyboardHidden|screenSize"/>
@@ -77,10 +79,12 @@
         <activity android:name=".order.FillOrderActivity" />
         <activity android:name=".order.PayOrderActivity" />
         <activity android:name=".goods.ShoppingCarActivity" android:launchMode="singleTask"/>
-        <activity android:name=".order.AllOrderActivity" />
+        <activity android:name=".order.AllOrderActivity" android:launchMode="singleTask"/>
         <activity android:name=".shop.ShopGoodsListActivity" android:theme="@style/TranslucentTheme">
         </activity>
         <activity android:name=".order.OrderDetailActivity" />
+        <activity android:name=".userCenter.BindWeChatActivity" />
+        <activity android:name=".userCenter.UnBindWeChatActivity" />
 
 
         <!-- Activity配置结束 -->

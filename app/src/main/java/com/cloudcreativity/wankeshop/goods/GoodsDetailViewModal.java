@@ -1,8 +1,13 @@
 package com.cloudcreativity.wankeshop.goods;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.databinding.ObservableField;
+import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.View;
@@ -12,7 +17,9 @@ import com.cloudcreativity.wankeshop.base.BaseDialogImpl;
 import com.cloudcreativity.wankeshop.collect.GoodsCollectActivity;
 import com.cloudcreativity.wankeshop.databinding.ActivityDetailBinding;
 import com.cloudcreativity.wankeshop.entity.GoodsEntity;
+import com.cloudcreativity.wankeshop.entity.ShopEntity;
 import com.cloudcreativity.wankeshop.main.ShoppingCarFragment;
+import com.cloudcreativity.wankeshop.shop.ShopGoodsListActivity;
 import com.cloudcreativity.wankeshop.utils.DefaultObserver;
 import com.cloudcreativity.wankeshop.utils.HttpUtils;
 import com.cloudcreativity.wankeshop.utils.ToastUtils;
@@ -20,6 +27,7 @@ import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,6 +57,8 @@ public class GoodsDetailViewModal {
     private List<Fragment> fragments = new ArrayList<>();
 
     private int spuId;
+    private GoodsEntity goodsEntity;
+    private ShopEntity shopEntity;
 
     //是否收藏
     public ObservableField<Boolean> isCollect = new ObservableField<>();
@@ -87,15 +97,38 @@ public class GoodsDetailViewModal {
         switch (view.getId()){
                 //联系卖家，目前只有打电话
             case R.id.cb_goodsDetailContactShop:
+                contactShop();
                 break;
                 //收藏商品
             case R.id.cb_goodsDetailGoodsCollect:
                 collect(binding.cbGoodsDetailGoodsCollect.isChecked(),spuId);
                 break;
-                //店铺信息，跳转到购物车
+                //店铺信息
             case R.id.cb_goodsDetailShop:
-                Intent intent = new Intent(context,ShoppingCarActivity.class);
-                context.startActivity(intent);
+                if(shopEntity!=null){
+                    Intent intent = new Intent(context,ShopGoodsListActivity.class);
+                    intent.putExtra("shop",shopEntity);
+                    context.startActivity(intent);
+                }else{
+                    if(goodsEntity!=null){
+                        HttpUtils.getInstance().getShopInfo(goodsEntity.getSupplierId())
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new DefaultObserver<String>(baseDialog,true) {
+                                    @Override
+                                    public void onSuccess(String t) {
+                                        shopEntity = new Gson().fromJson(t,ShopEntity.class);
+                                        Intent intent = new Intent(context,ShopGoodsListActivity.class);
+                                        intent.putExtra("shop",shopEntity);
+                                        context.startActivity(intent);
+                                    }
+                                    @Override
+                                    public void onFail(ExceptionReason msg) {
+
+                                    }
+                                });
+                    }
+                }
                 break;
                 //购物车
             case R.id.cb_goodsDetailShopCar:
@@ -139,7 +172,7 @@ public class GoodsDetailViewModal {
                 .subscribe(new DefaultObserver<String>(baseDialog,true) {
                     @Override
                     public void onSuccess(String t) {
-                        GoodsEntity goodsEntity = new Gson().fromJson(t, GoodsEntity.class);
+                        goodsEntity = new Gson().fromJson(t, GoodsEntity.class);
                         if(goodsEntity!=null){
                             indexFragment = GoodsIndexFragment.getInstance(goodsEntity);
                             detailFragment = new GoodsDetailFragment();
@@ -206,5 +239,38 @@ public class GoodsDetailViewModal {
                         }
                     });
         }
+    }
+
+    //获取商家联系方式并且联系
+    private void contactShop(){
+        if(goodsEntity==null)
+            return;
+        HttpUtils.getInstance().getShopInfo(goodsEntity.getSupplierId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DefaultObserver<String>(baseDialog,true) {
+                    @RequiresApi(api = Build.VERSION_CODES.M)
+                    @Override
+                    public void onSuccess(String t) {
+                        shopEntity = new Gson().fromJson(t,ShopEntity.class);
+                        int result = context.checkCallingOrSelfPermission(Manifest.permission.CALL_PHONE);
+                        if(result== PackageManager.PERMISSION_DENIED){
+                            context.requestPermissions(new String[]{Manifest.permission.CALL_PHONE},100);
+                        }else{
+                            call();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(ExceptionReason msg) {
+
+                    }
+                });
+    }
+
+    public void call() {
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        intent.setData(Uri.parse("tel://".concat(shopEntity.getContactMobile())));
+        context.startActivity(intent);
     }
 }

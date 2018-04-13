@@ -1,5 +1,6 @@
 package com.cloudcreativity.wankeshop.goods;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.BindingAdapter;
@@ -67,6 +68,13 @@ public class ShoppingCarViewModal {
         @Override
         public void onRefresh(TwinklingRefreshLayout refreshLayout) {
             binding.cbShoppingCarAll.setChecked(false);
+
+            final_total_price = 0.00f;
+            final_total_number = 0;
+
+            totalPrice.set(String.format(context.getString(R.string.str_shop_car_total_price),final_total_price));
+            totalNumber.set(String.format(context.getString(R.string.str_make_order_now),final_total_number));
+
             pageNum = 1;
             loadData(pageNum);
         }
@@ -111,6 +119,11 @@ public class ShoppingCarViewModal {
         hasItems.set(true);
         binding.refreshShoppingCar.setOnRefreshListener(refreshListenerAdapter);
         binding.refreshShoppingCar.startRefresh();
+    }
+
+
+    public void onBack(View view){
+        ((Activity)context).finish();
     }
 
     /**

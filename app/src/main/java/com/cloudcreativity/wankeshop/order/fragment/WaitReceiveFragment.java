@@ -61,4 +61,10 @@ public class WaitReceiveFragment extends LazyFragment {
     public void initialLoadData() {
         binding.refreshWaitReceive.startRefresh();
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        modal.call();
+    }
 }

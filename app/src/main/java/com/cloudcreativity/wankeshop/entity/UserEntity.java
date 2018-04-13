@@ -25,7 +25,7 @@ public class UserEntity extends BaseObservable{
     private String updateTime;
     private String userName;
     private String balance;
-
+    private int isBind;//是否绑定微信
     private String areaId;
     private String areaName;
     private String cityId;
@@ -33,6 +33,33 @@ public class UserEntity extends BaseObservable{
     private String provinceId;
     private String provinceName;
 
+    private int returnOrderNum;//这是退换货的数量
+    private int unOrderNum;//这是待收货的数量
+
+
+    public int getIsBind() {
+        return isBind;
+    }
+
+    public void setIsBind(int isBind) {
+        this.isBind = isBind;
+    }
+
+    public int getReturnOrderNum() {
+        return returnOrderNum;
+    }
+
+    public void setReturnOrderNum(int returnOrderNum) {
+        this.returnOrderNum = returnOrderNum;
+    }
+
+    public int getUnOrderNum() {
+        return unOrderNum;
+    }
+
+    public void setUnOrderNum(int unOrderNum) {
+        this.unOrderNum = unOrderNum;
+    }
 
     public String getAreaId() {
         return areaId;

@@ -5,6 +5,7 @@
             name="mineModal"
             type="com.cloudcreativity.wankeshop.main.MineFragmentModal" />
         <import type="android.view.View" />
+        <import type="android.text.TextUtils" />
     </data>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:bind="http://schemas.android.com/apk/res-auto"
@@ -84,7 +85,7 @@
                             android:layout_marginStart="10dp"
                             android:layout_centerVertical="true"
                             android:gravity="center"
-                            android:text="@{mineModal.user.userName??mineModal.user.mobile}"/>
+                            android:text="@{TextUtils.isEmpty(mineModal.user.userName)?mineModal.user.mobile:mineModal.user.userName}"/>
 
                         <android.support.v7.widget.AppCompatImageView
                             android:layout_alignParentEnd="true"
@@ -128,38 +129,53 @@
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:padding="10dp">
-                            <TextView
-                                android:onClick="@{(view)->mineModal.onAllOrderClick(view)}"
-                                android:id="@+id/tv_mineOrderAll"
-                                android:layout_width="0dp"
+                            <FrameLayout
+                                android:layout_width="0dip"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:drawableTop="@mipmap/ic_menu_allorders"
-                                android:drawablePadding="9dp"
-                                android:text="@string/str_all_order"/>
-                            <TextView
-                                android:onClick="@{(view)->mineModal.onWaitReceiveClick(view)}"
-                                android:id="@+id/tv_mineOrderWait"
-                                android:layout_width="0dp"
+                                android:layout_weight="1">
+                                <TextView
+                                    android:onClick="@{(view)->mineModal.onAllOrderClick(view)}"
+                                    android:id="@+id/tv_mineOrderAll"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:drawableTop="@mipmap/ic_menu_allorders"
+                                    android:drawablePadding="9dp"
+                                    android:text="@string/str_all_order"/>
+                            </FrameLayout>
+                            <FrameLayout
+                                android:layout_width="0dip"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:drawableTop="@mipmap/ic_menu_forthegoods"
-                                android:drawablePadding="12dp"
-                                android:text="@string/str_wait_send"/>
-                            <TextView
-                                android:onClick="@{(view)->mineModal.onReturnClick(view)}"
-                                android:id="@+id/tv_mineOrderChange"
-                                android:layout_width="0dp"
+                                android:layout_weight="1">
+                                <TextView
+                                    android:onClick="@{(view)->mineModal.onWaitReceiveClick(view)}"
+                                    android:id="@+id/tv_mineOrderWait"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="bottom"
+                                    android:gravity="center"
+                                    android:drawableTop="@mipmap/ic_menu_forthegoods"
+                                    android:drawablePadding="12dp"
+                                    android:text="@string/str_wait_send"/>
+                            </FrameLayout>
+                            <FrameLayout
+                                android:layout_width="0dip"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:drawableTop="@mipmap/ic_menu_return"
-                                android:drawablePadding="9dp"
-                                android:text="@string/str_change_send"/>
+                                android:layout_weight="1">
+                                <TextView
+                                    android:onClick="@{(view)->mineModal.onReturnClick(view)}"
+                                    android:id="@+id/tv_mineOrderChange"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:drawableTop="@mipmap/ic_menu_return"
+                                    android:drawablePadding="8dp"
+                                    android:text="@string/str_change_send"/>
+                            </FrameLayout>
                             <TextView
-                                android:id="@+id/tv_mineOrderWait"
+                                android:id="@+id/tv_mineOrderWaitPay"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"

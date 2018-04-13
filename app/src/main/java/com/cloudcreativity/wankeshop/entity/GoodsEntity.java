@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * 商品信息
  */
-public class GoodsEntity implements Parcelable {
+public class GoodsEntity implements Parcelable,Serializable{
 //    private List<Attrs> attrs ;
 
     private String auditCause;

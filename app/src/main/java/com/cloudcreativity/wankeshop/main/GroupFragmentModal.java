@@ -1,9 +1,11 @@
 package com.cloudcreativity.wankeshop.main;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableField;
 import android.databinding.ViewDataBinding;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.cloudcreativity.wankeshop.R;
@@ -12,6 +14,7 @@ import com.cloudcreativity.wankeshop.base.BaseDialogImpl;
 import com.cloudcreativity.wankeshop.databinding.FragmentGroupBinding;
 import com.cloudcreativity.wankeshop.entity.ShopEntity;
 import com.cloudcreativity.wankeshop.entity.ShopWrapper;
+import com.cloudcreativity.wankeshop.shop.ShopGoodsListActivity;
 import com.cloudcreativity.wankeshop.utils.DefaultObserver;
 import com.cloudcreativity.wankeshop.utils.GlideUtils;
 import com.cloudcreativity.wankeshop.utils.HttpUtils;
@@ -54,8 +57,16 @@ public class GroupFragmentModal {
             }
 
             @Override
-            protected void onBindItem(ItemShopLayoutBinding binding, ShopEntity item, int position) {
+            protected void onBindItem(ItemShopLayoutBinding binding, final ShopEntity item, int position) {
                 binding.setShop(item);
+                binding.getRoot().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, ShopGoodsListActivity.class);
+                        intent.putExtra("shop",item);
+                        context.startActivity(intent);
+                    }
+                });
             }
         };
     }

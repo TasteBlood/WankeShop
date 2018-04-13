@@ -88,8 +88,20 @@
                 android:paddingStart="5dip"
                 android:paddingEnd="5dip"
                 android:textSize="14sp"
-                android:visibility="@{item.shipState==1?View.VISIBLE:View.GONE}"
                 android:text="@string/str_context_seller"/>
+            <TextView
+                android:id="@+id/tv_delay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_gray_circle_bg"
+                android:textColor="@color/gray_717171"
+                android:paddingTop="3dip"
+                android:paddingBottom="3dip"
+                android:layout_marginStart="10dip"
+                android:paddingStart="5dip"
+                android:paddingEnd="5dip"
+                android:textSize="14sp"
+                android:text="@string/str_delay_receive"/>
             <TextView
                 android:id="@+id/tv_enterReceive"
                 android:layout_marginStart="10dip"

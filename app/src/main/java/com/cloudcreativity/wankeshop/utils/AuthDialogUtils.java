@@ -36,6 +36,8 @@ public class AuthDialogUtils {
     public void onCancelClick(View view){
         dialog.dismiss();
         dialog = null;
+        Intent intent = new Intent(MyBusinessReceiver.ACTION_EXIT_APP);
+        view.getContext().sendBroadcast(intent);
 
     }
 
@@ -45,6 +47,5 @@ public class AuthDialogUtils {
         dialog = null;
         Intent intent = new Intent(MyBusinessReceiver.ACTION_RE_LOGIN);
         view.getContext().sendBroadcast(intent);
-
     }
 }

@@ -38,6 +38,16 @@ public class OrderEntity implements Serializable{
 
     private int userId;
 
+    private int isDelay;//是否延长收货
+
+    public int getIsDelay() {
+        return isDelay;
+    }
+
+    public void setIsDelay(int isDelay) {
+        this.isDelay = isDelay;
+    }
+
     public int getAddressId() {
         return addressId;
     }

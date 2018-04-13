@@ -6,6 +6,10 @@ import android.view.View;
 import com.cloudcreativity.wankeshop.R;
 import com.cloudcreativity.wankeshop.base.BaseDialogImpl;
 import com.cloudcreativity.wankeshop.databinding.ActivityPayOrderBinding;
+import com.cloudcreativity.wankeshop.utils.AppConfig;
+import com.cloudcreativity.wankeshop.utils.ToastUtils;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 /**
  * 支付订单VIewModal
@@ -65,7 +69,24 @@ public class PayOrderViewModal {
     //当支付被点击
     public void onPayClick(View view){
         //发起支付了
+        if(binding.cbBalance.isChecked()){
+            //余额支付
+        }else if(binding.cbWeChat.isChecked()){
+            //微信支付
+            IWXAPI iwxapi = WXAPIFactory.createWXAPI(context, AppConfig.WX_APP_ID,true);
+            //注册
+            iwxapi.registerApp(AppConfig.WX_APP_ID);
 
+            //检查是否支持支付
+            if(!iwxapi.isWXAppInstalled()&&!iwxapi.isWXAppSupportAPI()){
+                ToastUtils.showShortToast(context,"没有安装微信或不支持支付");
+                return;
+            }
+
+
+        }else{
+            //支付宝支付
+        }
     }
 
 }

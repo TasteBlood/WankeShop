@@ -79,12 +79,7 @@ public class MineFragmentModal {
     private RefreshListenerAdapter refreshListenerAdapter = new RefreshListenerAdapter() {
         @Override
         public void onRefresh(final TwinklingRefreshLayout refreshLayout) {
-           refreshLayout.postDelayed(new Runnable() {
-               @Override
-               public void run() {
-                   refreshLayout.finishRefreshing();
-               }
-           },3000);
+           loadUserInfo();
         }
     };
 
@@ -92,7 +87,7 @@ public class MineFragmentModal {
     @BindingAdapter("imageUrl")
     public static void showAvatar(ImageView imageView,String url){
         if(TextUtils.isEmpty(url)){
-            GlideUtils.loadCircle(imageView.getContext(),R.mipmap.ic_default_head,imageView);
+            GlideUtils.loadCircle(imageView.getContext(),R.mipmap.ic_launcher,imageView);
         }else{
             GlideUtils.loadCircle(imageView.getContext(),url,imageView);
         }
@@ -188,6 +183,30 @@ public class MineFragmentModal {
         Intent intent = new Intent(context, ScanResultActivity.class);
         intent.putExtra("result",code);
         context.startActivity(intent);
+    }
+
+    //获取个人信息
+    private void loadUserInfo(){
+        HttpUtils.getInstance().getUserInfo()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DefaultObserver<String>(baseDialog,false) {
+                    @Override
+                    public void onSuccess(String t) {
+                        binding.refreshMine.finishRefreshing();
+                        user = new Gson().fromJson(t,UserEntity.class);
+                        SPUtils.get().putInt(SPUtils.Config.UID,user.getId());
+                        SPUtils.get().putString(SPUtils.Config.TOKEN,user.getToken());
+                        SPUtils.get().setUser(t);
+                        SPUtils.get().putBoolean(SPUtils.Config.IS_LOGIN,true);
+                        binding.invalidateAll();
+                    }
+
+                    @Override
+                    public void onFail(ExceptionReason msg) {
+                        binding.refreshMine.finishRefreshing();
+                    }
+                });
     }
 
 }

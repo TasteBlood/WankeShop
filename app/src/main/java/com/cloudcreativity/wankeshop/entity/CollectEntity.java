@@ -7,11 +7,19 @@ public class CollectEntity {
     private int collectId;
     private String createTime;
     private int id;
-    //private ShopEntity shop;
+    private ShopEntity shop;
     private GoodsEntity spu;
     private int type;
     private String updateTime;
     private int userId;
+
+    public ShopEntity getShop() {
+        return shop;
+    }
+
+    public void setShop(ShopEntity shop) {
+        this.shop = shop;
+    }
 
     public int getCollectId() {
         return collectId;

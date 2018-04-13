@@ -18,8 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="3dp"
-        android:paddingBottom="3dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:background="@color/white">
         <!--仅仅是占位符-->
         <View
@@ -31,6 +31,7 @@
             android:id="@+id/rgMainActivity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <RadioButton
@@ -42,7 +43,8 @@
                 android:checked="true"
                 android:drawableTop="@drawable/selector_bottom_main_home"
                 android:gravity="center"
-                android:drawablePadding="2dp"
+                android:drawablePadding="3dp"
+                android:textSize="10sp"
                 android:text="@string/str_main_home"
                 android:textColor="@drawable/selector_bottom_main_home" />
 
@@ -54,7 +56,8 @@
                 android:button="@null"
                 android:drawableTop="@drawable/selector_bottom_main_unit"
                 android:gravity="center"
-                android:drawablePadding="2dp"
+                android:drawablePadding="3dp"
+                android:textSize="10sp"
                 android:text="@string/str_shop"
                 android:textColor="@drawable/selector_bottom_main_home" />
 
@@ -66,7 +69,8 @@
                 android:button="@null"
                 android:drawableTop="@drawable/selector_bottom_main_shopping"
                 android:gravity="center"
-                android:drawablePadding="2dp"
+                android:drawablePadding="3dp"
+                android:textSize="10sp"
                 android:text="@string/str_main_shoppingcart"
                 android:textColor="@drawable/selector_bottom_main_home" />
 
@@ -78,7 +82,8 @@
                 android:button="@null"
                 android:drawableTop="@drawable/selector_bottom_main_mine"
                 android:gravity="center"
-                android:drawablePadding="2dp"
+                android:drawablePadding="3dp"
+                android:textSize="10sp"
                 android:text="@string/str_main_mine"
                 android:textColor="@drawable/selector_bottom_main_home" />
         </RadioGroup>

@@ -4,6 +4,8 @@
         <variable
             name="userModal"
             type="com.cloudcreativity.wankeshop.userCenter.UserInformationModal" />
+
+        <import type="android.text.TextUtils" />
     </data>
 
     <LinearLayout
@@ -70,7 +72,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
                         android:layout_marginStart="10dp"
-                        android:text='@{userModal.userEntity.userName==null?userModal.userEntity.mobile:userModal.userEntity.userName}'/>
+                        android:text="@{TextUtils.isEmpty(userModal.userEntity.userName)?userModal.userEntity.mobile:userModal.userEntity}"/>
                 </LinearLayout>
 
                 <!--other View-->
@@ -218,6 +220,28 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="end|center_vertical"
                         android:text='@{userModal.userEntity.idCard==""?@string/str_not_input:userModal.userEntity.idCard}'
+                        android:textSize="14sp"
+                        android:textColor="@color/gray_717171" />
+                </FrameLayout>
+                <View style="@style/myDividerForItem"/>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="15dp"
+                    android:onClick="@{(view)->userModal.bindWechat(view)}"
+                    android:background="@color/white">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="14sp"
+                        android:text="@string/str_bind_wechat"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:text='@{userModal.userEntity.isBind==1?@string/str_wechat_bind:@string/str_wechat_not_bind}'
                         android:textSize="14sp"
                         android:textColor="@color/gray_717171" />
                 </FrameLayout>

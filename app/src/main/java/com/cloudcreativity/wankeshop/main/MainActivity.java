@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.cloudcreativity.wankeshop.R;
@@ -145,5 +148,17 @@ public class MainActivity extends BaseActivity {
         //这里是扫码的结果
         if(requestCode==MineFragmentModal.REQUEST_SCAN)
             fragments.get(3).onActivityResult(requestCode,resultCode,data);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+            if(currentId!=0){
+                RadioButton rbMainHome = findViewById(R.id.rbMainHome);
+                rbMainHome.setChecked(true);
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

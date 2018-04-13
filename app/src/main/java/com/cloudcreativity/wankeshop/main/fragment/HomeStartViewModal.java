@@ -27,6 +27,7 @@ import com.cloudcreativity.wankeshop.entity.HomeNavEntity;
 import com.cloudcreativity.wankeshop.entity.HomeNavWrapper;
 import com.cloudcreativity.wankeshop.goods.GoodsListActivity;
 import com.cloudcreativity.wankeshop.goods.GoodsListForBannerActivity;
+import com.cloudcreativity.wankeshop.main.HomeFragment;
 import com.cloudcreativity.wankeshop.utils.DefaultObserver;
 import com.cloudcreativity.wankeshop.utils.GlideUtils;
 import com.cloudcreativity.wankeshop.utils.HttpUtils;
@@ -35,6 +36,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -68,6 +71,9 @@ public class HomeStartViewModal {
     public RefreshListenerAdapter refreshListenerAdapter = new RefreshListenerAdapter() {
         @Override
         public void onRefresh(TwinklingRefreshLayout refreshLayout) {
+            //刷新首页的数据
+            EventBus.getDefault().post(HomeFragment.MSG_REFRESH);
+
             pageNum = 1;
             loadBanner();
             loadNavMenuItems();
@@ -136,30 +142,34 @@ public class HomeStartViewModal {
                         }.getType();
                         final List<BannerEntity> bannerEntities = new Gson().fromJson(t,type);
                         //开始加载banner图
-                        goodsAdapter.getStartTopBinding().homeTopBanner.setPages(new CBViewHolderCreator() {
-                            @Override
-                            public Object createHolder() {
-                                return new BannerImageHolder();
-                            }
-                        },bannerEntities)
-                                //设置指示器是否可见
-                                .setPointViewVisible(true)
-                                //设置自动切换（同时设置了切换时间间隔）
-                                .startTurning(2000)
-                                //设置两个点图片作为翻页指示器，不设置则没有指示器，可以根据自己需求自行配合自己的指示器,不需要圆点指示器可用不设
-                                .setPageIndicator(new int[]{R.drawable.banner_dot_5dp_normal, R.drawable.banner_dot_5dp})
-                                //设置指示器的方向（左、中、右）
-                                .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT)
-                                //设置点击监听事件
-                                .setOnItemClickListener(new OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(int position) {
-                                        onBannerClick(bannerEntities.get(position));
-                                    }
-                                })
-                                //设置手动影响（设置了该项无法手动切换）
-                                .setManualPageable(true);
+                       try{
+                           goodsAdapter.getStartTopBinding().homeTopBanner.setPages(new CBViewHolderCreator() {
+                               @Override
+                               public Object createHolder() {
+                                   return new BannerImageHolder();
+                               }
+                           },bannerEntities)
+                                   //设置指示器是否可见
+                                   .setPointViewVisible(true)
+                                   //设置自动切换（同时设置了切换时间间隔）
+                                   .startTurning(2000)
+                                   //设置两个点图片作为翻页指示器，不设置则没有指示器，可以根据自己需求自行配合自己的指示器,不需要圆点指示器可用不设
+                                   .setPageIndicator(new int[]{R.drawable.banner_dot_5dp_normal, R.drawable.banner_dot_5dp})
+                                   //设置指示器的方向（左、中、右）
+                                   .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT)
+                                   //设置点击监听事件
+                                   .setOnItemClickListener(new OnItemClickListener() {
+                                       @Override
+                                       public void onItemClick(int position) {
+                                           onBannerClick(bannerEntities.get(position));
+                                       }
+                                   })
+                                   //设置手动影响（设置了该项无法手动切换）
+                                   .setManualPageable(true);
 
+                       }catch (Exception e){
+
+                       }
                     }
 
                     @Override

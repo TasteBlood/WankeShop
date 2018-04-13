@@ -10,6 +10,7 @@ import android.widget.RadioGroup;
 
 import com.bigkoo.pickerview.TimePickerView;
 import com.cloudcreativity.wankeshop.R;
+import com.cloudcreativity.wankeshop.base.CommonWebActivity;
 import com.cloudcreativity.wankeshop.databinding.ActivityPerfectUserInfoBinding;
 import com.cloudcreativity.wankeshop.entity.UserEntity;
 import com.cloudcreativity.wankeshop.entity.address.ProvinceEntity;
@@ -30,6 +31,9 @@ import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.Configuration;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UploadManager;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import org.json.JSONObject;
 
@@ -37,6 +41,7 @@ import java.io.File;
 import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -80,6 +85,7 @@ public class PerfectUserInfoModal {
             }
         }).setType(new boolean[]{true,true,true,false,false,false})
                 .setCancelText("取消")
+                .setRange(1900,Calendar.getInstance().get(Calendar.YEAR))
                 .setCancelColor(context.getResources().getColor(R.color.gray_717171))
                 .setSubmitText("确定")
                 .setSubmitColor(context.getResources().getColor(R.color.colorPrimary))
@@ -125,26 +131,17 @@ public class PerfectUserInfoModal {
         submit(user);
     }
 
-    @BindingAdapter("imageUrl")
-    public static void showAvatar(ImageView imageView, String url){
-        if(TextUtils.isEmpty(url)){
-            GlideUtils.loadCircle(imageView.getContext(), R.mipmap.ic_default_head,imageView);
-        }else{
-            GlideUtils.loadCircle(imageView.getContext(),url,imageView);
-        }
-
-    }
-
     //提交数据
     private void submit(UserEntity entity){
         //处理头像
         String headPic = entity.getHeadPic();
         if(!TextUtils.isEmpty(headPic)&&headPic.startsWith("http"))
             headPic = "";
+
         HttpUtils.getInstance().editInformation(
                 entity.getUserName(),entity.getRealName(),entity.getPassword(),
                 headPic,entity.getEmail(),entity.getSex(),entity.getIdCard(),entity.getBirthDay(),
-                entity.getType(),entity.getProvinceId(),entity.getCityId(),entity.getAreaId())
+                entity.getType(),entity.getProvinceId(),entity.getCityId(),entity.getAreaId(),entity.getIsBind())
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DefaultObserver<String>(context,true) {
                     @Override
@@ -262,5 +259,24 @@ public class PerfectUserInfoModal {
                     }
                 });
 
+    }
+
+    //跳转到绑定微信页面
+    public void bindWechat(View view){
+        CommonWebActivity.startActivity(context,"关注公众号","file:///android_asset/contact_public_code.html");
+    }
+
+    /**
+     * 这是微信授权的回掉
+     * @param avatar 头像
+     * @param userName 昵称
+     * @param openId openId
+     */
+    public void onWeChatCallback(String avatar,String userName,String openId){
+        Intent intent = new Intent(context,BindWeChatActivity.class);
+        intent.putExtra("avatar",avatar);
+        intent.putExtra("userName",userName);
+        intent.putExtra("openId",openId);
+        context.startActivity(intent);
     }
 }

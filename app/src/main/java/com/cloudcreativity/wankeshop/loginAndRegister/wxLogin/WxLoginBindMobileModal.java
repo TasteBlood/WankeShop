@@ -92,11 +92,6 @@ public class WxLoginBindMobileModal {
 
     }
 
-    @BindingAdapter("imageUrl")
-    public static void displayAvatar(ImageView imageView,String imageUrl){
-        GlideUtils.loadCircle(imageView.getContext(),imageUrl,imageView);
-    }
-
     //开启定时器
     private void startTimer(){
         binding.tvBindRegisterSendCode.setEnabled(false);

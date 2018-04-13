@@ -41,4 +41,9 @@ public class AppConfig {
      * 这是微信的app_secret
      */
     public static String WX_APP_SECRET = "36e7d764490c08b3ec4cb97fabad20a5";
+
+    /**
+     * 这是扫描二维码的图片路径
+     */
+    public static String PATH_QR_CODE = "wk_qr_code_path";
 }
