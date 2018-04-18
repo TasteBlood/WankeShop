@@ -7,11 +7,13 @@
             name="item"
             type="com.cloudcreativity.wankeshop.entity.BigOrderEntity" />
         <import type="android.view.View" />
+        <import type="android.text.TextUtils" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:descendantFocusability="blocksDescendants"
         android:background="@color/white"
         android:orientation="vertical">
         <!--这是顶部状态区域-->
@@ -55,8 +57,6 @@
                     android:id="@+id/rcv_order_item_cancel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
                     android:scrollbars="none"
                     android:orientation="horizontal"/>
             </LinearLayout>
@@ -73,7 +73,7 @@
                     android:layout_width="60dip"
                     android:layout_height="60dip"
                     android:scaleType="centerCrop"
-                    app:shopItemPic="@{item.data[0].shoppingCart.sku.icon}" />
+                    app:shopItemPic="@{TextUtils.isEmpty(item.data[0].shoppingCart.sku.icon)?item.data[0].shoppingCart.spu.spuPic:item.data[0].shoppingCart.sku.icon}" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

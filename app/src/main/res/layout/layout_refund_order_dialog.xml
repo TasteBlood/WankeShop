@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="utils"
+            type="com.cloudcreativity.wankeshop.utils.RefundOrderDialogUtils" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dip"
+        android:gravity="center_horizontal"
+        android:background="@color/white"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="退款信息填写"/>
+        <EditText
+            android:id="@+id/et_reason"
+            android:layout_marginTop="15dip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="请输入退款原因"
+            android:inputType="text"
+            android:gravity="top"
+            android:textSize="14sp"
+            android:padding="10dip"
+            android:background="@drawable/shape_gray_circle_bg"
+            android:textColor="@color/gray_717171"
+            android:lines="5"
+            android:maxLines="5"/>
+        <android.support.v7.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ripple_red_btn_3corner"
+            android:onClick="@{(view)->utils.onOkClick(view)}"
+            android:text="@string/str_ok"
+            android:textSize="16sp"
+            android:layout_marginTop="15dip"
+            android:textColor="@color/white"/>
+    </LinearLayout>
+</layout>

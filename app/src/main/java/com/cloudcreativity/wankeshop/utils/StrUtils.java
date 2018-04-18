@@ -1,6 +1,11 @@
 package com.cloudcreativity.wankeshop.utils;
 
+import android.annotation.SuppressLint;
+
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -81,5 +86,26 @@ public class StrUtils {
     public static float get2BitDecimal(float number){
         BigDecimal b   =   new   BigDecimal(number);
         return b.setScale(2,   BigDecimal.ROUND_HALF_UP).floatValue();
+    }
+
+    /**
+     *
+     * @param datetime 日期串
+     * @return boolean 是否在7天之内
+     */
+    public static boolean isEnoughSevenDay(String datetime) {
+
+        @SuppressLint("SimpleDateFormat")
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date lastDate = dateFormat.parse(datetime);
+            long day = (System.currentTimeMillis()-lastDate.getTime())/(24*3600*1000);
+            if(day>7)
+                return false;
+            return true;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

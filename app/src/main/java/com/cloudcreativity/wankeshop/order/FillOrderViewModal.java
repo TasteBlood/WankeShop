@@ -3,21 +3,25 @@ package com.cloudcreativity.wankeshop.order;
 import android.content.Intent;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableField;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.cloudcreativity.wankeshop.R;
 import com.cloudcreativity.wankeshop.base.BaseBindingRecyclerViewAdapter;
 import com.cloudcreativity.wankeshop.base.BaseDialogImpl;
+import com.cloudcreativity.wankeshop.databinding.ActivityFillOrderBinding;
 import com.cloudcreativity.wankeshop.databinding.ItemFillOrderGoodsLayoutBinding;
 import com.cloudcreativity.wankeshop.entity.AddressEntity;
+import com.cloudcreativity.wankeshop.entity.GiftEntity;
 import com.cloudcreativity.wankeshop.entity.ShopCarItemEntity;
 import com.cloudcreativity.wankeshop.main.ShoppingCarFragment;
 import com.cloudcreativity.wankeshop.utils.ChooseReceiveAddressDialogUtils;
 import com.cloudcreativity.wankeshop.utils.DefaultObserver;
 import com.cloudcreativity.wankeshop.utils.GlideUtils;
 import com.cloudcreativity.wankeshop.utils.HttpUtils;
-import com.cloudcreativity.wankeshop.utils.StrUtils;
+import com.cloudcreativity.wankeshop.databinding.ItemGiftGoodsLayoutBinding;
 import com.cloudcreativity.wankeshop.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -37,7 +41,7 @@ import io.reactivex.schedulers.Schedulers;
 public class FillOrderViewModal {
     private FillOrderActivity context;
     private BaseDialogImpl baseDialog;
-
+    private ActivityFillOrderBinding binding;
 
     public BaseBindingRecyclerViewAdapter<ShopCarItemEntity, ItemFillOrderGoodsLayoutBinding> adapter;
 
@@ -55,9 +59,10 @@ public class FillOrderViewModal {
 
     private List<AddressEntity> addressEntities = new ArrayList<>();//保存地址信息
 
-    FillOrderViewModal(FillOrderActivity context, BaseDialogImpl baseDialog, List<ShopCarItemEntity> entities) {
+    FillOrderViewModal(FillOrderActivity context, BaseDialogImpl baseDialog, final ActivityFillOrderBinding binding, List<ShopCarItemEntity> entities, List<GiftEntity> giftEntities) {
         this.context = context;
         this.baseDialog = baseDialog;
+        this.binding = binding;
         adapter = new BaseBindingRecyclerViewAdapter<ShopCarItemEntity, ItemFillOrderGoodsLayoutBinding>(context) {
             @Override
             protected int getLayoutResId(int viewType) {
@@ -71,7 +76,27 @@ public class FillOrderViewModal {
             }
         };
         adapter.getItems().addAll(entities);
+        //展示赠品
+        if(giftEntities!=null&&!giftEntities.isEmpty()){
+            binding.layoutGifts.setVisibility(View.VISIBLE);
+            BaseBindingRecyclerViewAdapter<GiftEntity,ItemGiftGoodsLayoutBinding> giftAdapter = new BaseBindingRecyclerViewAdapter<GiftEntity, ItemGiftGoodsLayoutBinding>(context) {
+                @Override
+                protected int getLayoutResId(int viewType) {
+                    return R.layout.item_gift_goods_layout;
+                }
 
+                @Override
+                protected void onBindItem(ItemGiftGoodsLayoutBinding binding, GiftEntity item, int position) {
+                    binding.setItem(item);
+                }
+            };
+            DividerItemDecoration itemDecoration = new DividerItemDecoration(context,DividerItemDecoration.VERTICAL);
+            itemDecoration.setDrawable(context.getResources().getDrawable(R.drawable.divider_line_1dp_grayf1f1f1));
+            binding.rcvFillOrderGifts.addItemDecoration(itemDecoration);
+            binding.rcvFillOrderGifts.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false));
+            binding.rcvFillOrderGifts.setAdapter(giftAdapter);
+            giftAdapter.getItems().addAll(giftEntities);
+        }
         //计算出总价
         for (ShopCarItemEntity entity : adapter.getItems()) {
             final_money += (entity.getNum() * Float.parseFloat(entity.getSku().getSalePrice()));
@@ -79,9 +104,14 @@ public class FillOrderViewModal {
         totalMoney.set(String.format(context.getString(R.string.str_rmb_character), final_money));
 
         loadAddress();
-
         //将页面滚动到顶部
 
+        binding.scrollFillOrder.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                binding.scrollFillOrder.smoothScrollTo(0,0);
+            }
+        },100);
     }
 
     public void onBack(View view) {

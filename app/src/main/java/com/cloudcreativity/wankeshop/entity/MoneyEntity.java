@@ -7,16 +7,72 @@ public class MoneyEntity {
     private int audit;//交易状态 0 等待中  1 成功  2 失败
     private int balance;//账户余额
     private String createTime;
-    private float drawMoney;
+    private double drawMoney;//提现金额
     private String headPic;
     private int id;
     private String mobile;
-    private float rechargeMoney;
-    private int state;
-    private int type;
+    private double rechargeMoney;//充值金额
+    private int state;// 1充值  2提现  3支付
+    private double payMoney;//消费支付的钱
+    private int type;//支付方式 1 微信 2 支付宝 3 余额
+    private String outTradeNo;//订单号
+    private String transactionNo;//支付单号
     private String updateTime;
     private int userId;
     private String userName;
+    private String cashNo;//自己平台的交易单号
+
+    public double getDrawMoney() {
+        return drawMoney;
+    }
+
+    public void setDrawMoney(double drawMoney) {
+        this.drawMoney = drawMoney;
+    }
+
+    public double getRechargeMoney() {
+        return rechargeMoney;
+    }
+
+    public void setRechargeMoney(double rechargeMoney) {
+        this.rechargeMoney = rechargeMoney;
+    }
+
+    public double getPayMoney() {
+        return payMoney;
+    }
+
+    public void setPayMoney(double payMoney) {
+        this.payMoney = payMoney;
+    }
+
+    public void setPayMoney(float payMoney) {
+        this.payMoney = payMoney;
+    }
+
+    public String getCashNo() {
+        return cashNo;
+    }
+
+    public void setCashNo(String cashNo) {
+        this.cashNo = cashNo;
+    }
+
+    public String getOutTradeNo() {
+        return outTradeNo;
+    }
+
+    public void setOutTradeNo(String outTradeNo) {
+        this.outTradeNo = outTradeNo;
+    }
+
+    public String getTransactionNo() {
+        return transactionNo;
+    }
+
+    public void setTransactionNo(String transactionNo) {
+        this.transactionNo = transactionNo;
+    }
 
     public int getAudit() {
         return audit;
@@ -42,14 +98,6 @@ public class MoneyEntity {
         this.createTime = createTime;
     }
 
-    public float getDrawMoney() {
-        return drawMoney;
-    }
-
-    public void setDrawMoney(float drawMoney) {
-        this.drawMoney = drawMoney;
-    }
-
     public String getHeadPic() {
         return headPic;
     }
@@ -72,14 +120,6 @@ public class MoneyEntity {
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
-    }
-
-    public float getRechargeMoney() {
-        return rechargeMoney;
-    }
-
-    public void setRechargeMoney(float rechargeMoney) {
-        this.rechargeMoney = rechargeMoney;
     }
 
     public int getState() {
@@ -127,6 +167,10 @@ public class MoneyEntity {
      * @return 处理后的字符串
      */
     public String getMoney(){
-        return "+"+(this.rechargeMoney==0?String.valueOf(this.drawMoney):String.valueOf(this.rechargeMoney));
+        if(this.state==3){
+            return "-"+String.valueOf(this.payMoney);
+        }else{
+            return "+"+(this.state==2?String.valueOf(this.drawMoney):String.valueOf(this.rechargeMoney));
+        }
     }
 }

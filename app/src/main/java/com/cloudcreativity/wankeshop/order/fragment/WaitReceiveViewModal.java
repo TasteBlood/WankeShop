@@ -22,8 +22,11 @@ import com.cloudcreativity.wankeshop.entity.OrderEntity;
 import com.cloudcreativity.wankeshop.entity.OrderEntityWrapper;
 import com.cloudcreativity.wankeshop.entity.ShopEntity;
 import com.cloudcreativity.wankeshop.order.OrderDetailActivity;
+import com.cloudcreativity.wankeshop.order.OrderDetailViewModal;
 import com.cloudcreativity.wankeshop.utils.DefaultObserver;
 import com.cloudcreativity.wankeshop.utils.HttpUtils;
+import com.cloudcreativity.wankeshop.utils.RefundOrderDialogUtils;
+import com.cloudcreativity.wankeshop.utils.ReturnGoodsDialogUtils;
 import com.cloudcreativity.wankeshop.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
@@ -92,7 +95,36 @@ public class WaitReceiveViewModal {
                         item.getShoppingCart().getNum(),
                         Float.parseFloat(item.getPayMoney())));
 
-        binding.tvDelay.setVisibility(item.getIsDelay()==1?View.GONE:View.VISIBLE);
+        if(item.getRefundState()!=0){
+            //说明就是在退款流程当中
+            binding.tvEnterReceive.setVisibility(View.GONE);
+            binding.tvDelay.setVisibility(View.GONE);
+        }else{
+            //不在退款流程当中
+            if(item.getShipState()==1){
+                //未发货
+                binding.tvDelay.setVisibility(View.GONE);
+                binding.tvBackMoney.setVisibility(View.VISIBLE);
+                binding.tvBackGoods.setVisibility(View.GONE);
+                binding.tvBackMoney.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        backMoney(item,position);
+                    }
+                });
+            }else{
+                //已发货，可以退货
+                binding.tvDelay.setVisibility(item.getIsDelay()==1?View.GONE:View.VISIBLE);
+                binding.tvBackMoney.setVisibility(View.GONE);
+                binding.tvBackGoods.setVisibility(View.VISIBLE);
+                binding.tvBackGoods.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        backGoods(item);
+                    }
+                });
+            }
+        }
 
         binding.tvContact.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,6 +156,64 @@ public class WaitReceiveViewModal {
         });
     }
 
+    //退换货
+    private void backGoods(final OrderEntity item) {
+        ReturnGoodsDialogUtils utils = new ReturnGoodsDialogUtils();
+        utils.setOnOkClickListener(new ReturnGoodsDialogUtils.OnOkClickListener() {
+            @Override
+            public void onOkClick(String reason, int number) {
+                HttpUtils.getInstance().addReturnOrder(item.getId(),
+                        item.getShopId(),
+                        item.getShoppingCart().getSkuId(),
+                        reason,
+                        number)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new DefaultObserver<String>(baseDialog,true) {
+                            @Override
+                            public void onSuccess(String t) {
+                                //发消息更新订单列表页面
+                                ToastUtils.showShortToast(context,"已提交");
+                                EventBus.getDefault().post(OrderDetailViewModal.MSG_RECEIVE_ORDER);
+                            }
+
+                            @Override
+                            public void onFail(ExceptionReason msg) {
+
+                            }
+                        });
+            }
+        });
+
+        utils.show(context,item);
+    }
+
+    //申请退款
+    private void backMoney(final OrderEntity item, final int position) {
+        RefundOrderDialogUtils dialogUtils = new RefundOrderDialogUtils();
+        dialogUtils.setOnOkClickListener(new RefundOrderDialogUtils.OnOkClickListener() {
+            @Override
+            public void onClick(String reason) {
+                HttpUtils.getInstance().applyRefund(item.getId(),reason)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new DefaultObserver<String>(baseDialog,true) {
+                            @Override
+                            public void onSuccess(String t) {
+                                ToastUtils.showShortToast(context,"申请退款成功，请等待商家确认");
+                                adapter.notifyItemChanged(position);
+                            }
+
+                            @Override
+                            public void onFail(ExceptionReason msg) {
+
+                            }
+                        });
+            }
+        });
+        dialogUtils.show(context);
+    }
+
     //订单详情
     private void orderDetails(OrderEntity item) {
         Intent intent = new Intent(context, OrderDetailActivity.class);
@@ -133,20 +223,35 @@ public class WaitReceiveViewModal {
 
     //确认收货
     private void enterReceive(final OrderEntity item) {
-        HttpUtils.getInstance().updateOrderState(item.getId(),3)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DefaultObserver<String>(baseDialog,true) {
+        AlertDialog dialog = new AlertDialog.Builder(context)
+                .setTitle("收货提示")
+                .setMessage("请在本人收货无误后，进行操作。确定收货吗?")
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onSuccess(String t) {
-                       adapter.getItems().remove(item);
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
                     }
-
+                }).setPositiveButton("确定收货", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onFail(ExceptionReason msg) {
+                    public void onClick(DialogInterface dialog, int which) {
+                        HttpUtils.getInstance().updateOrderState(item.getId(),3)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new DefaultObserver<String>(baseDialog,true) {
+                                    @Override
+                                    public void onSuccess(String t) {
+                                        adapter.getItems().remove(item);
+                                        EventBus.getDefault().post(OrderDetailViewModal.MSG_RECEIVE_ORDER);
+                                    }
 
+                                    @Override
+                                    public void onFail(ExceptionReason msg) {
+
+                                    }
+                                });
                     }
-                });
+                }).create();
+        dialog.show();
     }
 
     //联系卖家

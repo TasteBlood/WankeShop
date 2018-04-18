@@ -18,5 +18,6 @@ public class MoneyRecordsActivity extends BaseActivity {
         ActivityMoneyRecordBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_money_record);
         binding.tlMoneyRecords.setupWithViewPager(binding.vpMoneyRecords);
         binding.setMoneyModal(new MoneyRecordsModal(this));
+        binding.vpMoneyRecords.setOffscreenPageLimit(3);
     }
 }

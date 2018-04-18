@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
         <variable
-            name="goods"
-            type="com.cloudcreativity.wankeshop.entity.ShopCarItemEntity" />
+            name="item"
+            type="com.cloudcreativity.wankeshop.entity.GiftEntity" />
         <import type="android.text.TextUtils" />
     </data>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,47 +15,34 @@
         android:orientation="horizontal">
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/iv_pic"
+            itemPic="@{TextUtils.isEmpty(item.sku.icon)?item.spu.spuPic:item.sku.icon}"
+            android:scaleType="centerCrop"
             android:layout_width="60dip"
-            android:layout_height="60dip"
-            itemPic="@{TextUtils.isEmpty(goods.sku.icon)?goods.spu.spuPic:goods.sku.icon}"
-            android:scaleType="centerCrop"/>
+            android:layout_height="60dip" />
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="10dip"
-            android:orientation="vertical"
-            android:layout_weight="1">
+            android:orientation="vertical">
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="0dip"
                 android:layout_weight="2"
-                android:textSize="14sp"
-                android:text="@{goods.sku.skuName}"
-                android:ellipsize="end"
-                android:maxLines="2"/>
+                android:text="@{item.sku.skuName}"/>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_height="0dip"
                 android:gravity="bottom"
-                android:orientation="horizontal">
+                android:layout_weight="1">
                 <TextView
-                    android:id="@+id/tv_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimary"
-                    android:text=""/>
+                    android:text="@string/str_number"/>
                 <TextView
-                    android:id="@+id/tv_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dip"
-                    android:text="@{String.valueOf(goods.num)}"/>
-                <TextView
-                    android:id="@+id/tv_unit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{goods.spu.unit.unityName}"/>
+                    android:text="@{String.valueOf(item.giftNum)}"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

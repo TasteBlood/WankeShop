@@ -166,4 +166,13 @@
     <string name="str_bind_wechat">提现微信账户</string>
     <string name="str_unbind_wx">解除绑定</string>
     <string name="str_delay_receive">延长收货</string>
+    <string name="str_apply_back_money">申请退款</string>
+    <string name="str_apply_back_goods">申请退货</string>
+    <string name="str_gift_info">促销</string>
+    <string name="str_return_hints">(如有赠品，也需要退回)</string>
+    <string name="str_shop_gift">促销赠送(免费)</string>
+    <string name="str_number">数量</string>
+    <string name="str_applied">已申请退款</string>
+    <string name="str_applying">退款中</string>
+    <string name="str_refund_success">退款完成</string>
 </resources>

@@ -1,7 +1,9 @@
 package com.cloudcreativity.wankeshop.order.fragment;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.ObservableField;
 import android.view.View;
@@ -11,14 +13,17 @@ import com.cloudcreativity.wankeshop.base.BaseBindingRecyclerViewAdapter;
 import com.cloudcreativity.wankeshop.base.BaseDialogImpl;
 import com.cloudcreativity.wankeshop.databinding.FragmentFinishBinding;
 import com.cloudcreativity.wankeshop.databinding.ItemOrderFinishBinding;
+import com.cloudcreativity.wankeshop.entity.BigOrderEntity;
 import com.cloudcreativity.wankeshop.entity.OrderEntity;
 import com.cloudcreativity.wankeshop.entity.OrderEntityWrapper;
 import com.cloudcreativity.wankeshop.goods.ShoppingCarActivity;
 import com.cloudcreativity.wankeshop.main.ShoppingCarFragment;
 import com.cloudcreativity.wankeshop.order.OrderDetailActivity;
+import com.cloudcreativity.wankeshop.order.OrderDetailViewModal;
 import com.cloudcreativity.wankeshop.utils.DefaultObserver;
 import com.cloudcreativity.wankeshop.utils.HttpUtils;
 import com.cloudcreativity.wankeshop.utils.ReturnGoodsDialogUtils;
+import com.cloudcreativity.wankeshop.utils.StrUtils;
 import com.cloudcreativity.wankeshop.utils.ToastUtils;
 import com.google.gson.Gson;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
@@ -85,6 +90,25 @@ public class FinishViewModal {
                         item.getShoppingCart().getNum(),
                         Float.parseFloat(item.getPayMoney())));
 
+        if(item.getRefundState()!=0){
+            //这是退款完成
+            binding.tvReturn.setVisibility(View.GONE);
+        }else{
+            if(item.getIsNoReason()==1){
+                //支持7天无忧
+                if(StrUtils.isEnoughSevenDay(item.getCompleteTime())){
+                    //说明还在7天之内，可以退货
+                    binding.tvReturn.setVisibility(View.VISIBLE);
+                }else{
+                    //不在7天之内，不可以退货
+                    binding.tvReturn.setVisibility(View.GONE);
+                }
+            }else{
+                //不支持
+                binding.tvReturn.setVisibility(View.GONE);
+            }
+        }
+
         binding.tvReBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,6 +120,13 @@ public class FinishViewModal {
             @Override
             public void onClick(View v) {
                 returnGoods(item);
+            }
+        });
+
+        binding.icDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteOrder(item);
             }
         });
 
@@ -162,6 +193,7 @@ public class FinishViewModal {
                             public void onSuccess(String t) {
                                 //发消息更新订单列表页面
                                 ToastUtils.showShortToast(context,"已提交");
+                                EventBus.getDefault().post(OrderDetailViewModal.MSG_RECEIVE_ORDER);
                             }
 
                             @Override
@@ -173,6 +205,45 @@ public class FinishViewModal {
         });
 
         utils.show(context,item);
+    }
+
+    /**
+     * 支付订单
+     * @param item 删除当前的订单
+     */
+    private void deleteOrder(final OrderEntity item) {
+
+        AlertDialog dialog = new AlertDialog.Builder(context)
+                .setTitle("删除订单")
+                .setMessage("此操作不可逆，确定删除这个订单吗?")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+
+                        HttpUtils.getInstance().deleteOrders(String.valueOf(item.getId()))
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new DefaultObserver<String>(baseDialog,true) {
+                                    @Override
+                                    public void onSuccess(String t) {
+                                        adapter.getItems().remove(item);
+                                    }
+
+                                    @Override
+                                    public void onFail(ExceptionReason msg) {
+
+                                    }
+                                });
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                }).create();
+        dialog.show();
     }
 
     //加载数据

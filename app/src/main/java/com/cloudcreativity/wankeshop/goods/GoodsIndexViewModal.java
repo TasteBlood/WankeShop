@@ -55,6 +55,10 @@ public class GoodsIndexViewModal {
 
     public ObservableField<String> numberLimit = new ObservableField<>();//这是数量限制
 
+    public ObservableField<Boolean> isGift = new ObservableField<>();//这是是否促销的商品
+
+    public ObservableField<String> giftsInfo = new ObservableField<>();//促销商品的信息
+
     //这是规格数据
     private List<Map<String,Object>> dataMaps = new ArrayList<>();
 
@@ -99,6 +103,7 @@ public class GoodsIndexViewModal {
                             selectInfo.set(item.get("content").toString());
                             selectNumber.set(Integer.valueOf(String.valueOf(item.get("minNumber"))));
                             price.set(String.format(context.getResources().getString(R.string.str_rmb_character),Float.parseFloat(String.valueOf(item.get("salePrice")))));
+
                             lastPosition = position;
                             lastMaps = item;
                         }else{
@@ -108,6 +113,20 @@ public class GoodsIndexViewModal {
                             selectNumber.set(0);
                         }
 
+                        isGift.set(Boolean.valueOf(String.valueOf(lastMaps.get("isGift"))));
+                        //展示促销信息
+                        if(lastMaps.containsKey("gifts")){
+                            if(lastMaps.get("gifts")!=null){
+                                List<GoodsEntity.SKUGift> gifts = (List<GoodsEntity.SKUGift>) lastMaps.get("gifts");
+                                if(gifts!=null&&!gifts.isEmpty()){
+                                    StringBuilder builder = new StringBuilder();
+                                    for(GoodsEntity.SKUGift gift:gifts){
+                                        builder.append(gift.getDesc()).append(",");
+                                    }
+                                    giftsInfo.set(builder.substring(0,builder.length()-1));
+                                }
+                            }
+                        }
                         formatNumberLimit(lastMaps.get("minNumber").toString(),lastMaps.get("maxNumber").toString(),lastMaps.get("limit").toString(),lastMaps.get("total").toString());
 
                     }
@@ -169,6 +188,8 @@ public class GoodsIndexViewModal {
                 dataMap.put("salePrice",sku.getSalePrice());
                 dataMap.put("skuId",sku.getId());
                 dataMap.put("isCheck",false);
+                dataMap.put("isGift",sku.getIsGift()==1);//是否是促销商品
+                dataMap.put("gifts",sku.getSkuGiftList());//促销信息
                 dataMap.put("minNumber",sku.getMinQuality());
                 dataMap.put("maxNumber",sku.getMaxQuality());
                 dataMap.put("limit",sku.getRegionOperator());//这是表示配送数量的范围
@@ -189,10 +210,13 @@ public class GoodsIndexViewModal {
             dataMap.put("maxNumber",200);
             dataMap.put("limit","-");
             dataMap.put("total",200);
+            dataMap.put("isGift",false);
+            dataMap.put("gifts",null);
             dataMap.put("salePrice",goodsEntity.getSalePrice());
             dataMaps.add(dataMap);
         }
 
+        //默认显示第一个规格的信息
         dataMaps.get(0).put("isCheck",true);
 
         lastPosition = 0;
@@ -206,6 +230,21 @@ public class GoodsIndexViewModal {
         //创建数量限制
         formatNumberLimit(lastMaps.get("minNumber").toString(),lastMaps.get("maxNumber").toString(),lastMaps.get("limit").toString(),String.valueOf(lastMaps.get("total")));
 
+        //显示是否是促销
+        isGift.set(Boolean.valueOf(String.valueOf(lastMaps.get("isGift"))));
+        //展示促销信息
+        if(lastMaps.containsKey("gifts")){
+            if(lastMaps.get("gifts")!=null){
+                List<GoodsEntity.SKUGift> gifts = (List<GoodsEntity.SKUGift>) lastMaps.get("gifts");
+                if(gifts!=null&&!gifts.isEmpty()){
+                    StringBuilder builder = new StringBuilder();
+                    for(GoodsEntity.SKUGift gift:gifts){
+                        builder.append(gift.getDesc()).append(",");
+                    }
+                    giftsInfo.set(builder.substring(0,builder.length()-1));
+                }
+            }
+        }
         sizeAdapter.getItems().addAll(dataMaps);
 
         binding.rcvGoodsIndexSize.setAdapter(sizeAdapter);

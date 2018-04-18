@@ -27,6 +27,7 @@ import com.cloudcreativity.wankeshop.main.ShoppingCarFragment;
 import com.cloudcreativity.wankeshop.utils.DefaultObserver;
 import com.cloudcreativity.wankeshop.utils.HttpUtils;
 import com.cloudcreativity.wankeshop.utils.ReturnGoodsDialogUtils;
+import com.cloudcreativity.wankeshop.utils.StrUtils;
 import com.cloudcreativity.wankeshop.utils.ToastUtils;
 import com.google.gson.Gson;
 
@@ -238,21 +239,51 @@ public class OrderDetailViewModal {
 
         money.set(String.format(context.getString(R.string.str_rmb_character),Float.parseFloat(order.getPayMoney())));
 
-        //展示状态
         if(order.getShipState()==1||order.getShipState()==2){
-            //待收货,都可以联系卖家的
-            orderState.set("待收货".concat("(").concat(order.getShipState()==1?"未发货":"已发货").concat(")"));
-            binding.tvContact.setVisibility(View.VISIBLE);
-            binding.tvEnterReceive.setVisibility(View.VISIBLE);
-            binding.tvDelay.setVisibility(order.getIsDelay()==1?View.GONE:View.VISIBLE);
+            //待收货,都可以联系卖家的，也有可能是退款中
+            if(order.getRefundState()!=0){
+                orderState.set(order.getRefundState()==1?context.getString(R.string.str_applied):context.getString(R.string.str_applying));
+                binding.tvContact.setVisibility(View.VISIBLE);
+            }else{
+                orderState.set("待收货".concat("(").concat(order.getShipState()==1?"未发货":"已发货").concat(")"));
+                binding.tvContact.setVisibility(View.VISIBLE);
+                binding.tvEnterReceive.setVisibility(View.VISIBLE);
+                if(order.getShipState()==1){
+                    //未发货，可以退款
+                    binding.tvApplyReturnMoney.setVisibility(View.VISIBLE);
+                }else{
+                    //已发货，可以退货
+                    binding.tvDelay.setVisibility(order.getIsDelay()==0?View.GONE:View.VISIBLE);
+                    binding.tvReturn.setVisibility(View.VISIBLE);
+                }
+            }
         }else if(order.getShipState()==3){
-            //完成
-            orderState.set("已完成");
-            binding.tvDelete.setVisibility(View.VISIBLE);
-            binding.tvReturn.setVisibility(View.VISIBLE);
-            binding.tvReBuy.setVisibility(View.VISIBLE);
+            //完成,也有可能是退款完成
+            if(order.getRefundState()!=0){
+                //退款完成
+                orderState.set(context.getString(R.string.str_refund_success));
+                binding.tvDelete.setVisibility(View.VISIBLE);
+                binding.tvReBuy.setVisibility(View.VISIBLE);
+            }else{
+                orderState.set("已完成");
+                //判断当前是否支持7天无忧退货处理
+                if(order.getIsNoReason()==1){
+                    //支持7天无忧
+                    if(StrUtils.isEnoughSevenDay(order.getCompleteTime())){
+                        //说明还在7天之内，可以退货
+                        binding.tvReturn.setVisibility(View.VISIBLE);
+                    }else{
+                        //不在7天之内，不可以退货
+                        binding.tvReturn.setVisibility(View.GONE);
+                    }
+                }else{
+                    //不支持
+                    binding.tvReturn.setVisibility(View.GONE);
+                }
+                binding.tvDelete.setVisibility(View.VISIBLE);
+                binding.tvReBuy.setVisibility(View.VISIBLE);
+            }
         }
-
         adapter.getItems().add(order);
 
     }
@@ -437,21 +468,36 @@ public class OrderDetailViewModal {
     //确定收货
     public void onEnterReceiveClick(View view){
 
-        HttpUtils.getInstance().updateOrderState(((OrderEntity)order).getId(),3)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DefaultObserver<String>(baseDialog,true) {
+        final OrderEntity item = (OrderEntity) order;
+        AlertDialog dialog = new AlertDialog.Builder(context)
+                .setTitle("收货提示")
+                .setMessage("请在本人收货无误后，进行操作。确定收货吗?")
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onSuccess(String t) {
-                            EventBus.getDefault().post(MSG_RECEIVE_ORDER);
-                            context.finish();
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
                     }
-
+                }).setPositiveButton("确定收货", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onFail(ExceptionReason msg) {
+                    public void onClick(DialogInterface dialog, int which) {
+                        HttpUtils.getInstance().updateOrderState(item.getId(),3)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new DefaultObserver<String>(baseDialog,true) {
+                                    @Override
+                                    public void onSuccess(String t) {
+                                        adapter.getItems().remove(item);
+                                        EventBus.getDefault().post(OrderDetailViewModal.MSG_RECEIVE_ORDER);
+                                    }
 
+                                    @Override
+                                    public void onFail(ExceptionReason msg) {
+
+                                    }
+                                });
                     }
-                });
+                }).create();
+        dialog.show();
     }
 
     //再次购买
@@ -559,5 +605,10 @@ public class OrderDetailViewModal {
                     }
                 }).create();
         dialog.show();
+    }
+
+    //这是申请退款
+    public void onApplyReturnMoneyClick(View view){
+
     }
 }

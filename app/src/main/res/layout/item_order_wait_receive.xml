@@ -7,6 +7,7 @@
             name="item"
             type="com.cloudcreativity.wankeshop.entity.OrderEntity" />
         <import type="android.view.View" />
+        <import type="android.text.TextUtils" />
     </data>
 
     <LinearLayout
@@ -25,7 +26,8 @@
                 android:id="@+id/tv_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{item.shipState==1?@string/str_not_send:@string/str_send}"/>
+                android:textColor="@{item.refundState==0?@color/gray_212121:@color/colorPrimary}"
+                android:text="@{item.refundState==0?(item.shipState==1?@string/str_not_send:@string/str_send):item.refundState==1?@string/str_applied:@string/str_applying}"/>
         </LinearLayout>
         <View style="@style/myDividerForItemGrayLine" />
         <!--这是内容区域-->
@@ -39,7 +41,7 @@
                 android:layout_width="60dip"
                 android:layout_height="60dip"
                 android:scaleType="centerCrop"
-                app:shopItemPic="@{item.shoppingCart.sku.icon}" />
+                app:shopItemPic="@{TextUtils.isEmpty(item.shoppingCart.sku.icon)?item.shoppingCart.spu.spuPic:item.shoppingCart.sku.icon}" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -89,6 +91,34 @@
                 android:paddingEnd="5dip"
                 android:textSize="14sp"
                 android:text="@string/str_context_seller"/>
+            <TextView
+                android:id="@+id/tv_backMoney"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_gray_circle_bg"
+                android:textColor="@color/gray_717171"
+                android:paddingTop="3dip"
+                android:paddingBottom="3dip"
+                android:layout_marginStart="10dip"
+                android:visibility="gone"
+                android:paddingStart="5dip"
+                android:paddingEnd="5dip"
+                android:textSize="14sp"
+                android:text="@string/str_apply_back_money"/>
+            <TextView
+                android:id="@+id/tv_backGoods"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_gray_circle_bg"
+                android:textColor="@color/gray_717171"
+                android:paddingTop="3dip"
+                android:paddingBottom="3dip"
+                android:layout_marginStart="10dip"
+                android:visibility="gone"
+                android:paddingStart="5dip"
+                android:paddingEnd="5dip"
+                android:textSize="14sp"
+                android:text="@string/str_apply_back_goods"/>
             <TextView
                 android:id="@+id/tv_delay"
                 android:layout_width="wrap_content"

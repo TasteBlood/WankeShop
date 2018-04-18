@@ -9,6 +9,7 @@ import com.cloudcreativity.wankeshop.base.LazyFragment;
 import com.cloudcreativity.wankeshop.databinding.FragmentWithdrawBinding;
 import com.cloudcreativity.wankeshop.databinding.ItemMoneyListLayoutBinding;
 import com.cloudcreativity.wankeshop.entity.MoneyEntity;
+import com.cloudcreativity.wankeshop.entity.MoneyWrapper;
 import com.cloudcreativity.wankeshop.utils.DefaultObserver;
 import com.cloudcreativity.wankeshop.utils.HttpUtils;
 import com.cloudcreativity.wankeshop.utils.SPUtils;
@@ -78,12 +79,14 @@ public class FragmentWithdrawModal {
                     @Override
                     public void onSuccess(String t) {
                         //处理数据
-                        Type type = new TypeToken<List<MoneyEntity>>() {
-                        }.getType();
-
-                        List<MoneyEntity> moneyEntities = new Gson().fromJson(t,type);
+                        List<MoneyEntity> moneyEntities = new Gson().fromJson(t, MoneyWrapper.class).getData();
                         if(moneyEntities==null||moneyEntities.isEmpty()){
                             ToastUtils.showShortToast(context,R.string.str_no_data);
+                            if(page==1){
+                                binding.refreshWithdraw.finishRefreshing();
+                            }else{
+                                binding.refreshWithdraw.finishLoadmore();
+                            }
                         }else{
                             if(page==1){
                                 adapter.getItems().clear();

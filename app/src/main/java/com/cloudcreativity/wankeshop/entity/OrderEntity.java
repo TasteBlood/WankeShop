@@ -40,6 +40,46 @@ public class OrderEntity implements Serializable{
 
     private int isDelay;//是否延长收货
 
+    private String refundDesc;//退款原因
+
+    private int refundState;//退款状态
+
+    private int isNoReason;//是否支持7天无忧退货
+
+    private String completeTime;//订单完成时间
+
+    public String getCompleteTime() {
+        return completeTime;
+    }
+
+    public void setCompleteTime(String completeTime) {
+        this.completeTime = completeTime;
+    }
+
+    public int getIsNoReason() {
+        return isNoReason;
+    }
+
+    public void setIsNoReason(int isNoReason) {
+        this.isNoReason = isNoReason;
+    }
+
+    public String getRefundDesc() {
+        return refundDesc;
+    }
+
+    public void setRefundDesc(String refundDesc) {
+        this.refundDesc = refundDesc;
+    }
+
+    public int getRefundState() {
+        return refundState;
+    }
+
+    public void setRefundState(int refundState) {
+        this.refundState = refundState;
+    }
+
     public int getIsDelay() {
         return isDelay;
     }

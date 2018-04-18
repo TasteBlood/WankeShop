@@ -26,7 +26,6 @@
                     android:layout_width="30dip"
                     android:layout_height="30dip"
                     app:shopIcon="@{shop.stores.storesLog}"
-                    android:src="@mipmap/start_index"
                     android:scaleType="centerCrop"/>
                 <TextView
                     android:id="@+id/tv_shopName"
@@ -44,7 +43,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="140dip"
                 android:layout_marginTop="5dip"
-                android:src="@mipmap/start_index"
                 app:shopPic="@{shop.stores.bgImg}"
                 android:scaleType="centerCrop"/>
         </LinearLayout>

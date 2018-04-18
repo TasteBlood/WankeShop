@@ -72,7 +72,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
                         android:layout_marginStart="10dp"
-                        android:text="@{TextUtils.isEmpty(userModal.userEntity.userName)?userModal.userEntity.mobile:userModal.userEntity}"/>
+                        android:text="@{TextUtils.isEmpty(userModal.userEntity.userName)?userModal.userEntity.mobile:userModal.userEntity.userName}"/>
                 </LinearLayout>
 
                 <!--other View-->

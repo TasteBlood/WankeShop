@@ -6,6 +6,8 @@ import android.databinding.BindingAdapter;
 import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.os.Message;
+import android.os.Parcelable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -15,6 +17,7 @@ import com.cloudcreativity.wankeshop.R;
 import com.cloudcreativity.wankeshop.base.BaseBindingRecyclerViewAdapter;
 import com.cloudcreativity.wankeshop.base.BaseDialogImpl;
 import com.cloudcreativity.wankeshop.databinding.FragmentShoppingcarBinding;
+import com.cloudcreativity.wankeshop.entity.GiftEntity;
 import com.cloudcreativity.wankeshop.entity.GoodsEntity;
 import com.cloudcreativity.wankeshop.entity.ShopCarItemEntity;
 import com.cloudcreativity.wankeshop.entity.ShopCarItemWrapper;
@@ -542,8 +545,8 @@ public class ShoppingCarModal {
 
     //结算操作
     public void onSaveClick(View view){
-        ArrayList<ShopCarItemEntity> finalData = new ArrayList<>();
-
+        final ArrayList<ShopCarItemEntity> finalData = new ArrayList<>();
+        StringBuilder ids = new StringBuilder();
         //结算操作
         for(ShopCarItemEntity entity : adapter.getItems()){
             //进行逻辑操作哦
@@ -561,15 +564,36 @@ public class ShoppingCarModal {
                     return;
                 }
                 finalData.add(entity);
+                ids.append(entity.getId()).append(",");
+
             }
         }
 
         //结算
         if(finalData.isEmpty())
             return;
-        Intent intent = new Intent(context, FillOrderActivity.class);
-        intent.putExtra("list",finalData);
-        context.startActivity(intent);
+
+        //还需要获取有促销的赠品商品列表
+        HttpUtils.getInstance().getGoodGifts(ids.substring(0,ids.length()-1))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new DefaultObserver<String>(baseDialog,true) {
+                        @Override
+                        public void onSuccess(String t) {
+                            Type type = new TypeToken<List<GiftEntity>>() {
+                            }.getType();
+                            List<GiftEntity> giftEntities = new Gson().fromJson(t,type);
+                            Intent intent = new Intent(context, FillOrderActivity.class);
+                            intent.putExtra("list",finalData);
+                            intent.putParcelableArrayListExtra("giftList", (ArrayList<? extends Parcelable>) giftEntities);
+                            context.startActivity(intent);
+                        }
+
+                        @Override
+                        public void onFail(ExceptionReason msg) {
+
+                        }
+                    });
     }
 
 }

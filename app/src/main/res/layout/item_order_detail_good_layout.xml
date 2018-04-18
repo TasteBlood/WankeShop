@@ -4,6 +4,7 @@
         <variable
             name="goods"
             type="com.cloudcreativity.wankeshop.entity.ShopCarItemEntity" />
+        <import type="android.text.TextUtils" />
     </data>
 
     <LinearLayout
@@ -21,7 +22,7 @@
                 android:id="@+id/iv_pic"
                 android:layout_width="60dip"
                 android:layout_height="60dip"
-                itemPic="@{goods.sku.icon??goods.spu.spuPic}"
+                itemPic="@{TextUtils.isEmpty(goods.sku.icon)?goods.spu.spuPic:goods.sku.icon}"
                 android:scaleType="centerCrop"/>
             <LinearLayout
                 android:layout_width="0dp"

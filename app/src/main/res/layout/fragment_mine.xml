@@ -128,25 +128,37 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:padding="10dp">
+                            android:gravity="bottom"
+                            android:padding="10dip">
                             <FrameLayout
                                 android:layout_width="0dip"
-                                android:layout_height="wrap_content"
+                                android:layout_height="55dip"
                                 android:layout_weight="1">
                                 <TextView
                                     android:onClick="@{(view)->mineModal.onAllOrderClick(view)}"
                                     android:id="@+id/tv_mineOrderAll"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
+                                    android:layout_gravity="bottom"
                                     android:gravity="center"
                                     android:drawableTop="@mipmap/ic_menu_allorders"
-                                    android:drawablePadding="9dp"
+                                    android:drawablePadding="12dp"
                                     android:text="@string/str_all_order"/>
+                                <TextView
+                                    android:layout_width="13dip"
+                                    android:layout_height="13dip"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginStart="10dip"
+                                    android:gravity="center"
+                                    android:textColor="@color/white"
+                                    android:text="6"
+                                    android:textSize="8sp"
+                                    android:visibility="invisible"
+                                    android:background="@drawable/shape_number_circle_red"/>
                             </FrameLayout>
                             <FrameLayout
                                 android:layout_width="0dip"
-                                android:layout_height="wrap_content"
+                                android:layout_height="55dip"
                                 android:layout_weight="1">
                                 <TextView
                                     android:onClick="@{(view)->mineModal.onWaitReceiveClick(view)}"
@@ -158,21 +170,44 @@
                                     android:drawableTop="@mipmap/ic_menu_forthegoods"
                                     android:drawablePadding="12dp"
                                     android:text="@string/str_wait_send"/>
+                                <TextView
+                                    android:layout_width="15dip"
+                                    android:layout_height="15dip"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginStart="10dip"
+                                    android:gravity="center"
+                                    android:textColor="@color/white"
+                                    android:visibility="@{mineModal.user.unOrderNum==0?View.INVISIBLE:View.VISIBLE}"
+                                    android:text="@{String.valueOf(mineModal.user.unOrderNum)}"
+                                    android:textSize="9sp"
+                                    android:background="@drawable/shape_number_circle_red"/>
                             </FrameLayout>
                             <FrameLayout
                                 android:layout_width="0dip"
-                                android:layout_height="wrap_content"
+                                android:layout_height="55dip"
                                 android:layout_weight="1">
                                 <TextView
                                     android:onClick="@{(view)->mineModal.onReturnClick(view)}"
                                     android:id="@+id/tv_mineOrderChange"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
+                                    android:layout_gravity="bottom"
                                     android:gravity="center"
                                     android:drawableTop="@mipmap/ic_menu_return"
-                                    android:drawablePadding="8dp"
+                                    android:drawablePadding="9dp"
                                     android:text="@string/str_change_send"/>
+                                <TextView
+                                    android:layout_width="15dip"
+                                    android:layout_height="15dip"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginStart="12dip"
+                                    android:layout_marginTop="1dip"
+                                    android:gravity="center"
+                                    android:textColor="@color/white"
+                                    android:visibility="@{mineModal.user.returnOrderNum==0?View.INVISIBLE:View.VISIBLE}"
+                                    android:text="@{String.valueOf(mineModal.user.returnOrderNum)}"
+                                    android:textSize="9sp"
+                                    android:background="@drawable/shape_number_circle_red"/>
                             </FrameLayout>
                             <TextView
                                 android:id="@+id/tv_mineOrderWaitPay"

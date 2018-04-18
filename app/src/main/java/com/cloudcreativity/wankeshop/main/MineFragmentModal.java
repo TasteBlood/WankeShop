@@ -199,6 +199,7 @@ public class MineFragmentModal {
                         SPUtils.get().putString(SPUtils.Config.TOKEN,user.getToken());
                         SPUtils.get().setUser(t);
                         SPUtils.get().putBoolean(SPUtils.Config.IS_LOGIN,true);
+
                         binding.invalidateAll();
                     }
 

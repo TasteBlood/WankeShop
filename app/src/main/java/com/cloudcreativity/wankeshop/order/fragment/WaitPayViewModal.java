@@ -1,10 +1,14 @@
 package com.cloudcreativity.wankeshop.order.fragment;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.ObservableField;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.cloudcreativity.wankeshop.R;
@@ -18,6 +22,7 @@ import com.cloudcreativity.wankeshop.order.OrderDetailActivity;
 import com.cloudcreativity.wankeshop.order.PayOrderActivity;
 import com.cloudcreativity.wankeshop.utils.DefaultObserver;
 import com.cloudcreativity.wankeshop.utils.HttpUtils;
+import com.cloudcreativity.wankeshop.utils.LogUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
@@ -91,6 +96,7 @@ public class WaitPayViewModal {
      * @param item 数据
      * @param position 位置
      */
+    @SuppressLint("ClickableViewAccessibility")
     private void initLayout(ItemOrderWaitPayBinding binding, final BigOrderEntity item, int position) {
         if(item.getData().size()>1){
             //显示多内容布局
@@ -124,10 +130,13 @@ public class WaitPayViewModal {
 
             picAdapter.getItems().addAll(item.getData());
             binding.rcvOrderItemNotPay.setAdapter(picAdapter);
-            binding.rcvOrderItemNotPay.setOnClickListener(new View.OnClickListener() {
+            binding.rcvOrderItemNotPay.setOnTouchListener(new View.OnTouchListener() {
                 @Override
-                public void onClick(View v) {
-                    orderDetails(item);
+                public boolean onTouch(View v, MotionEvent event) {
+                    if(event.getAction()==MotionEvent.ACTION_UP){
+                        orderDetails(item);
+                    }
+                  return true;
                 }
             });
         }else{
@@ -202,27 +211,43 @@ public class WaitPayViewModal {
      * @param item 当前的订单
      */
     private void cancelOrder(final BigOrderEntity item) {
-        StringBuilder builder = new StringBuilder();
-        for(OrderEntity entity:item.getData()){
-            builder.append(entity.getId()).append(",");
-        }
-        String ids = builder.substring(0, builder.length() - 1);
 
-        HttpUtils.getInstance().scrapOrders(ids)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DefaultObserver<String>(baseDialog,true) {
+        AlertDialog dialog = new AlertDialog.Builder(context)
+                .setTitle("取消订单")
+                .setMessage("客官三思而后行，后期可以在已取消订单中找回该订单，确定取消吗?")
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onSuccess(String t) {
-                        //发消息更新订单列表页面
-                        adapter.getItems().remove(item);
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
                     }
-
+                }).setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onFail(ExceptionReason msg) {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        StringBuilder builder = new StringBuilder();
+                        for(OrderEntity entity:item.getData()){
+                            builder.append(entity.getId()).append(",");
+                        }
+                        String ids = builder.substring(0, builder.length() - 1);
 
+                        HttpUtils.getInstance().scrapOrders(ids)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new DefaultObserver<String>(baseDialog,true) {
+                                    @Override
+                                    public void onSuccess(String t) {
+                                        //发消息更新订单列表页面
+                                        adapter.getItems().remove(item);
+                                    }
+
+                                    @Override
+                                    public void onFail(ExceptionReason msg) {
+
+                                    }
+                                });
                     }
-                });
+                }).create();
+        dialog.show();
     }
 
     //加载数据

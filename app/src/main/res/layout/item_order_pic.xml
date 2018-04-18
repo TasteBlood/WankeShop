@@ -5,13 +5,14 @@
         <variable
             name="data"
             type="com.cloudcreativity.wankeshop.entity.OrderEntity" />
+        <import type="android.text.TextUtils" />
     </data>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/iv_pic"
-            app:shopItemPic="@{data.shoppingCart.sku.icon}"
+            app:shopItemPic="@{TextUtils.isEmpty(data.shoppingCart.sku.icon)?data.shoppingCart.spu.spuPic:data.shoppingCart.sku.icon}"
             android:scaleType="centerCrop"
             android:layout_marginEnd="10dip"
             android:layout_width="60dip"

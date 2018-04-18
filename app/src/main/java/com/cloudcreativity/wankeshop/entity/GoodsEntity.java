@@ -69,7 +69,9 @@ public class GoodsEntity implements Parcelable,Serializable{
 
     private String unitQuality;
 
-    private int isCollect;
+    private int isCollect;//是否收藏
+
+    private int isGift;//是否是促销
 
     public GoodsEntity() {
     }
@@ -99,6 +101,7 @@ public class GoodsEntity implements Parcelable,Serializable{
         unit = in.readParcelable(Unit.class.getClassLoader());
         unitQuality = in.readString();
         isCollect = in.readInt();
+        isGift = in.readInt();
     }
 
     @Override
@@ -127,6 +130,7 @@ public class GoodsEntity implements Parcelable,Serializable{
         dest.writeParcelable(unit, flags);
         dest.writeString(unitQuality);
         dest.writeInt(isCollect);
+        dest.writeInt(isGift);
     }
 
     @Override
@@ -145,6 +149,14 @@ public class GoodsEntity implements Parcelable,Serializable{
             return new GoodsEntity[size];
         }
     };
+
+    public int getIsGift() {
+        return isGift;
+    }
+
+    public void setIsGift(int isGift) {
+        this.isGift = isGift;
+    }
 
     public int getIsCollect() {
         return isCollect;
@@ -372,6 +384,10 @@ public class GoodsEntity implements Parcelable,Serializable{
 
         private int status;
 
+        private int isGift;//是否是促销
+
+        private List<SKUGift> skuGiftList;
+
         protected SKU(Parcel in) {
             alertNum = in.readInt();
             clickCount = in.readInt();
@@ -391,6 +407,8 @@ public class GoodsEntity implements Parcelable,Serializable{
             skuTagPrice = in.readString();
             spuId = in.readInt();
             status = in.readInt();
+            isGift = in.readInt();
+            skuGiftList = in.createTypedArrayList(SKUGift.CREATOR);
         }
 
         public static final Creator<SKU> CREATOR = new Creator<SKU>() {
@@ -404,6 +422,14 @@ public class GoodsEntity implements Parcelable,Serializable{
                 return new SKU[size];
             }
         };
+
+        public List<SKUGift> getSkuGiftList() {
+            return skuGiftList;
+        }
+
+        public void setSkuGiftList(List<SKUGift> skuGiftList) {
+            this.skuGiftList = skuGiftList;
+        }
 
         public void setAlertNum(int alertNum){
             this.alertNum = alertNum;
@@ -520,6 +546,14 @@ public class GoodsEntity implements Parcelable,Serializable{
             return this.status;
         }
 
+        public int getIsGift() {
+            return isGift;
+        }
+
+        public void setIsGift(int isGift) {
+            this.isGift = isGift;
+        }
+
         @Override
         public int describeContents() {
             return 0;
@@ -545,6 +579,8 @@ public class GoodsEntity implements Parcelable,Serializable{
             dest.writeString(skuTagPrice);
             dest.writeInt(spuId);
             dest.writeInt(status);
+            dest.writeInt(isGift);
+            dest.writeTypedList(skuGiftList);
         }
     }
 
@@ -815,6 +851,121 @@ public class GoodsEntity implements Parcelable,Serializable{
         }
         public int getStatus(){
             return this.status;
+        }
+    }
+
+    public static class SKUGift implements Parcelable,Serializable{
+        private String createTime;
+        private String desc;
+        private int giftId;
+        private int giftNum;
+        private int id;
+        private int skuId;
+        private int skuNum;
+        private String updateTime;
+
+        protected SKUGift(Parcel in) {
+            createTime = in.readString();
+            desc = in.readString();
+            giftId = in.readInt();
+            giftNum = in.readInt();
+            id = in.readInt();
+            skuId = in.readInt();
+            skuNum = in.readInt();
+            updateTime = in.readString();
+        }
+
+        public static final Creator<SKUGift> CREATOR = new Creator<SKUGift>() {
+            @Override
+            public SKUGift createFromParcel(Parcel in) {
+                return new SKUGift(in);
+            }
+
+            @Override
+            public SKUGift[] newArray(int size) {
+                return new SKUGift[size];
+            }
+        };
+
+        public String getCreateTime() {
+            return createTime;
+        }
+
+        public void setCreateTime(String createTime) {
+            this.createTime = createTime;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public void setDesc(String desc) {
+            this.desc = desc;
+        }
+
+        public int getGiftId() {
+            return giftId;
+        }
+
+        public void setGiftId(int giftId) {
+            this.giftId = giftId;
+        }
+
+        public int getGiftNum() {
+            return giftNum;
+        }
+
+        public void setGiftNum(int giftNum) {
+            this.giftNum = giftNum;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public int getSkuId() {
+            return skuId;
+        }
+
+        public void setSkuId(int skuId) {
+            this.skuId = skuId;
+        }
+
+        public int getSkuNum() {
+            return skuNum;
+        }
+
+        public void setSkuNum(int skuNum) {
+            this.skuNum = skuNum;
+        }
+
+        public String getUpdateTime() {
+            return updateTime;
+        }
+
+        public void setUpdateTime(String updateTime) {
+            this.updateTime = updateTime;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(createTime);
+            dest.writeString(desc);
+            dest.writeInt(giftId);
+            dest.writeInt(giftNum);
+            dest.writeInt(id);
+            dest.writeInt(skuId);
+            dest.writeInt(skuNum);
+            dest.writeString(updateTime);
         }
     }
 }

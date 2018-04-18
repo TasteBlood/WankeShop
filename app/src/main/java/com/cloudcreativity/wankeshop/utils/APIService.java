@@ -200,7 +200,7 @@ public interface APIService {
      * @param pageSize 页容量
      */
     @GET("getCashList.do")
-    Observable<String> getMoneyList(@Query("int type") int type,
+    Observable<String> getMoneyList(@Query("state") int type,
                                     @Query("pageNum") int pageNum,
                                     @Query("pageSize") int pageSize);
 
@@ -435,4 +435,23 @@ public interface APIService {
                                   @Field("openId") String openId,
                                   @Field("nickName") String nickName,
                                   @Field("headImgUrl") String headImgUrl);
+
+    /**
+     *
+     * @param ids 这是购物车的ids
+     * 查询促销商品的赠品信息
+     */
+    @GET("getIsGiftByShoppingCart.do")
+    Observable<String> getGoodGifts(@Query("ids") String ids);
+
+
+    /**
+     *
+     * @param orderId 订单id
+     * @param refundDesc 退款原因
+     *
+     */
+    @GET("reqRefundOrder.do")
+    Observable<String> applyRefund(@Query("id") int orderId,
+                                   @Query("refundDesc") String refundDesc);
 }

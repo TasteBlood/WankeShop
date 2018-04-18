@@ -1,11 +1,15 @@
 package com.cloudcreativity.wankeshop.order.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.ObservableField;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.cloudcreativity.wankeshop.R;
@@ -94,6 +98,7 @@ public class CancelViewModal {
      * @param item 数据
      * @param position 位置
      */
+    @SuppressLint("ClickableViewAccessibility")
     private void initLayout(ItemOrderCancelBinding binding, final BigOrderEntity item, int position) {
         if(item.getData().size()>1){
             //显示多内容布局
@@ -127,10 +132,13 @@ public class CancelViewModal {
 
             picAdapter.getItems().addAll(item.getData());
             binding.rcvOrderItemCancel.setAdapter(picAdapter);
-            binding.rcvOrderItemCancel.setOnClickListener(new View.OnClickListener() {
+            binding.rcvOrderItemCancel.setOnTouchListener(new View.OnTouchListener() {
                 @Override
-                public void onClick(View v) {
-                    orderDetails(item);
+                public boolean onTouch(View v, MotionEvent event) {
+                    if(event.getAction()==MotionEvent.ACTION_UP){
+                        orderDetails(item);
+                    }
+                    return true;
                 }
             });
 
@@ -190,26 +198,44 @@ public class CancelViewModal {
      * @param item 删除当前的订单
      */
     private void deleteOrder(final BigOrderEntity item) {
-        StringBuilder builder = new StringBuilder();
-        for(OrderEntity entity:item.getData()){
-            builder.append(entity.getId()).append(",");
-        }
-        String ids = builder.substring(0, builder.length() - 1);
 
-        HttpUtils.getInstance().deleteOrders(ids)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DefaultObserver<String>(baseDialog,true) {
+        AlertDialog dialog = new AlertDialog.Builder(context)
+                .setTitle("删除订单")
+                .setMessage("此操作不可逆，确定删除这个订单吗?")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onSuccess(String t) {
-                       adapter.getItems().remove(item);
-                    }
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
 
+                        StringBuilder builder = new StringBuilder();
+                        for(OrderEntity entity:item.getData()){
+                            builder.append(entity.getId()).append(",");
+                        }
+                        String ids = builder.substring(0, builder.length() - 1);
+
+                        HttpUtils.getInstance().deleteOrders(ids)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new DefaultObserver<String>(baseDialog,true) {
+                                    @Override
+                                    public void onSuccess(String t) {
+                                        adapter.getItems().remove(item);
+                                    }
+
+                                    @Override
+                                    public void onFail(ExceptionReason msg) {
+
+                                    }
+                                });
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onFail(ExceptionReason msg) {
-
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
                     }
-                });
+                }).create();
+        dialog.show();
     }
 
     /**

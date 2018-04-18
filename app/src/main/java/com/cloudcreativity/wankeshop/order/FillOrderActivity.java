@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import com.cloudcreativity.wankeshop.R;
 import com.cloudcreativity.wankeshop.base.BaseActivity;
 import com.cloudcreativity.wankeshop.databinding.ActivityFillOrderBinding;
+import com.cloudcreativity.wankeshop.entity.GiftEntity;
 import com.cloudcreativity.wankeshop.entity.ShopCarItemEntity;
 import com.cloudcreativity.wankeshop.goods.GoodsIndexFragment;
 
@@ -35,7 +36,11 @@ public class FillOrderActivity extends BaseActivity {
         itemDecoration.setDrawable(getResources().getDrawable(R.drawable.divider_line_1dp_grayf1f1f1));
         binding.rcvFillOrder.addItemDecoration(itemDecoration);
 
-        binding.setOrderModal(modal = new FillOrderViewModal(this,this,getIntent().<ShopCarItemEntity>getParcelableArrayListExtra("list")));
+        binding.setOrderModal(modal = new FillOrderViewModal(this,
+                this,
+                binding,
+                getIntent().<ShopCarItemEntity>getParcelableArrayListExtra("list"),
+                getIntent().<GiftEntity>getParcelableArrayListExtra("giftList")));
 
 
     }
