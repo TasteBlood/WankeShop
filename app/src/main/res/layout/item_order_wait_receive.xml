@@ -25,9 +25,7 @@
             <TextView
                 android:id="@+id/tv_state"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@{item.refundState==0?@color/gray_212121:@color/colorPrimary}"
-                android:text="@{item.refundState==0?(item.shipState==1?@string/str_not_send:@string/str_send):item.refundState==1?@string/str_applied:@string/str_applying}"/>
+                android:layout_height="wrap_content" />
         </LinearLayout>
         <View style="@style/myDividerForItemGrayLine" />
         <!--这是内容区域-->
@@ -41,6 +39,7 @@
                 android:layout_width="60dip"
                 android:layout_height="60dip"
                 android:scaleType="centerCrop"
+                android:background="@drawable/bg_goods_pic_border"
                 app:shopItemPic="@{TextUtils.isEmpty(item.shoppingCart.sku.icon)?item.shoppingCart.spu.spuPic:item.shoppingCart.sku.icon}" />
             <LinearLayout
                 android:layout_width="match_parent"

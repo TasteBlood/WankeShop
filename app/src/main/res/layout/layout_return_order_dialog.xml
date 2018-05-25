@@ -5,6 +5,8 @@
         <variable
             name="utils"
             type="com.cloudcreativity.wankeshop.utils.ReturnGoodsDialogUtils" />
+
+        <import type="android.view.View" />
     </data>
 
     <LinearLayout
@@ -56,6 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dip"
             android:gravity="top"
+            android:visibility="@{utils.isAll.get()?View.GONE:View.VISIBLE}"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
@@ -81,6 +84,7 @@
             android:id="@+id/tv_maxNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="@{utils.isAll.get()?View.GONE:View.VISIBLE}"
             android:layout_marginTop="10dip"
             android:textColor="@color/colorPrimary" />
         <android.support.v7.widget.AppCompatButton

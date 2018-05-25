@@ -13,7 +13,6 @@ import com.cloudcreativity.wankeshop.base.BaseBindingRecyclerViewAdapter;
 import com.cloudcreativity.wankeshop.base.BaseDialogImpl;
 import com.cloudcreativity.wankeshop.databinding.FragmentFinishBinding;
 import com.cloudcreativity.wankeshop.databinding.ItemOrderFinishBinding;
-import com.cloudcreativity.wankeshop.entity.BigOrderEntity;
 import com.cloudcreativity.wankeshop.entity.OrderEntity;
 import com.cloudcreativity.wankeshop.entity.OrderEntityWrapper;
 import com.cloudcreativity.wankeshop.goods.ShoppingCarActivity;
@@ -93,19 +92,27 @@ public class FinishViewModal {
         if(item.getRefundState()!=0){
             //这是退款完成
             binding.tvReturn.setVisibility(View.GONE);
+            binding.tvState.setText(R.string.str_refund_success);
         }else{
-            if(item.getIsNoReason()==1){
-                //支持7天无忧
-                if(StrUtils.isEnoughSevenDay(item.getCompleteTime())){
-                    //说明还在7天之内，可以退货
-                    binding.tvReturn.setVisibility(View.VISIBLE);
+            //这是退货完成
+            if(item.getReturnState()==1){
+                binding.tvReturn.setVisibility(View.GONE);
+                binding.tvState.setText(R.string.str_return_goods_success);
+            }else{
+                binding.tvState.setText(R.string.str_completed);
+                if(item.getIsNoReason()==1){
+                    //支持7天无忧
+                    if(StrUtils.isEnoughSevenDay(item.getCompleteTime())){
+                        //说明还在7天之内，可以退货
+                        binding.tvReturn.setVisibility(View.VISIBLE);
+                    }else{
+                        //不在7天之内，不可以退货
+                        binding.tvReturn.setVisibility(View.GONE);
+                    }
                 }else{
-                    //不在7天之内，不可以退货
+                    //不支持
                     binding.tvReturn.setVisibility(View.GONE);
                 }
-            }else{
-                //不支持
-                binding.tvReturn.setVisibility(View.GONE);
             }
         }
 
@@ -180,7 +187,7 @@ public class FinishViewModal {
         ReturnGoodsDialogUtils utils = new ReturnGoodsDialogUtils();
         utils.setOnOkClickListener(new ReturnGoodsDialogUtils.OnOkClickListener() {
             @Override
-            public void onOkClick(String reason, int number) {
+            public void onOkClick(String reason,int number) {
                 HttpUtils.getInstance().addReturnOrder(item.getId(),
                         item.getShopId(),
                         item.getShoppingCart().getSkuId(),
@@ -204,7 +211,7 @@ public class FinishViewModal {
             }
         });
 
-        utils.show(context,item);
+        utils.show(context,item,false);
     }
 
     /**

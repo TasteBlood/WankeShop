@@ -112,14 +112,6 @@ public class ShoppingCarModal {
             protected void onBindItem(ItemShoppingCarItemBinding binding, final ShopCarItemEntity item, int position) {
                     binding.setItem(item);
                     initialShopItems(binding,item,position);
-                    binding.getRoot().setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(context, GoodsDetailActivity.class);
-                            intent.putExtra("spuId",item.getSpuId());
-                            context.startActivity(intent);
-                        }
-                    });
             }
         };
         
@@ -216,6 +208,17 @@ public class ShoppingCarModal {
                 changePrice(binding.cbShopCarItemCheck.isChecked(),entity);
             }
         });
+
+        View.OnClickListener clickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, GoodsDetailActivity.class);
+                intent.putExtra("spuId",entity.getSpuId());
+                context.startActivity(intent);
+            }
+        };
+        binding.ivShopCarPic.setOnClickListener(clickListener);
+        binding.tvShopCarName.setOnClickListener(clickListener);
     }
 
     //这是修改总价的方法

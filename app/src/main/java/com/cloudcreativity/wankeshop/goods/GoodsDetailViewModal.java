@@ -148,7 +148,6 @@ public class GoodsDetailViewModal {
                                    @Override
                                    public void onSuccess(String t) {
                                         ToastUtils.showShortToast(context,"已添加到购物车");
-
                                         //刷新购物车
                                         EventBus.getDefault().post(ShoppingCarFragment.MSG_REFRESH_SHOP_CAR);
                                    }
@@ -175,7 +174,7 @@ public class GoodsDetailViewModal {
                         goodsEntity = new Gson().fromJson(t, GoodsEntity.class);
                         if(goodsEntity!=null){
                             indexFragment = GoodsIndexFragment.getInstance(goodsEntity);
-                            detailFragment = new GoodsDetailFragment();
+                            detailFragment = GoodsDetailFragment.getInstance(goodsEntity.getSpuDesc());
 
                             titles.add("商品信息");
                             titles.add("详情");

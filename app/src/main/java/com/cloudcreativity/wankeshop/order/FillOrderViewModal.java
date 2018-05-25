@@ -178,7 +178,7 @@ public class FillOrderViewModal {
     //刷新数据
     public void updateAddress(BaseDialogImpl baseDialog) {
         if (utils != null)
-            utils.updateData(baseDialog);
+            utils.updateData(baseDialog,addressEntities);
     }
 
     //提交订单

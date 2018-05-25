@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="withdraw"
+            type="com.cloudcreativity.wankeshop.money.ApplyWithDrawViewModal" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/action_bar"
+            android:elevation="3dip"
+            android:background="@color/colorPrimary">
+            <TextView
+                android:textSize="@dimen/action_bar_font_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@color/white"
+                android:text="@string/str_apply_withdraw"/>
+            <android.support.v7.widget.AppCompatImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:onClick="@{(view)->withdraw.onBack(view)}"
+                android:src="@drawable/ic_arrow_back_white_24dp"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="15dip"
+            android:background="@color/white">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/gray_717171"
+                    android:text="@string/str_available_money"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{String.valueOf(withdraw.money.get())}"
+                    android:textSize="16sp"
+                    android:textColor="@color/Green"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/gray_717171"
+                    android:text="元"/>
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/et_money"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:layout_marginTop="40dip"
+                android:hint="@string/str_hint_apply_withdraw"
+                android:padding="15dip"
+                android:background="@drawable/shape_input_bottom_line"
+                android:inputType="number"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:onClick="@{(view)->withdraw.onApplyClick(view)}"
+                android:layout_marginTop="40dip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/str_now_withdraw"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:background="@drawable/ripple_red_btn_3corner"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

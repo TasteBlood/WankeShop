@@ -112,7 +112,7 @@ public class ChooseShopItemNumberDialogUtils {
             //显示信息
             ToastUtils.showLongToast(context,"数量不得超过"+entity.getSku().getDepositNum());
             binding.tvNumber.setText(String.valueOf(entity.getSku().getDepositNum()));
-            binding.tvNumber.setSelection(s.length());
+            binding.tvNumber.setSelection(binding.tvNumber.getText().length());
             return;
         }
         //当最大值为0时，还需要判断数量区间的范围
@@ -120,7 +120,7 @@ public class ChooseShopItemNumberDialogUtils {
             //显示信息
             ToastUtils.showLongToast(context,"数量不得超过"+entity.getSku().getMaxQuality());
             binding.tvNumber.setText(String.valueOf(entity.getSku().getMaxQuality()));
-            binding.tvNumber.setSelection(s.length());
+            binding.tvNumber.setSelection(binding.tvNumber.getText().length());
             return;
         }
         //数量小于配送范围时

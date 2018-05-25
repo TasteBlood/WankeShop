@@ -116,6 +116,58 @@
                         android:scrollbars="none"/>
                 </LinearLayout>
 
+                <!--这是订单赠品信息-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="赠品信息"
+                    android:visibility="@{detailModal.hasGift.get()?View.VISIBLE:View.GONE}"
+                    android:textColor="@color/gray_717171"
+                    android:layout_margin="10dip"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:visibility="@{detailModal.hasGift.get()?View.VISIBLE:View.GONE}"
+                    android:padding="10dip"
+                    android:orientation="horizontal">
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/iv_pic"
+                        android:background="@drawable/bg_goods_pic_border"
+                        android:scaleType="centerCrop"
+                        android:layout_width="60dip"
+                        android:layout_height="60dip" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dip"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/tv_giftName"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dip"
+                            android:textColor="@color/gray_717171"
+                            android:layout_weight="2" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dip"
+                            android:gravity="bottom"
+                            android:layout_weight="1">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/gray_919191"
+                                android:text="@string/str_number"/>
+                            <TextView
+                                android:id="@+id/tv_number"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/gray_717171"
+                                android:layout_marginStart="10dip" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
                 <!--这是订单信息-->
                 <LinearLayout
                     android:layout_marginTop="10dip"
@@ -136,7 +188,7 @@
                             android:textSize="14sp"
                             android:text="退货单号"/>
                         <TextView
-                            android:id="@+id/tv_orderNum"
+                            android:id="@+id/tv_returnOrderNum"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="14sp"
@@ -298,7 +350,7 @@
                 android:paddingStart="10dip"
                 android:paddingEnd="10dip"
                 android:onClick="@{(view)->detailModal.onCancelClick(view)}"
-                android:layout_marginStart="20dip"
+                android:layout_marginStart="10dip"
                 android:background="@drawable/shape_gray_circle_bg"
                 android:textColor="@color/gray_717171"
                 android:text="@string/str_cancel_order"/>
@@ -312,7 +364,7 @@
                 android:paddingStart="10dip"
                 android:paddingEnd="10dip"
                 android:onClick="@{(view)->detailModal.onApplyReturnMoneyClick(view)}"
-                android:layout_marginStart="20dip"
+                android:layout_marginStart="10dip"
                 android:background="@drawable/shape_gray_circle_bg"
                 android:textColor="@color/gray_717171"
                 android:text="@string/str_apply_back_money"/>
@@ -325,7 +377,7 @@
                 android:paddingBottom="5dip"
                 android:paddingStart="10dip"
                 android:paddingEnd="10dip"
-                android:layout_marginStart="20dip"
+                android:layout_marginStart="10dip"
                 android:onClick="@{(view)->detailModal.onContactSellerClick(view)}"
                 android:background="@drawable/shape_gray_circle_bg"
                 android:textColor="@color/gray_717171"
@@ -339,7 +391,7 @@
                 android:paddingBottom="5dip"
                 android:paddingStart="10dip"
                 android:paddingEnd="10dip"
-                android:layout_marginStart="20dip"
+                android:layout_marginStart="10dip"
                 android:onClick="@{(view)->detailModal.onReturnClick(view)}"
                 android:background="@drawable/shape_gray_circle_bg"
                 android:textColor="@color/gray_717171"
@@ -353,7 +405,7 @@
                 android:paddingBottom="5dip"
                 android:paddingStart="10dip"
                 android:paddingEnd="10dip"
-                android:layout_marginStart="20dip"
+                android:layout_marginStart="10dip"
                 android:onClick="@{(view)->detailModal.onDelayClick(view)}"
                 android:background="@drawable/shape_gray_circle_bg"
                 android:textColor="@color/gray_717171"
@@ -367,7 +419,7 @@
                 android:paddingBottom="5dip"
                 android:paddingStart="10dip"
                 android:paddingEnd="10dip"
-                android:layout_marginStart="20dip"
+                android:layout_marginStart="10dip"
                 android:onClick="@{(view)->detailModal.onEnterReceiveClick(view)}"
                 android:background="@drawable/shape_red_circle_bg"
                 android:textColor="@color/colorPrimary"
@@ -381,7 +433,7 @@
                 android:paddingStart="10dip"
                 android:paddingEnd="10dip"
                 android:visibility="gone"
-                android:layout_marginStart="20dip"
+                android:layout_marginStart="10dip"
                 android:onClick="@{(view)->detailModal.onReBuyClick(view)}"
                 android:background="@drawable/shape_red_circle_bg"
                 android:textColor="@color/colorPrimary"
@@ -393,7 +445,7 @@
                 android:paddingTop="5dip"
                 android:paddingBottom="5dip"
                 android:paddingStart="10dip"
-                android:layout_marginStart="20dip"
+                android:layout_marginStart="10dip"
                 android:paddingEnd="10dip"
                 android:visibility="gone"
                 android:background="@drawable/shape_red_circle_bg"

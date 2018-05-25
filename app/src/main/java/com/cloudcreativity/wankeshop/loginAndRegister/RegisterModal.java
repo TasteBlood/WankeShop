@@ -11,6 +11,7 @@ import android.widget.SeekBar;
 
 import com.cloudcreativity.wankeshop.R;
 import com.cloudcreativity.wankeshop.base.BaseDialogImpl;
+import com.cloudcreativity.wankeshop.base.CommonWebActivity;
 import com.cloudcreativity.wankeshop.databinding.ActivityRegisterBinding;
 import com.cloudcreativity.wankeshop.databinding.LayoutRegisterStepOneBinding;
 import com.cloudcreativity.wankeshop.databinding.LayoutRegisterStepThreeBinding;
@@ -18,6 +19,7 @@ import com.cloudcreativity.wankeshop.databinding.LayoutRegisterStepTwoBinding;
 import com.cloudcreativity.wankeshop.entity.address.ProvinceEntity;
 import com.cloudcreativity.wankeshop.userCenter.address.AddressChooseActivity;
 import com.cloudcreativity.wankeshop.userCenter.address.TempAddress;
+import com.cloudcreativity.wankeshop.utils.APIService;
 import com.cloudcreativity.wankeshop.utils.DefaultObserver;
 import com.cloudcreativity.wankeshop.utils.HttpUtils;
 import com.cloudcreativity.wankeshop.utils.StrUtils;
@@ -100,7 +102,7 @@ public class RegisterModal {
         }
         //这是查看用户协议
         public void lookUserProtocol(View view){
-            ToastUtils.showShortToast(context,"查看用户协议了");
+            CommonWebActivity.startActivity(context,"用户使用协议", APIService.HOST+"help/user_protocol.html");
         }
 
     }

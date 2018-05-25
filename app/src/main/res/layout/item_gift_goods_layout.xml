@@ -16,6 +16,7 @@
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/iv_pic"
             itemPic="@{TextUtils.isEmpty(item.sku.icon)?item.spu.spuPic:item.sku.icon}"
+            android:background="@drawable/bg_goods_pic_border"
             android:scaleType="centerCrop"
             android:layout_width="60dip"
             android:layout_height="60dip" />

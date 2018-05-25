@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,7 +53,7 @@ public class GoodsIndexFragment extends LazyFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         FragmentGoodsIndexBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_goods_index,container,false);
         binding.setIndexModal(viewModal = new GoodsIndexViewModal(this,context,(GoodsEntity) getArguments().getParcelable("entity"),binding));
-        binding.rcvGoodsIndexSize.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false));
+        binding.rcvGoodsIndexSize.setLayoutManager(new GridLayoutManager(context,2,LinearLayoutManager.VERTICAL,false));
         return binding.getRoot();
     }
 

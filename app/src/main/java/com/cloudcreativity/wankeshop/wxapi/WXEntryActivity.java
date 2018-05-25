@@ -11,6 +11,7 @@ import com.cloudcreativity.wankeshop.utils.AppConfig;
 import com.cloudcreativity.wankeshop.utils.LogUtils;
 import com.cloudcreativity.wankeshop.utils.ToastUtils;
 import com.google.gson.Gson;
+import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -48,7 +49,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        api = WXAPIFactory.createWXAPI(this, AppConfig.WX_APP_ID, true);
+        api = WXAPIFactory.createWXAPI(this,null);
         //注册微信
         api.registerApp(AppConfig.WX_APP_ID);
         //注意：
@@ -84,8 +85,6 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                     //这是微信登录
                     String code = object.getString("code");
                     getAccessToken(code);
-                } else {
-                    //这是微信支付
                 }
             } else {
                 LogUtils.e("xuxiwu——onResq", new Gson().toJson(baseResp));

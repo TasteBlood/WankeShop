@@ -12,6 +12,7 @@ import com.cloudcreativity.wankeshop.main.fragment.HomeSimpleFragment;
 import com.cloudcreativity.wankeshop.main.fragment.HomeStartFragment;
 import com.cloudcreativity.wankeshop.utils.DefaultObserver;
 import com.cloudcreativity.wankeshop.utils.HttpUtils;
+import com.cloudcreativity.wankeshop.utils.UpdateManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -51,9 +52,10 @@ public class HomeFragmentModal {
     }
 
     /**
-     * 加载首页的类别数据，并且动态生成页面
+     * 加载首页的类别数据，并且动态生成页面，并且检查热更新
      */
     public void loadData(){
+
         HttpUtils.getInstance().getHomeCategory()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -63,16 +65,18 @@ public class HomeFragmentModal {
                         Type type = new TypeToken<List<HomeCategoryEntity>>() {
                         }.getType();
                         List<HomeCategoryEntity> entities = new Gson().fromJson(t,type);
+                        pageTitles.clear();
+                        fragments.clear();
+                        pageTitles.add("首页");
+                        fragments.add(new HomeStartFragment());
                         if(entities!=null&&!entities.isEmpty()){
                             for(HomeCategoryEntity entity : entities){
                                 pageTitles.add(entity.getLevel1().getCategoryName());
                                 fragments.add(HomeSimpleFragment.getInstance(entity.getLevel1(),entity.getLevel2()));
                             }
-
-                            pagerAdapter.notifyDataSetChanged();
-                            binding.homeViewPager.setOffscreenPageLimit(fragments.size());
-
                         }
+                        pagerAdapter.notifyDataSetChanged();
+                        binding.homeViewPager.setOffscreenPageLimit(fragments.size());
                     }
 
                     @Override

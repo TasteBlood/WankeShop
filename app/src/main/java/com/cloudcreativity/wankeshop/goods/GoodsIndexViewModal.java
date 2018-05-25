@@ -100,7 +100,7 @@ public class GoodsIndexViewModal {
                             sizeAdapter.notifyItemChanged(lastPosition);
                             sizeAdapter.notifyItemChanged(position);
 
-                            selectInfo.set(item.get("content").toString());
+                            selectInfo.set(format_size((GoodsEntity.SKU) item.get("sizes")));
                             selectNumber.set(Integer.valueOf(String.valueOf(item.get("minNumber"))));
                             price.set(String.format(context.getResources().getString(R.string.str_rmb_character),Float.parseFloat(String.valueOf(item.get("salePrice")))));
 
@@ -109,7 +109,7 @@ public class GoodsIndexViewModal {
                         }else{
                             item.put("isCheck",true);
                             sizeAdapter.notifyItemChanged(position);
-                            selectInfo.set(item.get("content").toString());
+                            selectInfo.set(format_size((GoodsEntity.SKU) item.get("sizes")));
                             selectNumber.set(0);
                         }
 
@@ -121,7 +121,7 @@ public class GoodsIndexViewModal {
                                 if(gifts!=null&&!gifts.isEmpty()){
                                     StringBuilder builder = new StringBuilder();
                                     for(GoodsEntity.SKUGift gift:gifts){
-                                        builder.append(gift.getDesc()).append(",");
+                                        builder.append("满").append(gift.getSkuNum()).append("送").append(gift.getGiftNum()).append(",");
                                     }
                                     giftsInfo.set(builder.substring(0,builder.length()-1));
                                 }
@@ -195,17 +195,17 @@ public class GoodsIndexViewModal {
                 dataMap.put("limit",sku.getRegionOperator());//这是表示配送数量的范围
                 dataMap.put("total",sku.getDepositNum());//这是库存数量
                 for(int i=0;i<sku.getSpecs().size();i++){
-                    builder.append(sku.getSpecs().get(i).getSpecifactionName())
-                            .append(" ")
-                            .append(sku.getSpecs().get(i).getGoodsSpeciValue())
+                    builder.append(sku.getSpecs().get(i).getGoodsSpeciValue())
                             .append("+");
                 }
                 dataMap.put("content",builder.subSequence(0,builder.length()-1).toString());
+                dataMap.put("sizes",sku);
                 dataMaps.add(dataMap);
             }
         }else{
             Map<String,Object> dataMap = new HashMap<>();
             dataMap.put("content","暂无规格");
+            dataMap.put("sizes",null);
             dataMap.put("minNumber",1);
             dataMap.put("maxNumber",200);
             dataMap.put("limit","-");
@@ -222,7 +222,7 @@ public class GoodsIndexViewModal {
         lastPosition = 0;
         lastMaps = dataMaps.get(0);
 
-        selectInfo.set(lastMaps.get("content").toString());
+        selectInfo.set(format_size((GoodsEntity.SKU) lastMaps.get("sizes")));
         selectNumber.set(Integer.parseInt(String.valueOf(lastMaps.get("minNumber"))));
         price.set(String.format(context.getResources().getString(R.string.str_rmb_character),
                 Float.parseFloat(String.valueOf(lastMaps.get("salePrice")))));
@@ -239,7 +239,7 @@ public class GoodsIndexViewModal {
                 if(gifts!=null&&!gifts.isEmpty()){
                     StringBuilder builder = new StringBuilder();
                     for(GoodsEntity.SKUGift gift:gifts){
-                        builder.append(gift.getDesc()).append(",");
+                        builder.append("满").append(gift.getSkuNum()).append("送").append(gift.getGiftNum()).append(",");
                     }
                     giftsInfo.set(builder.substring(0,builder.length()-1));
                 }
@@ -279,14 +279,10 @@ public class GoodsIndexViewModal {
      */
     private void displayBanner(GoodsEntity entity){
         List<String> images = new ArrayList<>();
-        if(entity.getPics()==null||entity.getPics().isEmpty()){
-            //没有图片banner，展示spu封面图片
-            images.add(entity.getSpuPic());
-        }else{
-            //有图片banner，展示图片集合
-            for(GoodsEntity.Pics pics:entity.getPics()){
-                images.add(pics.getPicPath());
-            }
+        images.add(entity.getSpuPic());
+        for(GoodsEntity.SKU sku:entity.getSkus()){
+            if(!TextUtils.isEmpty(sku.getIcon()))
+                images.add(sku.getIcon());
         }
         //显示
         binding.bannerGoodsIndex.setPages(new CBViewHolderCreator() {
@@ -397,7 +393,23 @@ public class GoodsIndexViewModal {
 
 
     public void refreshAddress(){
-        if(utils!=null)
-            utils.updateData(baseDialog);
+        //if(utils!=null)
+           // utils.updateData(baseDialog,);
+    }
+
+    //格式化规格信息
+    private String format_size(GoodsEntity.SKU sku){
+        if(sku==null){
+            return "暂无规格";
+        }else{
+            StringBuilder builder = new StringBuilder();
+            for(int i=0;i<sku.getSpecs().size();i++){
+                builder.append(sku.getSpecs().get(i).getSpecifactionName())
+                        .append(" ")
+                        .append(sku.getSpecs().get(i).getGoodsSpeciValue())
+                        .append("+");
+            }
+            return builder.substring(0,builder.length()-1);
+        }
     }
 }

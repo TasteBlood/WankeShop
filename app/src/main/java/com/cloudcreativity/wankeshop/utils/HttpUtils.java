@@ -49,7 +49,7 @@ public class HttpUtils {
 //                .addConverterFactory(GsonConverterFactory.create(gson))
                 .addConverterFactory(StringConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(APIService.HOST)
+                .baseUrl(APIService.HOST_APP)
                 .build();
         apiService = retrofit.create(APIService.class);
     }

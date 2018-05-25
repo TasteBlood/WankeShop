@@ -65,6 +65,7 @@
                     android:id="@+id/iv_goodsPic"
                     android:layout_width="60dip"
                     android:layout_height="60dip"
+                    android:background="@drawable/bg_goods_pic_border"
                     app:shopItemPic="@{TextUtils.isEmpty(item.data[0].shoppingCart.sku.icon)?item.data[0].shoppingCart.spu.spuPic:item.data[0].shoppingCart.sku.icon}"
                     android:scaleType="centerCrop" />
                 <LinearLayout

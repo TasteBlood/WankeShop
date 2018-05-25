@@ -61,6 +61,6 @@ public class HomeStartFragment extends LazyFragment {
 
     @Override
     public void initialLoadData() {
-        viewModal.refreshListenerAdapter.onRefresh(binding.refreshHomeStart);
+        viewModal.initialLoadData();
     }
 }

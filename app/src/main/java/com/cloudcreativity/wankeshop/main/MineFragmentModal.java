@@ -1,8 +1,13 @@
 package com.cloudcreativity.wankeshop.main;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.databinding.BindingAdapter;
+import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,12 +20,15 @@ import com.cloudcreativity.wankeshop.collect.ShopCollectActivity;
 import com.cloudcreativity.wankeshop.databinding.FragmentMineBinding;
 import com.cloudcreativity.wankeshop.entity.ApplyLogisticsEntity;
 import com.cloudcreativity.wankeshop.entity.UserEntity;
+import com.cloudcreativity.wankeshop.money.ApplyWithDrawActivity;
+import com.cloudcreativity.wankeshop.money.ApplyWithDrawViewModal;
 import com.cloudcreativity.wankeshop.money.MoneyRecordsActivity;
 import com.cloudcreativity.wankeshop.order.AllOrderActivity;
 import com.cloudcreativity.wankeshop.userCenter.AddressManageActivity;
 import com.cloudcreativity.wankeshop.userCenter.SettingActivity;
 import com.cloudcreativity.wankeshop.userCenter.UserInformationActivity;
 import com.cloudcreativity.wankeshop.userCenter.logistics.ApplyToLogistics2Activity;
+import com.cloudcreativity.wankeshop.utils.APIService;
 import com.cloudcreativity.wankeshop.utils.ScanResultActivity;
 import com.cloudcreativity.wankeshop.utils.AppConfig;
 import com.cloudcreativity.wankeshop.utils.DefaultObserver;
@@ -134,6 +142,11 @@ public class MineFragmentModal {
         context.startActivity(new Intent().setClass(context, AddressManageActivity.class));
     }
 
+    //withdraw click
+    public void onWithDrawClick(View view){
+        context.startActivity(new Intent().setClass(context, ApplyWithDrawActivity.class));
+    }
+
     //recharge click
     public void onRechargeClick(View view){
 //        new PayWayDialogUtils().show(context);
@@ -154,6 +167,21 @@ public class MineFragmentModal {
     //shop collect click
     public void onShopCollectClick(View view){
         context.startActivity(new Intent().setClass(context, ShopCollectActivity.class));
+    }
+
+    //official customer service
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void onContactClick(View view){
+        if(context.checkSelfPermission(Manifest.permission.CALL_PHONE)== PackageManager.PERMISSION_GRANTED){
+            call();
+        }else{
+            context.requestPermissions(new String[]{Manifest.permission.CALL_PHONE},100);
+        }
+    }
+
+    //help center click
+    public void onHelpClick(View view){
+        CommonWebActivity.startActivity(context,"帮助中心", APIService.HOST+"help/index.html");
     }
 
     //apply logistics click
@@ -208,6 +236,12 @@ public class MineFragmentModal {
                         binding.refreshMine.finishRefreshing();
                     }
                 });
+    }
+
+    public void call(){
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        intent.setData(Uri.parse("tel://110"));
+        context.startActivity(intent);
     }
 
 }

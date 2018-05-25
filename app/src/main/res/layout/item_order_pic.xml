@@ -15,6 +15,7 @@
             app:shopItemPic="@{TextUtils.isEmpty(data.shoppingCart.sku.icon)?data.shoppingCart.spu.spuPic:data.shoppingCart.sku.icon}"
             android:scaleType="centerCrop"
             android:layout_marginEnd="10dip"
+            android:background="@drawable/bg_goods_pic_border"
             android:layout_width="60dip"
             android:layout_height="60dip" />
     </LinearLayout>

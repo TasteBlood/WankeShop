@@ -106,7 +106,7 @@ public class ChooseReceiveAddressDialogUtils {
     }
 
     //刷新数据
-    public void updateData(BaseDialogImpl baseDialog) {
+    public void updateData(BaseDialogImpl baseDialog, final List<AddressEntity> entities) {
         HttpUtils.getInstance().getMyAddress()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -118,6 +118,10 @@ public class ChooseReceiveAddressDialogUtils {
                         List<AddressEntity> addressEntities = new Gson().fromJson(t,type);
                         adapter.getItems().clear();
                         adapter.getItems().addAll(addressEntities);
+
+                        //更新回显数据
+                        entities.clear();
+                        entities.addAll(addressEntities);
                     }
 
                     @Override
@@ -132,6 +136,6 @@ public class ChooseReceiveAddressDialogUtils {
      * 这是点击回掉事件
      */
     public interface OnItemClickListener{
-        public void onItemClick(AddressEntity entity);
+         void onItemClick(AddressEntity entity);
     }
 }

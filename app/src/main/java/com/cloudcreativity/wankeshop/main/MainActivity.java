@@ -1,8 +1,10 @@
 package com.cloudcreativity.wankeshop.main;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -15,6 +17,7 @@ import com.cloudcreativity.wankeshop.R;
 import com.cloudcreativity.wankeshop.base.BaseActivity;
 import com.cloudcreativity.wankeshop.base.LazyFragment;
 import com.cloudcreativity.wankeshop.receiver.MyBusinessReceiver;
+import com.cloudcreativity.wankeshop.utils.UpdateManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -160,5 +163,13 @@ public class MainActivity extends BaseActivity {
             }
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(Manifest.permission.CALL_PHONE==permissions[0]){
+            fragments.get(3).onRequestPermissionsResult(requestCode,permissions,grantResults);
+        }
     }
 }

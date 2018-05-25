@@ -16,7 +16,10 @@
         android:orientation="horizontal">
         <RadioButton
             android:id="@+id/rb_goodsItem_size"
-            android:padding="5dip"
+            android:paddingStart="8dip"
+            android:paddingEnd="8dip"
+            android:paddingTop="6dip"
+            android:paddingBottom="6dip"
             android:text='@{String.valueOf(maps["content"])}'
             android:background="@drawable/selector_goods_size_item_bg"
             android:textColor="@drawable/selector_goods_size_item_bg"
@@ -24,6 +27,7 @@
             android:maxLines="1"
             android:button="@null"
             android:layout_width="wrap_content"
+            android:ellipsize="end"
             android:layout_height="wrap_content" />
     </LinearLayout>
 </layout>

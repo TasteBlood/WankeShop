@@ -55,6 +55,7 @@ public class LoggingInterceptor implements Interceptor {
                 request = request.newBuilder().post(body).build();
             }
         }else if("GET".equals(method)){
+            //LogUtils.e("xuxiwu_debug_test",SPUtils.get().getUser().toString());
             if(SPUtils.get().getUser()!=null) {
                 HttpUrl httpUrl = request.url().newBuilder()
                         .addQueryParameter("token", SPUtils.get().getToken())

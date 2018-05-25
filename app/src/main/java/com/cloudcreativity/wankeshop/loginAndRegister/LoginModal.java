@@ -13,6 +13,7 @@ import com.cloudcreativity.wankeshop.main.MainActivity;
 import com.cloudcreativity.wankeshop.utils.AppConfig;
 import com.cloudcreativity.wankeshop.utils.DefaultObserver;
 import com.cloudcreativity.wankeshop.utils.HttpUtils;
+import com.cloudcreativity.wankeshop.utils.LogUtils;
 import com.cloudcreativity.wankeshop.utils.SPUtils;
 import com.cloudcreativity.wankeshop.utils.StrUtils;
 import com.cloudcreativity.wankeshop.utils.ToastUtils;
@@ -38,8 +39,9 @@ public class LoginModal {
         this.baseDialog = baseDialog;
         this.binding = binding;
         this.context = context;
-        api = WXAPIFactory.createWXAPI(context, AppConfig.WX_APP_ID);
+        api = WXAPIFactory.createWXAPI(context,AppConfig.WX_APP_ID,false);
         api.registerApp(AppConfig.WX_APP_ID);
+
     }
 
     public void loginClick(View view){
@@ -71,6 +73,7 @@ public class LoginModal {
                     @Override
                     public void onSuccess(String user) {
                         UserEntity userEntity = new Gson().fromJson(user, UserEntity.class);
+                        //LogUtils.e("xuxiwu_debug_test",userEntity.toString());
                         if(userEntity!=null){
                             SPUtils.get().putInt(SPUtils.Config.UID,userEntity.getId());
                             SPUtils.get().putString(SPUtils.Config.TOKEN,userEntity.getToken());

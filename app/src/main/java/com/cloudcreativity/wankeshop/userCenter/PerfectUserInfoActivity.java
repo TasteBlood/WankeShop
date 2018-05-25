@@ -56,8 +56,8 @@ public class PerfectUserInfoActivity extends BaseActivity {
         if(buffer.length()>0)
             userInfoModal.setAddress(buffer.toString());
 
-        userInfoModal.user = SPUtils.get().getUser();
-        binding.invalidateAll();
+        //userInfoModal.user = SPUtils.get().getUser();
+        //binding.invalidateAll();
     }
 
     @Override

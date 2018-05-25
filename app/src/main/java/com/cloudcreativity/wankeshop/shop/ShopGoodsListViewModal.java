@@ -113,6 +113,8 @@ public class ShopGoodsListViewModal {
                     @Override
                     public void onSuccess(String t) {
                         GoodsWrapper goodsWrapper = new Gson().fromJson(t, GoodsWrapper.class);
+                        if(goodsWrapper==null)
+                            return;
                         if(goodsWrapper.getData()!=null&&!goodsWrapper.getData().isEmpty()){
                             if(pageNum==1){
                                 adapter.getItems().clear();

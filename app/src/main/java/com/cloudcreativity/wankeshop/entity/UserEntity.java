@@ -1,12 +1,11 @@
 package com.cloudcreativity.wankeshop.entity;
 
-import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 /**
  * 这是用户数据
  */
-public class UserEntity extends BaseObservable{
+public class UserEntity{
     private String birthDay;
     private String createTime;
     private String email;
@@ -117,7 +116,6 @@ public class UserEntity extends BaseObservable{
         this.balance = balance;
     }
 
-    @Bindable
     public String getBirthDay() {
         return birthDay;
     }
@@ -126,7 +124,6 @@ public class UserEntity extends BaseObservable{
         this.birthDay = birthDay;
     }
 
-    @Bindable
     public String getCreateTime() {
         return createTime;
     }
@@ -135,7 +132,6 @@ public class UserEntity extends BaseObservable{
         this.createTime = createTime;
     }
 
-    @Bindable
     public String getEmail() {
         return email;
     }
@@ -144,7 +140,6 @@ public class UserEntity extends BaseObservable{
         this.email = email;
     }
 
-    @Bindable
     public String getHeadPic() {
         return headPic;
     }
@@ -153,7 +148,6 @@ public class UserEntity extends BaseObservable{
         this.headPic = headPic;
     }
 
-    @Bindable
     public int getId() {
         return id;
     }
@@ -162,7 +156,6 @@ public class UserEntity extends BaseObservable{
         this.id = id;
     }
 
-    @Bindable
     public String getIdCard() {
         return idCard;
     }
@@ -171,7 +164,6 @@ public class UserEntity extends BaseObservable{
         this.idCard = idCard;
     }
 
-    @Bindable
     public String getLoginTime() {
         return loginTime;
     }
@@ -180,7 +172,6 @@ public class UserEntity extends BaseObservable{
         this.loginTime = loginTime;
     }
 
-    @Bindable
     public String getMobile() {
         return mobile;
     }
@@ -189,7 +180,6 @@ public class UserEntity extends BaseObservable{
         this.mobile = mobile;
     }
 
-    @Bindable
     public String getPassword() {
         return password;
     }
@@ -198,7 +188,6 @@ public class UserEntity extends BaseObservable{
         this.password = password;
     }
 
-    @Bindable
     public String getRank() {
         return rank;
     }
@@ -207,7 +196,6 @@ public class UserEntity extends BaseObservable{
         this.rank = rank;
     }
 
-    @Bindable
     public String getRealName() {
         return realName;
     }
@@ -216,7 +204,6 @@ public class UserEntity extends BaseObservable{
         this.realName = realName;
     }
 
-    @Bindable
     public String getRegDate() {
         return regDate;
     }
@@ -225,7 +212,6 @@ public class UserEntity extends BaseObservable{
         this.regDate = regDate;
     }
 
-    @Bindable
     public int getSex() {
         return sex;
     }
@@ -234,7 +220,6 @@ public class UserEntity extends BaseObservable{
         this.sex = sex;
     }
 
-    @Bindable
     public String getToken() {
         return token;
     }
@@ -243,7 +228,6 @@ public class UserEntity extends BaseObservable{
         this.token = token;
     }
 
-    @Bindable
     public int getType() {
         return type;
     }
@@ -252,7 +236,6 @@ public class UserEntity extends BaseObservable{
         this.type = type;
     }
 
-    @Bindable
     public String getUpdateTime() {
         return updateTime;
     }
@@ -261,12 +244,45 @@ public class UserEntity extends BaseObservable{
         this.updateTime = updateTime;
     }
 
-    @Bindable
     public String getUserName() {
         return userName;
     }
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "birthDay='" + birthDay + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", email='" + email + '\'' +
+                ", headPic='" + headPic + '\'' +
+                ", id=" + id +
+                ", idCard='" + idCard + '\'' +
+                ", loginTime='" + loginTime + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", password='" + password + '\'' +
+                ", rank='" + rank + '\'' +
+                ", realName='" + realName + '\'' +
+                ", regDate='" + regDate + '\'' +
+                ", sex=" + sex +
+                ", token='" + token + '\'' +
+                ", type=" + type +
+                ", updateTime='" + updateTime + '\'' +
+                ", userName='" + userName + '\'' +
+                ", balance='" + balance + '\'' +
+                ", isBind=" + isBind +
+                ", areaId='" + areaId + '\'' +
+                ", areaName='" + areaName + '\'' +
+                ", cityId='" + cityId + '\'' +
+                ", cityName='" + cityName + '\'' +
+                ", provinceId='" + provinceId + '\'' +
+                ", provinceName='" + provinceName + '\'' +
+                ", returnOrderNum=" + returnOrderNum +
+                ", unOrderNum=" + unOrderNum +
+                '}';
     }
 }

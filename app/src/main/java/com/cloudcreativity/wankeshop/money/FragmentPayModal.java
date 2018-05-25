@@ -50,11 +50,11 @@ public class FragmentPayModal {
             @Override
             protected void onBindItem(ItemMoneyPayListLayoutBinding binding, MoneyEntity item, int position) {
                 binding.setItem(item);
-                if(1==item.getType()){
+                if(1==item.getPayWay()){
                     binding.tvPayWay.setText("微信支付");
-                }else if(2==item.getType()){
+                }else if(2==item.getPayWay()){
                     binding.tvPayWay.setText("支付宝支付");
-                }else if(3==item.getType()){
+                }else if(3==item.getPayWay()){
                     binding.tvPayWay.setText("余额支付");
                 }else{
                     binding.tvPayWay.setText("其他支付");

@@ -21,6 +21,10 @@ public class AppConfig {
      */
     public static final String SP_NAME = "wanke_shop_app_config";
     /**
+     * 这是APP热更新的下载缓存目录
+     */
+    public static final String APP_HOT_UPDATE_FILE = "wanke_app_hot_update.apk";
+    /**
      * 这是登录的用户类型
      */
     public static final int USER_TYPE_ONE = 1;//普通
@@ -40,7 +44,7 @@ public class AppConfig {
     /**
      * 这是微信的app_secret
      */
-    public static String WX_APP_SECRET = "36e7d764490c08b3ec4cb97fabad20a5";
+    public static String WX_APP_SECRET = "2f97bbc403d48852c783ef484776b8eb";
 
     /**
      * 这是扫描二维码的图片路径

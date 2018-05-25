@@ -14,6 +14,9 @@
     <uses-feature android:name="android.hardware.camera.autofocus" /> <!-- 自动聚焦权限 -->
     <uses-permission android:name="android.permission.FLASHLIGHT"/><!--闪光灯-->
     <uses-permission android:name="android.permission.CALL_PHONE" /><!--拨打电话-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /><!--获取wifi状态-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /><!--读取设备状态-->
+
 
     <!-- 权限配置结束 -->
     <application
@@ -63,21 +66,40 @@
         <activity android:name=".collect.GoodsCollectActivity" />
         <activity android:name=".collect.ShopCollectActivity" />
         <activity android:name=".userCenter.logistics.ApplyToLogistics2Activity" />
+
+    <!--这是微信回掉页面-->
         <activity android:name=".wxapi.WXEntryActivity"
             android:launchMode="singleTop"
             android:exported="true"
             android:theme="@style/WXActivityTheme"
             android:configChanges="orientation|keyboardHidden|screenSize"/>
+
+    <!--这是微信支付回掉页面-->
+        <activity android:name=".wxapi.WXPayEntryActivity"
+            android:launchMode="singleTop"
+            android:exported="true"
+            android:theme="@style/WXActivityTheme"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+
         <activity android:name=".loginAndRegister.wxLogin.WxLoginBindMobileActivity" />
         <activity android:name=".loginAndRegister.wxLogin.WxLoginRegisterActivity" />
         <activity android:name=".base.CommonWebActivity" />
         <activity android:name=".goods.GoodsListActivity" />
         <activity android:name=".shop.ShopListActivity" />
         <activity android:name=".goods.GoodsListForBannerActivity" />
-        <activity android:name=".goods.GoodsDetailActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
+        <activity android:name=".goods.GoodsDetailActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
         <activity android:name=".goods.ChooseReceiveAddressActivity" />
         <activity android:name=".order.FillOrderActivity" />
-        <activity android:name=".order.PayOrderActivity" />
+
+        <!--支付订单页面-->
+        <activity android:name=".order.PayOrderActivity" android:screenOrientation="portrait" android:exported="true" android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="wx93fee6f47dbda966"/>
+            </intent-filter>
+        </activity>
+
         <activity android:name=".goods.ShoppingCarActivity" android:launchMode="singleTask"/>
         <activity android:name=".order.AllOrderActivity" android:launchMode="singleTask"/>
         <activity android:name=".shop.ShopGoodsListActivity" android:theme="@style/TranslucentTheme">
@@ -85,6 +107,25 @@
         <activity android:name=".order.OrderDetailActivity" />
         <activity android:name=".userCenter.BindWeChatActivity" />
         <activity android:name=".userCenter.UnBindWeChatActivity" />
+        <activity android:name=".money.ApplyWithDrawActivity" />
+
+
+        <!--alipay activity-->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" >
+        </activity>
+        <activity
+            android:name="com.alipay.sdk.app.H5AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" >
+        </activity>
+        <activity android:name=".base.PaySuccessActivity" />
 
 
         <!-- Activity配置结束 -->

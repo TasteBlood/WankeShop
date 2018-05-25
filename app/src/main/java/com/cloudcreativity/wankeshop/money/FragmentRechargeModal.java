@@ -79,24 +79,22 @@ public class FragmentRechargeModal {
                 .subscribe(new DefaultObserver<String>(baseDialog,false) {
                     @Override
                     public void onSuccess(String t) {
+                        if(page==1){
+                            binding.refreshRecharge.finishRefreshing();
+                        }else{
+                            binding.refreshRecharge.finishLoadmore();
+                        }
                         //处理数据
                         List<MoneyEntity> moneyEntities = new Gson().fromJson(t, MoneyWrapper.class).getData();
                         if(moneyEntities==null||moneyEntities.isEmpty()){
                             ToastUtils.showShortToast(context,R.string.str_no_data);
-                            if(page==1){
-                                binding.refreshRecharge.finishRefreshing();
-                            }else{
-                                binding.refreshRecharge.finishLoadmore();
-                            }
                         }else{
                             if(page==1){
                                 adapter.getItems().clear();
                                 adapter.getItems().addAll(moneyEntities);
-                                binding.refreshRecharge.finishRefreshing();
                                 lazyFragment.initialLoadDataSuccess();
                             }else{
                                 adapter.getItems().addAll(moneyEntities);
-                                binding.refreshRecharge.finishLoadmore();
                             }
                             pageNum++;
                         }

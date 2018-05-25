@@ -32,6 +32,7 @@ import com.cloudcreativity.wankeshop.utils.DefaultObserver;
 import com.cloudcreativity.wankeshop.utils.GlideUtils;
 import com.cloudcreativity.wankeshop.utils.HttpUtils;
 import com.cloudcreativity.wankeshop.utils.ToastUtils;
+import com.cloudcreativity.wankeshop.utils.UpdateManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
@@ -71,6 +72,9 @@ public class HomeStartViewModal {
     public RefreshListenerAdapter refreshListenerAdapter = new RefreshListenerAdapter() {
         @Override
         public void onRefresh(TwinklingRefreshLayout refreshLayout) {
+            //检查APP热更新
+            UpdateManager.checkVersion(context,dialogImpl);
+
             //刷新首页的数据
             EventBus.getDefault().post(HomeFragment.MSG_REFRESH);
 
@@ -123,6 +127,13 @@ public class HomeStartViewModal {
         goodsAdapter = new HomeStartRecyclerAdapter(entities,this);
     }
 
+    //初始化加载数据
+    public void initialLoadData(){
+        pageNum = 1;
+        loadBanner();
+        loadNavMenuItems();
+        loadGoodsList(pageNum);
+    }
     //这是活动的点击事件
     public void onActivityClick(View view){
 
@@ -192,6 +203,8 @@ public class HomeStartViewModal {
                             //展示nav数据
                             navAdapter.getItems().clear();
                             navAdapter.getItems().addAll(homeNavWrapper.getResultlist());
+                        }else{
+                            navAdapter.getItems().clear();
                         }
                     }
 
@@ -210,14 +223,17 @@ public class HomeStartViewModal {
                 .subscribe(new DefaultObserver<String>(dialogImpl,false) {
                     @Override
                     public void onSuccess(String t) {
-                        if(HomeStartViewModal.this.pageNum!=1){
-                            binding.refreshHomeStart.finishLoadmore();
-                        }else{
-                            binding.refreshHomeStart.finishRefreshing();
-                        }
+
                         GoodsWrapper goodsWrapper = new Gson().fromJson(t, GoodsWrapper.class);
                         if(goodsWrapper.getData()==null||goodsWrapper.getData().isEmpty()){
                             ToastUtils.showShortToast(context, R.string.str_no_data);
+                            if(HomeStartViewModal.this.pageNum==1){
+                                binding.refreshHomeStart.finishRefreshing();
+                                entities.clear();
+                                entities.add(new GoodsEntity());
+                            }else{
+                                binding.refreshHomeStart.finishLoadmore();
+                            }
                         }else{
                             //添加数据
                             if(pageNum==1){
@@ -225,9 +241,9 @@ public class HomeStartViewModal {
                                 entities.add(new GoodsEntity());
                             }
                             entities.addAll(goodsWrapper.getData());
-                            goodsAdapter.notifyDataSetChanged();
                             HomeStartViewModal.this.pageNum++;
                         }
+                        goodsAdapter.notifyDataSetChanged();
 
                     }
 

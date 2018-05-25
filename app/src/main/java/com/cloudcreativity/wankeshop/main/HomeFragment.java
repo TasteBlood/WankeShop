@@ -54,10 +54,8 @@ public class HomeFragment extends LazyFragment {
     @Subscribe
     public void onEvent(String msg){
         if(MSG_REFRESH.equals(msg)){
-            if(homeModal.getPageTitles().size()==1){
                 //说明数据加载失败
                 homeModal.loadData();
-            }
         }
     }
 }

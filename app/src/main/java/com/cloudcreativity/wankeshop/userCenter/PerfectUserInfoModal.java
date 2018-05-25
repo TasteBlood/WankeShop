@@ -14,6 +14,7 @@ import com.cloudcreativity.wankeshop.base.CommonWebActivity;
 import com.cloudcreativity.wankeshop.databinding.ActivityPerfectUserInfoBinding;
 import com.cloudcreativity.wankeshop.entity.UserEntity;
 import com.cloudcreativity.wankeshop.entity.address.ProvinceEntity;
+import com.cloudcreativity.wankeshop.receiver.MyBusinessReceiver;
 import com.cloudcreativity.wankeshop.userCenter.address.AddressChooseActivity;
 import com.cloudcreativity.wankeshop.userCenter.address.TempAddress;
 import com.cloudcreativity.wankeshop.utils.AppConfig;
@@ -76,6 +77,9 @@ public class PerfectUserInfoModal {
 
     //生日选择
     public void selectBirth(View view){
+        Calendar calendar = Calendar.getInstance();
+        Calendar calendarEnd = (Calendar) calendar.clone();
+        calendar.set(Calendar.YEAR,1990);
         final TimePickerView pickerView = new TimePickerView.Builder(context, new TimePickerView.OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
@@ -85,7 +89,8 @@ public class PerfectUserInfoModal {
             }
         }).setType(new boolean[]{true,true,true,false,false,false})
                 .setCancelText("取消")
-                .setRange(1900,Calendar.getInstance().get(Calendar.YEAR))
+                .setRangDate(calendar,calendarEnd)
+                .setDate(calendarEnd)
                 .setCancelColor(context.getResources().getColor(R.color.gray_717171))
                 .setSubmitText("确定")
                 .setSubmitColor(context.getResources().getColor(R.color.colorPrimary))
@@ -141,25 +146,30 @@ public class PerfectUserInfoModal {
         HttpUtils.getInstance().editInformation(
                 entity.getUserName(),entity.getRealName(),entity.getPassword(),
                 headPic,entity.getEmail(),entity.getSex(),entity.getIdCard(),entity.getBirthDay(),
-                entity.getType(),entity.getProvinceId(),entity.getCityId(),entity.getAreaId(),entity.getIsBind())
+                entity.getType(),entity.getProvinceId(),entity.getCityId(),entity.getAreaId())
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DefaultObserver<String>(context,true) {
                     @Override
                     public void onSuccess(String t) {
                         //更新本地的用户信息
                         UserEntity userEntity = new Gson().fromJson(t, UserEntity.class);
-                        if(userEntity!=null){
-                            SPUtils.get().putInt(SPUtils.Config.UID,userEntity.getId());
-                            SPUtils.get().putString(SPUtils.Config.TOKEN,userEntity.getToken());
-                            SPUtils.get().setUser(t);
+                        if(!SPUtils.get().getUser().getAreaId().equals(userEntity.getAreaId())){
+                            //发现当前当前的地址发生变化，提示重新登录
+                            ToastUtils.showShortToast(context,"所在区域发生变化，需重新登录");
+                            Intent intent = new Intent();
+                            intent.setAction(MyBusinessReceiver.ACTION_RE_LOGIN);
+                            context.sendBroadcast(intent);
+                        }else{
+                                SPUtils.get().putInt(SPUtils.Config.UID,userEntity.getId());
+                                SPUtils.get().putString(SPUtils.Config.TOKEN,userEntity.getToken());
+                                SPUtils.get().setUser(t);
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    context.finish();
+                                }
+                            },200);
                         }
-
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                context.finish();
-                            }
-                        },200);
                     }
 
                     @Override

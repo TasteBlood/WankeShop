@@ -99,10 +99,17 @@ public class WaitReceiveViewModal {
             //说明就是在退款流程当中
             binding.tvEnterReceive.setVisibility(View.GONE);
             binding.tvDelay.setVisibility(View.GONE);
+            binding.tvBackMoney.setVisibility(View.GONE);
+            binding.tvBackGoods.setVisibility(View.GONE);
+            binding.tvState.setText(R.string.str_applying);
+            binding.tvState.setTextColor(context.getResources().getColor(R.color.refresh_red));
         }else{
             //不在退款流程当中
             if(item.getShipState()==1){
                 //未发货
+                binding.tvState.setText(R.string.str_not_send);
+                binding.tvState.setTextColor(context.getResources().getColor(R.color.gray_717171));
+                binding.tvEnterReceive.setVisibility(View.GONE);
                 binding.tvDelay.setVisibility(View.GONE);
                 binding.tvBackMoney.setVisibility(View.VISIBLE);
                 binding.tvBackGoods.setVisibility(View.GONE);
@@ -113,10 +120,23 @@ public class WaitReceiveViewModal {
                     }
                 });
             }else{
-                //已发货，可以退货
-                binding.tvDelay.setVisibility(item.getIsDelay()==1?View.GONE:View.VISIBLE);
+                //已发货,还得判断是否退货中
+                if(item.getReturnState()==1){
+                    //说明在退货中
+                    binding.tvState.setText(R.string.str_returning);
+                    binding.tvState.setTextColor(context.getResources().getColor(R.color.refresh_red));
+                    binding.tvBackGoods.setVisibility(View.GONE);
+                    binding.tvDelay.setVisibility(View.GONE);
+                    binding.tvEnterReceive.setVisibility(View.GONE);
+                }else{
+                    //不在退货中，可以退货
+                    binding.tvState.setText(R.string.str_already_send);
+                    binding.tvState.setTextColor(context.getResources().getColor(R.color.gray_717171));
+                    binding.tvBackGoods.setVisibility(View.VISIBLE);
+                    binding.tvDelay.setVisibility(item.getIsDelay()==1?View.GONE:View.VISIBLE);
+                    binding.tvEnterReceive.setVisibility(View.VISIBLE);
+                }
                 binding.tvBackMoney.setVisibility(View.GONE);
-                binding.tvBackGoods.setVisibility(View.VISIBLE);
                 binding.tvBackGoods.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -161,7 +181,7 @@ public class WaitReceiveViewModal {
         ReturnGoodsDialogUtils utils = new ReturnGoodsDialogUtils();
         utils.setOnOkClickListener(new ReturnGoodsDialogUtils.OnOkClickListener() {
             @Override
-            public void onOkClick(String reason, int number) {
+            public void onOkClick(String reason,int number) {
                 HttpUtils.getInstance().addReturnOrder(item.getId(),
                         item.getShopId(),
                         item.getShoppingCart().getSkuId(),
@@ -175,6 +195,9 @@ public class WaitReceiveViewModal {
                                 //发消息更新订单列表页面
                                 ToastUtils.showShortToast(context,"已提交");
                                 EventBus.getDefault().post(OrderDetailViewModal.MSG_RECEIVE_ORDER);
+                                EventBus.getDefault().post(OrderDetailViewModal.MSG_RETURN_ORDER);
+                                //刷新当前的页面
+                                binding.refreshWaitReceive.startRefresh();
                             }
 
                             @Override
@@ -185,7 +208,7 @@ public class WaitReceiveViewModal {
             }
         });
 
-        utils.show(context,item);
+        utils.show(context,item,true);
     }
 
     //申请退款
@@ -201,6 +224,7 @@ public class WaitReceiveViewModal {
                             @Override
                             public void onSuccess(String t) {
                                 ToastUtils.showShortToast(context,"申请退款成功，请等待商家确认");
+                                item.setRefundState(1);
                                 adapter.notifyItemChanged(position);
                             }
 

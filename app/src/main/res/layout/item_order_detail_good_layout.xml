@@ -22,6 +22,7 @@
                 android:id="@+id/iv_pic"
                 android:layout_width="60dip"
                 android:layout_height="60dip"
+                android:background="@drawable/bg_goods_pic_border"
                 itemPic="@{TextUtils.isEmpty(goods.sku.icon)?goods.spu.spuPic:goods.sku.icon}"
                 android:scaleType="centerCrop"/>
             <LinearLayout

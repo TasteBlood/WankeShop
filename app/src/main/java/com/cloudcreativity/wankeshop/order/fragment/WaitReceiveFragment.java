@@ -15,6 +15,7 @@ import com.cloudcreativity.wankeshop.base.LazyFragment;
 import com.cloudcreativity.wankeshop.databinding.FragmentWaitReceiveBinding;
 import com.cloudcreativity.wankeshop.order.OrderDetailViewModal;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 /**
@@ -29,11 +30,13 @@ public class WaitReceiveFragment extends LazyFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Subscribe

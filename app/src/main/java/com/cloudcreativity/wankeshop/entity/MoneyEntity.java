@@ -7,14 +7,15 @@ public class MoneyEntity {
     private int audit;//交易状态 0 等待中  1 成功  2 失败
     private int balance;//账户余额
     private String createTime;
-    private double drawMoney;//提现金额
+    private String drawMoney;//提现金额
     private String headPic;
     private int id;
     private String mobile;
-    private double rechargeMoney;//充值金额
+    private String rechargeMoney;//充值金额
     private int state;// 1充值  2提现  3支付
-    private double payMoney;//消费支付的钱
+    private String payMoney;//消费支付的钱
     private int type;//支付方式 1 微信 2 支付宝 3 余额
+    private int payWay;//支付方式 1 微信 2 支付宝 3 余额
     private String outTradeNo;//订单号
     private String transactionNo;//支付单号
     private String updateTime;
@@ -22,31 +23,35 @@ public class MoneyEntity {
     private String userName;
     private String cashNo;//自己平台的交易单号
 
-    public double getDrawMoney() {
+    public int getPayWay() {
+        return payWay;
+    }
+
+    public void setPayWay(int payWay) {
+        this.payWay = payWay;
+    }
+
+    public String getDrawMoney() {
         return drawMoney;
     }
 
-    public void setDrawMoney(double drawMoney) {
+    public void setDrawMoney(String drawMoney) {
         this.drawMoney = drawMoney;
     }
 
-    public double getRechargeMoney() {
+    public String getRechargeMoney() {
         return rechargeMoney;
     }
 
-    public void setRechargeMoney(double rechargeMoney) {
+    public void setRechargeMoney(String rechargeMoney) {
         this.rechargeMoney = rechargeMoney;
     }
 
-    public double getPayMoney() {
+    public String getPayMoney() {
         return payMoney;
     }
 
-    public void setPayMoney(double payMoney) {
-        this.payMoney = payMoney;
-    }
-
-    public void setPayMoney(float payMoney) {
+    public void setPayMoney(String payMoney) {
         this.payMoney = payMoney;
     }
 

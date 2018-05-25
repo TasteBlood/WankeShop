@@ -1,6 +1,8 @@
 package com.cloudcreativity.wankeshop.main;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,6 +17,7 @@ import com.cloudcreativity.wankeshop.base.LazyFragment;
 import com.cloudcreativity.wankeshop.databinding.FragmentMineBinding;
 import com.cloudcreativity.wankeshop.order.OrderDetailViewModal;
 import com.cloudcreativity.wankeshop.utils.SPUtils;
+import com.cloudcreativity.wankeshop.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -81,6 +84,23 @@ public class MineFragment extends LazyFragment {
             binding.refreshMine.startRefresh();
         }else if(OrderDetailViewModal.MSG_RETURN_ORDER.equals(msg)){
             binding.refreshMine.startRefresh();
+        }else if(OrderDetailViewModal.MSG_PAY_SUCCESS.equals(msg)){
+            binding.refreshMine.startRefresh();
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==100){
+            if(Manifest.permission.CALL_PHONE.equals(permissions[0])){
+                if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
+                    mineFragmentModal.call();
+                }else{
+                    ToastUtils.showShortToast(context,"请在设置中打开通话权限");
+                }
+            }
         }
     }
 }

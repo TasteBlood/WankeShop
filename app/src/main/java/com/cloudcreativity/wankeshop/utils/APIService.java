@@ -18,15 +18,20 @@ public interface APIService {
     /**
      * 整体的接口配置
      */
-    String TEST_HOST = "http://192.168.31.19/vmall/";
-    String ONLINE_HOST = "http://www.sina.com/";
+//    String TEST_HOST = "http://192.168.31.19/vmall/";
+    String TEST_HOST = "http://service.milidianshang.cn/";
+    String ONLINE_HOST = "http://service.milidianshang.cn/";
     String HOST = AppConfig.DEBUG ? TEST_HOST : ONLINE_HOST;
+    String HOST_APP = AppConfig.DEBUG ? TEST_HOST+"vmall/" : ONLINE_HOST+"vmall/";
+    //app 热更新获取版本信息
+    @GET("getMaxVersion.do")
+    Observable<String> getLastVersion();
 
     //获取七牛的上传图片的token
     @GET("getQiNiuToken.do")
     Observable<String> getQiNiuToken();
 
-    //登录接口  0  密码在服务器加密适用于普通登录  1 密码不许加密适用于微信登录
+    //登录接口  type 0  密码在服务器加密适用于普通登录  1 密码不许加密适用于微信登录
     @FormUrlEncoded
     @POST("login.do")
     Observable<String> login(@Field("mobile") String mobile,
@@ -78,8 +83,7 @@ public interface APIService {
                                        @Field("type") int type,
                                        @Field("provinceId") String provinceId,
                                        @Field("cityId") String cityId,
-                                       @Field("areaId") String areaId,
-                                       @Field("isBind")int isBind);
+                                       @Field("areaId") String areaId);
 
     //修改手机号第一步
     @FormUrlEncoded
@@ -454,4 +458,60 @@ public interface APIService {
     @GET("reqRefundOrder.do")
     Observable<String> applyRefund(@Query("id") int orderId,
                                    @Query("refundDesc") String refundDesc);
+
+    /**
+     *获取微信订单
+     * @param body 购买内容 软件名称-商品名称
+     * @param outTradeNo 平台自己的订单号
+     * @param totalFee 总价
+     * @param type 类型  1 供应商  2 普通商家
+     */
+    @POST("wxAppPay.do")
+    @FormUrlEncoded
+    Observable<String> getWeiXinOrder(@Field("body") String body,
+                                      @Field("outTradeNo") String outTradeNo,
+                                      @Field("totalFee") int totalFee,
+                                      @Field("type") int type);
+
+    /**
+     * 获取支付宝订单
+     * @param body 购买内容 软件名称-商品名称
+     * @param subject 购买标题 软件名称-商品名称
+     * @param outTradeNo 平台自己的订单号
+     * @param totalFee 总价
+     * @param type 类型  1 供应商  2 普通商家
+     */
+    @POST("aliAppPay.do")
+    @FormUrlEncoded
+    Observable<String> getALiPayOrder(@Field("body") String body,
+                                      @Field("subject") String subject,
+                                      @Field("outTradeNo") String outTradeNo,
+                                      @Field("totalFee") float totalFee,
+                                      @Field("type") int type);
+    /**
+     *
+     * @param drawMoney 提现金额
+     * 申请提现接口
+     */
+    @GET("addUserDrawCashDetil.do")
+    Observable<String> applyWithdrawRequest(@Query("drawMoney") float drawMoney,
+                                            @Query("mobile") String mobile,
+                                            @Query("sms") String sms);
+
+
+    /**
+     *
+     * @param orderNum 订单号
+     * @param totalMoney 总金额
+     * @param mobile 手机号
+     * @param sms 验证码
+     * @param type 类型
+     */
+    @POST("balancePay.do")
+    @FormUrlEncoded
+    Observable<String> balancePay(@Field("outTradeNo") String orderNum,
+                                  @Field("totalFee") float totalMoney,
+                                  @Field("type") int type,
+                                  @Field("mobile") String mobile,
+                                  @Field("sms") String sms);
 }

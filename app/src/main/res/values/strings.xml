@@ -130,7 +130,7 @@
     <string name="str_hint_six_pwd">请输入6位以上密码</string>
     <string name="str_area2">所在地区</string>
     <string name="str_rmb_character">￥:%.2f</string>
-    <string name="str_sale_count">销量:%1$d</string>
+    <string name="str_sale_count">销量:%1$s</string>
     <string name="str_goods_detail">商品详情</string>
     <string name="str_add_new_address">添加新地址</string>
     <string name="str_min_number_send">起送</string>
@@ -153,11 +153,12 @@
     <string name="str_go_pay">去支付</string>
     <string name="str_cancel_order">取消订单</string>
     <string name="str_re_buy">再次购买</string>
-    <string name="str_return_goods">退   货</string>
+    <string name="str_return_goods">申请退货</string>
+    <string name="str_return_goods_success">已退货</string>
     <string name="str_no_order">暂时没有订单</string>
     <string name="str_order_detail">订单详情</string>
     <string name="str_delete_order">删除订单</string>
-    <string name="str_completed">已退货</string>
+    <string name="str_completed">已完成</string>
     <string name="str_returning">退货中</string>
     <string name="str_cancel_collect">取消收藏</string>
     <string name="str_collect">收藏店铺</string>
@@ -175,4 +176,11 @@
     <string name="str_applied">已申请退款</string>
     <string name="str_applying">退款中</string>
     <string name="str_refund_success">退款完成</string>
+    <string name="str_available_money">当前可提现金额:</string>
+    <string name="str_apply_withdraw">申请提现</string>
+    <string name="str_hint_apply_withdraw">请输入金额</string>
+    <string name="str_now_withdraw">立即申请</string>
+    <string name="str_pay_result">支付结果</string>
+    <string name="str_pay_success">支付成功</string>
+    <string name="str_look_orders">查看订单</string>
 </resources>

@@ -285,6 +285,7 @@
                                 android:text="@string/str_records"/>
                             <TextView
                                 android:id="@+id/tv_mineWithdraw"
+                                android:onClick="@{(view)->mineModal.onWithDrawClick(view)}"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -294,12 +295,12 @@
                                 android:text="@string/str_withdraw"/>
                             <TextView
                                 android:id="@+id/tv_mineRecharge"
-                                android:onClick="@{(view)->mineModal.onRechargeClick(view)}"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="center"
                                 android:drawableTop="@mipmap/ic_menu_recharge"
+                                android:visibility="invisible"
                                 android:drawablePadding="10dp"
                                 android:text="@string/str_recharge"/>
                             <View
@@ -390,6 +391,7 @@
                         android:layout_height="wrap_content"
                         android:background="@color/white"
                         android:layout_marginTop="1dp"
+                        android:onClick="@{(view)->mineModal.onContactClick(view)}"
                         android:padding="10dp">
                         <TextView
                             android:layout_width="wrap_content"
@@ -408,6 +410,7 @@
                         android:layout_height="wrap_content"
                         android:background="@color/white"
                         android:layout_marginTop="1dp"
+                        android:onClick="@{(view)->mineModal.onHelpClick(view)}"
                         android:padding="10dp">
                         <TextView
                             android:layout_width="wrap_content"

@@ -108,4 +108,24 @@ public class StrUtils {
             return false;
         }
     }
+
+    /**
+     *
+     * @param money 浮点数的钱
+     * @return 分的整数
+     */
+    public static int yuan2FenInt(float money){
+        BigDecimal fenBd = new BigDecimal(money).multiply(new BigDecimal(100));
+        fenBd = fenBd.setScale(0, BigDecimal.ROUND_HALF_UP);
+        return fenBd.intValue();
+    }
+
+    /**
+     *
+     * @param number 数字
+     * @return 格式化后的数字
+     */
+    public static String formatNumberByThousands(int number) {
+        return number>=9999?"10000+":String.valueOf(number);
+    }
 }

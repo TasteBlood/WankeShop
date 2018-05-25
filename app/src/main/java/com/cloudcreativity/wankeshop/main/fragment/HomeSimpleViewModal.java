@@ -35,6 +35,8 @@ import com.google.gson.Gson;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.cloudcreativity.wankeshop.databinding.ItemHomeGoodsListItemBinding;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -50,7 +52,7 @@ public class HomeSimpleViewModal {
     private FragmentHomeSimpleBinding binding;
 
     private LevelEntity firstLevel;
-    private List<LevelEntity> secondLevels;
+    private List<LevelEntity> secondLevels = new ArrayList<>();
 
     //这是页面的UI变量
     public BaseBindingRecyclerViewAdapter<GoodsEntity,ItemHomeGoodsListItemBinding> adapter;
@@ -61,7 +63,7 @@ public class HomeSimpleViewModal {
     private boolean sortPrice = true;// true  升序  false 降序
     private boolean sortSale = true;//true 升序  false 降序
     private String keyWords = "";//关键字  默认为空
-    private int secondId = 0;//这是二级分类的id
+    private int secondId ;//这是二级分类的id
     private int pageNum = 1;//页码
 
     HomeSimpleViewModal(BaseDialogImpl baseDialog, HomeSimpleFragment fragment, Context context, FragmentHomeSimpleBinding binding,
@@ -72,28 +74,27 @@ public class HomeSimpleViewModal {
         this.binding = binding;
 
         this.firstLevel = firstLevel;
-        this.secondLevels = secondLevels;
-
         this.binding.refreshHomeSimple.setOnRefreshListener(new RefreshListenerAdapter() {
             @Override
             public void onRefresh(TwinklingRefreshLayout refreshLayout) {
                 pageNum = 1;
-                loadData(pageNum,secondLevels.get(0).getId(),1,1);
+                loadData(pageNum,secondId,1,1);
             }
 
             @Override
             public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
-                loadData(pageNum,secondLevels.get(0).getId(),1,1);
+                loadData(pageNum,secondId,1,1);
             }
         });
 
         //初始化二级分类，默认加入全部字段
         LevelEntity entity = new LevelEntity();
         entity.setCategoryName("全 部");
+        this.secondLevels.clear();
         this.secondLevels.add(0,entity);
         this.secondId = 0;
         this.category.set(this.secondLevels.get(0));
-
+        this.secondLevels.addAll(1,secondLevels);
         adapter = new BaseBindingRecyclerViewAdapter<GoodsEntity, ItemHomeGoodsListItemBinding>(context) {
             @Override
             protected int getLayoutResId(int viewType) {
@@ -136,6 +137,7 @@ public class HomeSimpleViewModal {
 
     //当搜索点击
     public void onSearchClick(View view){
+        pageNum = 1;
         keyWords = binding.etKeywords.getText().toString().trim();
         loadData(pageNum,secondId,sortPrice?1:2,sortSale?1:2);
     }
@@ -259,6 +261,8 @@ public class HomeSimpleViewModal {
         categoryWindow.setHeight(metrics.heightPixels/2);
 
         categoryWindow.setOutsideTouchable(true);
+        categoryWindow.setFocusable(true);
+
 
         categoryWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         categoryWindow.showAsDropDown(HomeSimpleViewModal.this.binding.layoutCategory,0,10);

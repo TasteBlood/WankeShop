@@ -63,6 +63,8 @@ public class GoodsEntity implements Parcelable,Serializable{
 
     private int spuStatus;
 
+    private String spuDesc;//商品详情
+
     private int supplierId;
 
     private Unit unit;
@@ -75,6 +77,7 @@ public class GoodsEntity implements Parcelable,Serializable{
 
     public GoodsEntity() {
     }
+
 
     protected GoodsEntity(Parcel in) {
         auditCause = in.readString();
@@ -97,6 +100,7 @@ public class GoodsEntity implements Parcelable,Serializable{
         spuName = in.readString();
         spuPic = in.readString();
         spuStatus = in.readInt();
+        spuDesc = in.readString();
         supplierId = in.readInt();
         unit = in.readParcelable(Unit.class.getClassLoader());
         unitQuality = in.readString();
@@ -126,6 +130,7 @@ public class GoodsEntity implements Parcelable,Serializable{
         dest.writeString(spuName);
         dest.writeString(spuPic);
         dest.writeInt(spuStatus);
+        dest.writeString(spuDesc);
         dest.writeInt(supplierId);
         dest.writeParcelable(unit, flags);
         dest.writeString(unitQuality);
@@ -149,6 +154,14 @@ public class GoodsEntity implements Parcelable,Serializable{
             return new GoodsEntity[size];
         }
     };
+
+    public String getSpuDesc() {
+        return spuDesc;
+    }
+
+    public void setSpuDesc(String spuDesc) {
+        this.spuDesc = spuDesc;
+    }
 
     public int getIsGift() {
         return isGift;
@@ -339,7 +352,7 @@ public class GoodsEntity implements Parcelable,Serializable{
     }
 
     public String formatSaleNum(){
-        return String.format(BaseApp.app.getResources().getString(R.string.str_sale_count),this.saleNum);
+        return String.format(BaseApp.app.getResources().getString(R.string.str_sale_count),StrUtils.formatNumberByThousands(this.saleNum));
     }
 
     /**
@@ -864,7 +877,7 @@ public class GoodsEntity implements Parcelable,Serializable{
         private int skuNum;
         private String updateTime;
 
-        protected SKUGift(Parcel in) {
+        SKUGift(Parcel in) {
             createTime = in.readString();
             desc = in.readString();
             giftId = in.readInt();

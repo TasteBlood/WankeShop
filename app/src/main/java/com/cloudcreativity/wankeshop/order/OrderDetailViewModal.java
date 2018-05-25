@@ -25,7 +25,9 @@ import com.cloudcreativity.wankeshop.entity.ShopEntity;
 import com.cloudcreativity.wankeshop.goods.ShoppingCarActivity;
 import com.cloudcreativity.wankeshop.main.ShoppingCarFragment;
 import com.cloudcreativity.wankeshop.utils.DefaultObserver;
+import com.cloudcreativity.wankeshop.utils.GlideUtils;
 import com.cloudcreativity.wankeshop.utils.HttpUtils;
+import com.cloudcreativity.wankeshop.utils.RefundOrderDialogUtils;
 import com.cloudcreativity.wankeshop.utils.ReturnGoodsDialogUtils;
 import com.cloudcreativity.wankeshop.utils.StrUtils;
 import com.cloudcreativity.wankeshop.utils.ToastUtils;
@@ -65,7 +67,9 @@ public class OrderDetailViewModal {
 
     public ObservableField<String> money = new ObservableField<>();//支付总额
 
-    public BaseBindingRecyclerViewAdapter<OrderEntity,ItemOrderDetailGoodLayoutBinding> adapter;
+    public ObservableField<Boolean> hasGift = new ObservableField<>();//是否有赠品
+
+    public BaseBindingRecyclerViewAdapter<OrderEntity, ItemOrderDetailGoodLayoutBinding> adapter;
 
 
     //这是消息
@@ -82,6 +86,8 @@ public class OrderDetailViewModal {
         this.order = order;
         this.binding = binding;
 
+        this.hasGift.set(false);
+
         //展示商品信息
         adapter = new BaseBindingRecyclerViewAdapter<OrderEntity, ItemOrderDetailGoodLayoutBinding>(context) {
             @Override
@@ -93,8 +99,8 @@ public class OrderDetailViewModal {
             protected void onBindItem(ItemOrderDetailGoodLayoutBinding binding, final OrderEntity item, int position) {
                 binding.setGoods(item.getShoppingCart());
                 binding.tvPrice.setText(String.format(context.getString(R.string.str_rmb_character), Float.parseFloat(item.getShoppingCart().getSku().getSalePrice())));
-                if(order instanceof BigOrderEntity){
-                    if(((BigOrderEntity)order).getData().get(0).getState()==0){
+                if (order instanceof BigOrderEntity) {
+                    if (((BigOrderEntity) order).getData().get(0).getState() == 0) {
                         binding.tvAddToCar.setVisibility(View.VISIBLE);
                         binding.tvAddToCar.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -104,11 +110,11 @@ public class OrderDetailViewModal {
                                         String.valueOf(item.getShoppingCart().getNum()));
                             }
                         });
-                    }else{
+                    } else {
                         binding.tvAddToCar.setVisibility(View.GONE);
                     }
-                }else if(order instanceof OrderEntity){
-                    if(((OrderEntity)order).getShipState()==3){
+                } else if (order instanceof OrderEntity) {
+                    if (((OrderEntity) order).getShipState() == 3) {
                         binding.tvAddToCar.setVisibility(View.VISIBLE);
                         binding.tvAddToCar.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -118,10 +124,10 @@ public class OrderDetailViewModal {
                                         String.valueOf(item.getShoppingCart().getNum()));
                             }
                         });
-                    }else{
+                    } else {
                         binding.tvAddToCar.setVisibility(View.GONE);
                     }
-                }else{
+                } else {
                     binding.tvAddToCar.setVisibility(View.GONE);
                 }
             }
@@ -131,11 +137,11 @@ public class OrderDetailViewModal {
          * 这么操作的原因已经在activity中说明
          */
         int addressId = 0;
-        if(order instanceof BigOrderEntity){
+        if (order instanceof BigOrderEntity) {
             addressId = ((BigOrderEntity) order).getData().get(0).getAddressId();
-        }else if(order instanceof OrderEntity){
+        } else if (order instanceof OrderEntity) {
             addressId = ((OrderEntity) order).getAddressId();
-        }else if(order instanceof ReturnOrderEntity){
+        } else if (order instanceof ReturnOrderEntity) {
             addressId = ((ReturnOrderEntity) order).getAddressId();
         }
 
@@ -143,20 +149,19 @@ public class OrderDetailViewModal {
 
     }
 
-    public void onBack(View view){
+    public void onBack(View view) {
         context.finish();
     }
 
     /**
-     *
      * @param addressId 地址id
      *                  加载收货地址信息
      */
-    private void loadAddress(int addressId){
+    private void loadAddress(int addressId) {
         HttpUtils.getInstance().getAddressDetail(addressId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DefaultObserver<String>(baseDialog,true) {
+                .subscribe(new DefaultObserver<String>(baseDialog, true) {
                     @Override
                     public void onSuccess(String t) {
                         //展示全部的数据
@@ -167,12 +172,12 @@ public class OrderDetailViewModal {
                         /*
                          * 这么操作的原因已经在activity中说明
                          */
-                        if(order instanceof BigOrderEntity){
-                            displayBigOrder((BigOrderEntity)order);
-                        }else if(order instanceof OrderEntity){
-                            displayOrder((OrderEntity)order);
-                        }else if(order instanceof ReturnOrderEntity){
-                            displayReturnOrder((ReturnOrderEntity)order);
+                        if (order instanceof BigOrderEntity) {
+                            displayBigOrder((BigOrderEntity) order);
+                        } else if (order instanceof OrderEntity) {
+                            displayOrder((OrderEntity) order);
+                        } else if (order instanceof ReturnOrderEntity) {
+                            displayReturnOrder((ReturnOrderEntity) order);
                         }
                     }
 
@@ -188,27 +193,27 @@ public class OrderDetailViewModal {
         orderNumber.set(order.getOrder().getOrderNum());
         orderDate.set(order.getOrder().getCreateTime());
         returnOrderNum.set(order.getReturnNum());
-        if(order.getOrder().getPayWay()==1){
+        if (order.getOrder().getPayWay() == 1) {
             //微信支付
             orderPyWay.set("微信支付");
-        }else if(order.getOrder().getPayWay()==2){
+        } else if (order.getOrder().getPayWay() == 2) {
             //支付宝支付
             orderPyWay.set("支付宝支付");
-        }else if(order.getOrder().getPayWay()==3){
+        } else if (order.getOrder().getPayWay() == 3) {
             //账户余额方式
             orderPyWay.set("账户余额");
-        }else{
+        } else {
             orderPyWay.set("其他支付");
         }
 
-        money.set(String.format(context.getString(R.string.str_rmb_character),Float.parseFloat(order.getOrder().getPayMoney())));
+        money.set(String.format(context.getString(R.string.str_rmb_character), Float.parseFloat(order.getOrder().getPayMoney())));
         //展示状态
-        if(order.getReturnState()==3){
+        if (order.getReturnState() == 3) {
             //已退货
-            orderState.set(context.getString(R.string.str_completed));
+            orderState.set(context.getString(R.string.str_return_goods_success));
             binding.tvDelete.setVisibility(View.VISIBLE);
 
-        }else if(order.getReturnState()==1||order.getReturnState()==2){
+        } else if (order.getReturnState() == 1 || order.getReturnState() == 2) {
             //退货中
             orderState.set(context.getString(R.string.str_returning));
             binding.tvContact.setVisibility(View.VISIBLE);
@@ -224,61 +229,75 @@ public class OrderDetailViewModal {
         orderNumber.set(order.getOrderNum());
         orderDate.set(order.getCreateTime());
 
-        if(order.getPayWay()==1){
+        if (order.getPayWay() == 1) {
             //微信支付
             orderPyWay.set("微信支付");
-        }else if(order.getPayWay()==2){
+        } else if (order.getPayWay() == 2) {
             //支付宝支付
             orderPyWay.set("支付宝支付");
-        }else if(order.getPayWay()==3){
+        } else if (order.getPayWay() == 3) {
             //账户余额方式
             orderPyWay.set("账户余额");
-        }else{
+        } else {
             orderPyWay.set("其他支付");
         }
 
-        money.set(String.format(context.getString(R.string.str_rmb_character),Float.parseFloat(order.getPayMoney())));
+        money.set(String.format(context.getString(R.string.str_rmb_character), Float.parseFloat(order.getPayMoney())));
 
-        if(order.getShipState()==1||order.getShipState()==2){
+        if (order.getShipState() == 1 || order.getShipState() == 2) {
             //待收货,都可以联系卖家的，也有可能是退款中
-            if(order.getRefundState()!=0){
-                orderState.set(order.getRefundState()==1?context.getString(R.string.str_applied):context.getString(R.string.str_applying));
-                binding.tvContact.setVisibility(View.VISIBLE);
-            }else{
-                orderState.set("待收货".concat("(").concat(order.getShipState()==1?"未发货":"已发货").concat(")"));
-                binding.tvContact.setVisibility(View.VISIBLE);
-                binding.tvEnterReceive.setVisibility(View.VISIBLE);
-                if(order.getShipState()==1){
-                    //未发货，可以退款
-                    binding.tvApplyReturnMoney.setVisibility(View.VISIBLE);
-                }else{
-                    //已发货，可以退货
-                    binding.tvDelay.setVisibility(order.getIsDelay()==0?View.GONE:View.VISIBLE);
-                    binding.tvReturn.setVisibility(View.VISIBLE);
+            binding.tvContact.setVisibility(View.VISIBLE);
+            if (order.getRefundState() != 0) {
+                orderState.set(context.getString(R.string.str_applying));
+            } else {
+                orderState.set("待收货".concat("(").concat(order.getShipState() == 1 ? "未发货" : "已发货").concat(")"));
+                if (order.getReturnState() == 1) {
+                    //说明是退货中
+                    orderState.set(context.getString(R.string.str_returning));
+                } else {
+                    //没有退货，可以申请退货
+                    orderState.set("待收货".concat("(").concat(order.getShipState() == 1 ? "未发货" : "已发货").concat(")"));
+                    //binding.tvReturn.setVisibility(View.VISIBLE);
+
+                    if (order.getShipState() == 1) {
+                        //未发货，可以退款
+                        binding.tvApplyReturnMoney.setVisibility(View.VISIBLE);
+                    } else {
+                        //已发货，可以退货
+                        binding.tvDelay.setVisibility(order.getIsDelay() == 1 ? View.GONE : View.VISIBLE);
+                        binding.tvReturn.setVisibility(View.VISIBLE);
+                        binding.tvEnterReceive.setVisibility(View.VISIBLE);
+                    }
                 }
             }
-        }else if(order.getShipState()==3){
+        } else if (order.getShipState() == 3) {
             //完成,也有可能是退款完成
-            if(order.getRefundState()!=0){
+            if (order.getRefundState() != 0) {
                 //退款完成
                 orderState.set(context.getString(R.string.str_refund_success));
                 binding.tvDelete.setVisibility(View.VISIBLE);
                 binding.tvReBuy.setVisibility(View.VISIBLE);
-            }else{
-                orderState.set("已完成");
-                //判断当前是否支持7天无忧退货处理
-                if(order.getIsNoReason()==1){
-                    //支持7天无忧
-                    if(StrUtils.isEnoughSevenDay(order.getCompleteTime())){
-                        //说明还在7天之内，可以退货
-                        binding.tvReturn.setVisibility(View.VISIBLE);
-                    }else{
-                        //不在7天之内，不可以退货
+            } else {
+                //还需判断是否是已退货
+                if (order.getReturnState() == 1) {
+                    //退货完成
+                    orderState.set(context.getString(R.string.str_return_goods_success));
+                } else {
+                    orderState.set("已完成");
+                    //判断当前是否支持7天无忧退货处理
+                    if (order.getIsNoReason() == 1) {
+                        //支持7天无忧
+                        if (StrUtils.isEnoughSevenDay(order.getCompleteTime())) {
+                            //说明还在7天之内，可以退货
+                            binding.tvReturn.setVisibility(View.VISIBLE);
+                        } else {
+                            //不在7天之内，不可以退货
+                            binding.tvReturn.setVisibility(View.GONE);
+                        }
+                    } else {
+                        //不支持
                         binding.tvReturn.setVisibility(View.GONE);
                     }
-                }else{
-                    //不支持
-                    binding.tvReturn.setVisibility(View.GONE);
                 }
                 binding.tvDelete.setVisibility(View.VISIBLE);
                 binding.tvReBuy.setVisibility(View.VISIBLE);
@@ -286,37 +305,51 @@ public class OrderDetailViewModal {
         }
         adapter.getItems().add(order);
 
+        //显示赠品信息
+        if(order.getSkuGiftList()!=null&&order.getSkuGiftList().getId()!=0){
+            //加载图片
+            if(TextUtils.isEmpty(order.getSkuGiftList().getSkuIcon())){
+                GlideUtils.load(context,order.getSkuGiftList().getSpuIcon(),binding.ivPic);
+            }else{
+                GlideUtils.load(context,order.getSkuGiftList().getSkuIcon(),binding.ivPic);
+            }
+            binding.tvGiftName.setText(order.getSkuGiftList().getSkuName());
+            binding.tvNumber.setText(String.valueOf(order.getOrderGift().getGiftNum()));
+
+            hasGift.set(true);
+        }
+
     }
 
     //显示大订单
     private void displayBigOrder(BigOrderEntity bigOrder) {
         //一定是这两种情况  已取消 state=0  未支付 payState=1
         orderPyWay.set("未支付");
-        List<OrderEntity> shopCarItemEntities  = new ArrayList<>();
+        List<OrderEntity> shopCarItemEntities = new ArrayList<>();
         //显示信息
         orderNumber.set(bigOrder.getOnlyId());
         float totalMoney = 0.00f;
-        for(int i=0;i<bigOrder.getData().size();i++){
+        for (int i = 0; i < bigOrder.getData().size(); i++) {
             OrderEntity orderEntity = bigOrder.getData().get(i);
             shopCarItemEntities.add(orderEntity);
-            if(i==0){
+            if (i == 0) {
                 //这是第一个数据
                 orderDate.set(orderEntity.getCreateTime());
-                if(orderEntity.getState()==0){
+                if (orderEntity.getState() == 0) {
                     //已经废弃的订单
                     orderState.set("已取消");
                     binding.tvDelete.setVisibility(View.VISIBLE);
                     binding.tvReBuy.setVisibility(View.VISIBLE);
-                }else if(orderEntity.getPayState()==1){
+                } else if (orderEntity.getPayState() == 1) {
                     //未支付
                     orderState.set("未支付");
                     binding.tvCancel.setVisibility(View.VISIBLE);
                     binding.tvGoPay.setVisibility(View.VISIBLE);
                 }
             }
-            totalMoney+=Float.parseFloat(orderEntity.getPayMoney());
+            totalMoney += Float.parseFloat(orderEntity.getPayMoney());
         }
-        money.set(String.format(context.getString(R.string.str_rmb_character),totalMoney));
+        money.set(String.format(context.getString(R.string.str_rmb_character), totalMoney));
 
         //展示图片
         adapter.getItems().addAll(shopCarItemEntities);
@@ -324,15 +357,15 @@ public class OrderDetailViewModal {
 
 
     //删除订单
-    public void onDeleteClick(View view){
-        if(order instanceof ReturnOrderEntity){
-            HttpUtils.getInstance().deleteReturnOrders(String.valueOf(((ReturnOrderEntity)order).getId()))
+    public void onDeleteClick(View view) {
+        if (order instanceof ReturnOrderEntity) {
+            HttpUtils.getInstance().deleteReturnOrders(String.valueOf(((ReturnOrderEntity) order).getId()))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new DefaultObserver<String>(baseDialog,true) {
+                    .subscribe(new DefaultObserver<String>(baseDialog, true) {
                         @Override
                         public void onSuccess(String t) {
-                            EventBus.getDefault().post(MSG_RETURN_ORDER);
+                            EventBus.getDefault().post(MSG_DELETE_ORDER);
                             context.finish();
                         }
 
@@ -341,9 +374,9 @@ public class OrderDetailViewModal {
 
                         }
                     });
-        }else{
+        } else {
             StringBuilder builder = new StringBuilder();
-            for(OrderEntity entity:adapter.getItems()){
+            for (OrderEntity entity : adapter.getItems()) {
                 builder.append(entity.getId()).append(",");
             }
             String ids = builder.substring(0, builder.length() - 1);
@@ -351,7 +384,7 @@ public class OrderDetailViewModal {
             HttpUtils.getInstance().deleteOrders(ids)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new DefaultObserver<String>(baseDialog,true) {
+                    .subscribe(new DefaultObserver<String>(baseDialog, true) {
                         @Override
                         public void onSuccess(String t) {
                             //发消息更新订单列表页面
@@ -368,9 +401,9 @@ public class OrderDetailViewModal {
     }
 
     //取消订单
-    public void onCancelClick(View view){
+    public void onCancelClick(View view) {
         StringBuilder builder = new StringBuilder();
-        for(OrderEntity entity:adapter.getItems()){
+        for (OrderEntity entity : adapter.getItems()) {
             builder.append(entity.getId()).append(",");
         }
         String ids = builder.substring(0, builder.length() - 1);
@@ -378,7 +411,7 @@ public class OrderDetailViewModal {
         HttpUtils.getInstance().scrapOrders(ids)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DefaultObserver<String>(baseDialog,true) {
+                .subscribe(new DefaultObserver<String>(baseDialog, true) {
                     @Override
                     public void onSuccess(String t) {
                         //发消息更新订单列表页面
@@ -394,28 +427,28 @@ public class OrderDetailViewModal {
     }
 
     //联系卖家
-    public void onContactSellerClick(View view){
+    public void onContactSellerClick(View view) {
         int shopId = 0;
-        if(order instanceof OrderEntity){
+        if (order instanceof OrderEntity) {
             shopId = ((OrderEntity) order).getShopId();
-        }else if(order instanceof ReturnOrderEntity){
+        } else if (order instanceof ReturnOrderEntity) {
             shopId = ((ReturnOrderEntity) order).getShopId();
         }
         HttpUtils.getInstance().getShopInfo(shopId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DefaultObserver<String>(baseDialog,true) {
+                .subscribe(new DefaultObserver<String>(baseDialog, true) {
                     @RequiresApi(api = Build.VERSION_CODES.M)
                     @Override
                     public void onSuccess(String t) {
                         ShopEntity entity = new Gson().fromJson(t, ShopEntity.class);
                         int result = context.checkCallingOrSelfPermission(Manifest.permission.CALL_PHONE);
-                        if(result== PackageManager.PERMISSION_DENIED){
-                            context.requestPermissions(new String[]{Manifest.permission.CALL_PHONE},100);
-                        }else{
-                           Intent intent = new Intent(Intent.ACTION_CALL);
-                           intent.setData(Uri.parse("tel://".concat(entity.getContactMobile())));
-                           context.startActivity(intent);
+                        if (result == PackageManager.PERMISSION_DENIED) {
+                            context.requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, 100);
+                        } else {
+                            Intent intent = new Intent(Intent.ACTION_CALL);
+                            intent.setData(Uri.parse("tel://".concat(entity.getContactMobile())));
+                            context.startActivity(intent);
                         }
                     }
 
@@ -432,24 +465,29 @@ public class OrderDetailViewModal {
     }
 
     //退货
-    public void onReturnClick(View view){
+    public void onReturnClick(View view) {
+
+        final OrderEntity item = (OrderEntity) order;
 
         ReturnGoodsDialogUtils utils = new ReturnGoodsDialogUtils();
         utils.setOnOkClickListener(new ReturnGoodsDialogUtils.OnOkClickListener() {
             @Override
             public void onOkClick(String reason, int number) {
-                HttpUtils.getInstance().addReturnOrder(((OrderEntity) order).getId(),
-                        ((OrderEntity) order).getShopId(),
-                        ((OrderEntity) order).getShoppingCart().getSkuId(),
+                HttpUtils.getInstance().addReturnOrder(item.getId(),
+                        item.getShopId(),
+                        item.getShoppingCart().getSkuId(),
                         reason,
                         number)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new DefaultObserver<String>(baseDialog,true) {
+                        .subscribe(new DefaultObserver<String>(baseDialog, true) {
                             @Override
                             public void onSuccess(String t) {
                                 //发消息更新订单列表页面
+
                                 EventBus.getDefault().post(MSG_RETURN_ORDER);
+                                EventBus.getDefault().post(MSG_RECEIVE_ORDER);
+
                                 context.finish();
                             }
 
@@ -461,12 +499,12 @@ public class OrderDetailViewModal {
             }
         });
 
-        utils.show(context, (OrderEntity) order);
+        utils.show(context, item, item.getShipState() != 3);
 
     }
 
     //确定收货
-    public void onEnterReceiveClick(View view){
+    public void onEnterReceiveClick(View view) {
 
         final OrderEntity item = (OrderEntity) order;
         AlertDialog dialog = new AlertDialog.Builder(context)
@@ -480,14 +518,14 @@ public class OrderDetailViewModal {
                 }).setPositiveButton("确定收货", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        HttpUtils.getInstance().updateOrderState(item.getId(),3)
+                        HttpUtils.getInstance().updateOrderState(item.getId(), 3)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new DefaultObserver<String>(baseDialog,true) {
+                                .subscribe(new DefaultObserver<String>(baseDialog, true) {
                                     @Override
                                     public void onSuccess(String t) {
-                                        adapter.getItems().remove(item);
                                         EventBus.getDefault().post(OrderDetailViewModal.MSG_RECEIVE_ORDER);
+                                        context.finish();
                                     }
 
                                     @Override
@@ -501,24 +539,24 @@ public class OrderDetailViewModal {
     }
 
     //再次购买
-    public void onReBuyClick(View view){
+    public void onReBuyClick(View view) {
         StringBuilder ids = new StringBuilder();
-        for(OrderEntity entity : adapter.getItems()){
+        for (OrderEntity entity : adapter.getItems()) {
             ids.append(entity.getId()).append(",");
         }
-        if(TextUtils.isEmpty(ids)){
+        if (TextUtils.isEmpty(ids)) {
             return;
         }
-        HttpUtils.getInstance().orderReBuy(ids.substring(0,ids.length()-1))
+        HttpUtils.getInstance().orderReBuy(ids.substring(0, ids.length() - 1))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DefaultObserver<String>(baseDialog,true) {
+                .subscribe(new DefaultObserver<String>(baseDialog, true) {
                     @Override
                     public void onSuccess(String t) {
-                        if("0".equals(t)){
+                        if ("0".equals(t)) {
                             //重新购买失败
-                            ToastUtils.showShortToast(context,"该商品暂时无法购买");
-                        }else if("1".equals(t)){
+                            ToastUtils.showShortToast(context, "该商品暂时无法购买");
+                        } else if ("1".equals(t)) {
                             //重新购买成功，跳转到购物车
                             EventBus.getDefault().post(ShoppingCarFragment.MSG_REFRESH_SHOP_CAR);
                             Intent intent = new Intent(context, ShoppingCarActivity.class);
@@ -535,27 +573,28 @@ public class OrderDetailViewModal {
     }
 
     //去支付
-    public void onPayClick(View view){
+    public void onPayClick(View view) {
         //跳转到支付页面
         float money = 0.00f;
-        for(OrderEntity entity:((BigOrderEntity)order).getData()){
+        for (OrderEntity entity : ((BigOrderEntity) order).getData()) {
             money += Float.parseFloat(entity.getPayMoney());
         }
-        Intent intent = new Intent(context,PayOrderActivity.class);
-        intent.putExtra("orderNum",((BigOrderEntity)order).getOnlyId());
-        intent.putExtra("totalMoney",money);
+        Intent intent = new Intent(context, PayOrderActivity.class);
+        intent.putExtra("orderNum", ((BigOrderEntity) order).getOnlyId());
+        intent.putExtra("totalMoney", money);
         context.startActivity(intent);
+        context.finish();
     }
 
     //加入购物车
-    private void addToShopCar(String spuId,String skuId,String number){
-        HttpUtils.getInstance().addToShoppingCar(spuId,skuId,number)
+    private void addToShopCar(String spuId, String skuId, String number) {
+        HttpUtils.getInstance().addToShoppingCar(spuId, skuId, number)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DefaultObserver<String>(baseDialog,true) {
+                .subscribe(new DefaultObserver<String>(baseDialog, true) {
                     @Override
                     public void onSuccess(String t) {
-                        ToastUtils.showShortToast(context,"已添加到购物车");
+                        ToastUtils.showShortToast(context, "已添加到购物车");
                         //刷新购物车
                         EventBus.getDefault().post(ShoppingCarFragment.MSG_REFRESH_SHOP_CAR);
                     }
@@ -568,12 +607,12 @@ public class OrderDetailViewModal {
     }
 
     //延长收货
-    public void onDelayClick(View view){
+    public void onDelayClick(View view) {
         showDelayReceiveDialog((OrderEntity) order);
     }
 
     //延迟收货
-    private void showDelayReceiveDialog(final OrderEntity item){
+    private void showDelayReceiveDialog(final OrderEntity item) {
         AlertDialog dialog = new AlertDialog.Builder(context)
                 .setTitle("延长收货提示")
                 .setMessage("每个订单只能延长收货一次，确定延长收货吗？")
@@ -581,14 +620,15 @@ public class OrderDetailViewModal {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        HttpUtils.getInstance().delayReceiveOrder(item.getId(),1)
+                        HttpUtils.getInstance().delayReceiveOrder(item.getId(), 1)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new DefaultObserver<String>(baseDialog,true) {
+                                .subscribe(new DefaultObserver<String>(baseDialog, true) {
                                     @Override
                                     public void onSuccess(String t) {
                                         //发送消息更新
-
+                                        EventBus.getDefault().post(MSG_RECEIVE_ORDER);
+                                        context.finish();
                                     }
 
                                     @Override
@@ -608,7 +648,30 @@ public class OrderDetailViewModal {
     }
 
     //这是申请退款
-    public void onApplyReturnMoneyClick(View view){
+    public void onApplyReturnMoneyClick(View view) {
+        final OrderEntity item = (OrderEntity) order;
+        RefundOrderDialogUtils dialogUtils = new RefundOrderDialogUtils();
+        dialogUtils.setOnOkClickListener(new RefundOrderDialogUtils.OnOkClickListener() {
+            @Override
+            public void onClick(String reason) {
+                HttpUtils.getInstance().applyRefund(item.getId(), reason)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new DefaultObserver<String>(baseDialog, true) {
+                            @Override
+                            public void onSuccess(String t) {
+                                ToastUtils.showShortToast(context, "申请退款成功，请等待商家确认");
+                                EventBus.getDefault().post(OrderDetailViewModal.MSG_RECEIVE_ORDER);
+                                context.finish();
+                            }
 
+                            @Override
+                            public void onFail(ExceptionReason msg) {
+
+                            }
+                        });
+            }
+        });
+        dialogUtils.show(context);
     }
 }
