@@ -7,8 +7,16 @@ import java.util.List;
  */
 public class HomeNavWrapper {
     private List<HomeNavEntity> resultlist ;
-
+    private UserEntity user;
     private int totalrecord;
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
 
     public void setResultlist(List<HomeNavEntity> resultlist){
         this.resultlist = resultlist;

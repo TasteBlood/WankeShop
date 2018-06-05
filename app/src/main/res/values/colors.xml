@@ -6,11 +6,11 @@
     <color name="colorAccent">#5e90f9</color>
 -->
     <!--这是统一的theme Color-->
-    <color name="colorPrimary">#f7072f</color>
-    <color name="colorPrimaryDark">#f7072f</color>
+    <color name="colorPrimary">#259f3f</color>
+    <color name="colorPrimaryDark">#259f3f</color>
     <color name="colorAccent">#5595fc</color>
 
-    <color name="btn_click_color">#DE0226</color>
+    <color name="btn_click_color">#1d8333</color>
 
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>

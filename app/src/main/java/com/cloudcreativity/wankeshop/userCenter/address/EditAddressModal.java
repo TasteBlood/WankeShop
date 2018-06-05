@@ -13,7 +13,11 @@ import android.view.View;
 import com.cloudcreativity.wankeshop.R;
 import com.cloudcreativity.wankeshop.databinding.ActivityEditAddressBinding;
 import com.cloudcreativity.wankeshop.entity.AddressEntity;
+import com.cloudcreativity.wankeshop.entity.UserEntity;
+import com.cloudcreativity.wankeshop.entity.address.AreaEntity;
+import com.cloudcreativity.wankeshop.entity.address.CityEntity;
 import com.cloudcreativity.wankeshop.entity.address.ProvinceEntity;
+import com.cloudcreativity.wankeshop.entity.address.StreetEntity;
 import com.cloudcreativity.wankeshop.userCenter.AddressManageActivity;
 import com.cloudcreativity.wankeshop.utils.DefaultObserver;
 import com.cloudcreativity.wankeshop.utils.HttpUtils;
@@ -63,27 +67,45 @@ public class EditAddressModal {
 
     //跳转到选择地址页面
     public void skipChooseAddress(View view){
-         //先请求省列表
-        HttpUtils.getInstance().getProvinces()
+        //需求有变，直接请求街道数据
+        final UserEntity user = SPUtils.get().getUser();
+        HttpUtils.getInstance().getStreet(Integer.parseInt(user.getAreaId()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DefaultObserver<String>(context,true) {
                     @Override
                     public void onSuccess(String t) {
-                        Type type = new TypeToken<List<ProvinceEntity>>() {
+                        Type type = new TypeToken<List<StreetEntity>>() {
                         }.getType();
-                        List<ProvinceEntity> provinceEntities = new Gson().fromJson(t,type);
-                        if(provinceEntities==null||provinceEntities.isEmpty()){
+                        List<StreetEntity> streetEntities = new Gson().fromJson(t,type);
+                        if(streetEntities==null||streetEntities.isEmpty()){
                             ToastUtils.showShortToast(context, R.string.str_no_data);
                         }else{
-                            TempAddress.provinceEntities = provinceEntities;
-                            context.startActivity(new Intent().setClass(context,AddressChooseActivity.class));
+                            ProvinceEntity provinceEntity = new ProvinceEntity();
+                            provinceEntity.setId(Integer.parseInt(user.getProvinceId()));
+                            provinceEntity.setName(user.getProvinceName());
+                            CityEntity cityEntity = new CityEntity();
+                            cityEntity.setId(Integer.parseInt(user.getCityId()));
+                            cityEntity.setName(user.getCityName());
+                            AreaEntity areaEntity = new AreaEntity();
+                            areaEntity.setId(Integer.parseInt(user.getAreaId()));
+                            areaEntity.setName(user.getAreaName());
+
+                            TempAddress.provinceEntity = provinceEntity;
+                            TempAddress.cityEntity = cityEntity;
+                            TempAddress.areaEntity = areaEntity;
+
+                            TempAddress.streetEntities = streetEntities;
+
+                            Intent intent = new Intent();
+                            intent.putExtra("is_from_add_address",true);
+                            context.startActivity(intent.setClass(context,AddressChooseActivity.class));
                         }
                     }
 
                     @Override
                     public void onFail(ExceptionReason msg) {
-
+                        ToastUtils.showShortToast(context,"获取地区数据失败");
                     }
                 });
 

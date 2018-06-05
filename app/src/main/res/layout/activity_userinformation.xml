@@ -6,6 +6,8 @@
             type="com.cloudcreativity.wankeshop.userCenter.UserInformationModal" />
 
         <import type="android.text.TextUtils" />
+        <import type="android.view.View" />
+
     </data>
 
     <LinearLayout
@@ -214,6 +216,27 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:textSize="14sp"
+                        android:text="@string/str_sop_name_label"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:text='@{userModal.userEntity.storeName==""?@string/str_not_input:userModal.userEntity.storeName}'
+                        android:textSize="14sp"
+                        android:textColor="@color/gray_717171" />
+                </FrameLayout>
+                <View style="@style/myDividerForItem"/>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="15dp"
+                    android:background="@color/white">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="14sp"
                         android:text="身份证号"/>
                     <TextView
                         android:layout_width="wrap_content"
@@ -241,10 +264,35 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end|center_vertical"
+                        android:visibility="@{userModal.userEntity.isBind==1?View.GONE:View.VISIBLE}"
                         android:text='@{userModal.userEntity.isBind==1?@string/str_wechat_bind:@string/str_wechat_not_bind}'
                         android:textSize="14sp"
                         android:textColor="@color/gray_717171" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_gravity="end"
+                        android:visibility="@{userModal.userEntity.isBind==1?View.VISIBLE:View.GONE}"
+                        android:orientation="horizontal">
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/iv_wxHead"
+                            android:layout_width="40dip"
+                            android:layout_height="40dip"
+                            wxAvatar="@{userModal.userEntity.wxOfficial.headImgUrl}"
+                            android:scaleType="centerCrop"/>
+                        <TextView
+                            android:id="@+id/tv_wxName"
+                            android:layout_marginStart="10dip"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLength="10"
+                            android:ellipsize="end"
+                            android:text="@{userModal.userEntity.wxOfficial.nickName}"
+                            android:textColor="@color/gray_717171" />
+                    </LinearLayout>
                 </FrameLayout>
+
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
     </LinearLayout>

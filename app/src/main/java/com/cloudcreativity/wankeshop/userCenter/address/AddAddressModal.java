@@ -71,7 +71,6 @@ public class AddAddressModal {
     //跳转到选择地址页面
     public void skipChooseAddress(View view){
          //需求有变，直接请求街道数据
-         //先请求省列表
         final UserEntity user = SPUtils.get().getUser();
         HttpUtils.getInstance().getStreet(Integer.parseInt(user.getAreaId()))
                 .subscribeOn(Schedulers.io())

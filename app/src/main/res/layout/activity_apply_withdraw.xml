@@ -63,18 +63,6 @@
                     android:textColor="@color/gray_717171"
                     android:text="元"/>
             </LinearLayout>
-
-            <EditText
-                android:id="@+id/et_money"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:layout_marginTop="40dip"
-                android:hint="@string/str_hint_apply_withdraw"
-                android:padding="15dip"
-                android:background="@drawable/shape_input_bottom_line"
-                android:inputType="number"/>
-
             <android.support.v7.widget.AppCompatButton
                 android:onClick="@{(view)->withdraw.onApplyClick(view)}"
                 android:layout_marginTop="40dip"

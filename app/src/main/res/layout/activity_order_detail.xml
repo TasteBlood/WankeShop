@@ -422,7 +422,7 @@
                 android:layout_marginStart="10dip"
                 android:onClick="@{(view)->detailModal.onEnterReceiveClick(view)}"
                 android:background="@drawable/shape_red_circle_bg"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/refresh_red"
                 android:text="@string/str_enter_receive"/>
             <TextView
                 android:id="@+id/tv_reBuy"
@@ -436,7 +436,7 @@
                 android:layout_marginStart="10dip"
                 android:onClick="@{(view)->detailModal.onReBuyClick(view)}"
                 android:background="@drawable/shape_red_circle_bg"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/refresh_red"
                 android:text="@string/str_re_buy"/>
             <TextView
                 android:id="@+id/tv_goPay"
@@ -449,7 +449,7 @@
                 android:paddingEnd="10dip"
                 android:visibility="gone"
                 android:background="@drawable/shape_red_circle_bg"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/refresh_red"
                 android:onClick="@{(view)->detailModal.onPayClick(view)}"
                 android:text="@string/str_go_pay"/>
         </LinearLayout>

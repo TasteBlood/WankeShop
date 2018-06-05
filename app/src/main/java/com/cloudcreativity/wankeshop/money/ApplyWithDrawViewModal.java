@@ -39,18 +39,9 @@ public class ApplyWithDrawViewModal {
     }
 
     public void onApplyClick(View view){
-        String s = binding.etMoney.getText().toString();
-        if(TextUtils.isEmpty(s))
+        if(money!=null&&money.get()!=null&&money.get()<=0)
             return;
-        try{
-            float money = Float.parseFloat(s);
-            if(money>this.money.get()){
-                return;
-            }
-            applyWithDraw(money);
-        }catch(Exception e){
-            ToastUtils.showShortToast(context,"金额必须数字");
-        }
+        applyWithDraw(money.get());
     }
 
     //加载账户余额信息
@@ -92,8 +83,13 @@ public class ApplyWithDrawViewModal {
                                        .subscribe(new DefaultObserver<String>(baseDialog,true) {
                                            @Override
                                            public void onSuccess(String t) {
-                                               ToastUtils.showShortToast(context,"发起提现请求成功");
+                                               ToastUtils.showShortToast(context,"申请提现成功");
                                                context.finish();
+
+                                               //将余额信息设置为0
+                                               UserEntity user = SPUtils.get().getUser();
+                                               user.setBalance("0.00");
+                                               SPUtils.get().setUser(new Gson().toJson(user));
                                            }
 
                                            @Override

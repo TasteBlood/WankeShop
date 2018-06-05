@@ -137,7 +137,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_red_circle_bg"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/refresh_red"
                 android:paddingTop="3dip"
                 android:paddingBottom="3dip"
                 android:paddingStart="5dip"

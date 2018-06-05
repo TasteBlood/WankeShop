@@ -23,7 +23,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/F:/develop/android/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/navigation/ic_check_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/F:/develop/android/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/image/ic_image_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -33,12 +33,12 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="0ba62c" />
-                            <entry key="height" value="35" />
-                            <entry key="outputName" value="ic_success_green_35dp" />
+                            <entry key="color" value="919191" />
+                            <entry key="height" value="100" />
+                            <entry key="outputName" value="ic_image_black_24dp" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\xuxiwu" />
-                            <entry key="width" value="35" />
+                            <entry key="sourceFile" value="C:\Users\xuxiwu\Desktop\ic_default.svg" />
+                            <entry key="width" value="100" />
                           </map>
                         </option>
                       </PersistentState>

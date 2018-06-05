@@ -83,7 +83,8 @@ public interface APIService {
                                        @Field("type") int type,
                                        @Field("provinceId") String provinceId,
                                        @Field("cityId") String cityId,
-                                       @Field("areaId") String areaId);
+                                       @Field("areaId") String areaId,
+                                       @Field("storeName") String storeName);
 
     //修改手机号第一步
     @FormUrlEncoded
@@ -514,4 +515,18 @@ public interface APIService {
                                   @Field("type") int type,
                                   @Field("mobile") String mobile,
                                   @Field("sms") String sms);
+
+    /**
+     *
+     * @param noticeState 公告的状态
+     * @param newsState 新闻的状态
+     * @param recruitState 招聘的状态
+     * @param financeState 金融的状态
+     * @return
+     */
+    @GET("updateUserForIsNew.do")
+    Observable<String> updateUserForIsNew(@Query("isNotice") int noticeState,
+                                          @Query("isNews") int newsState,
+                                          @Query("isRecruit") int recruitState,
+                                          @Query("isFinance") int financeState);
 }

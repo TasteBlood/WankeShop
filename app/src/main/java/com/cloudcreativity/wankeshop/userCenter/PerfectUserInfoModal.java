@@ -129,10 +129,12 @@ public class PerfectUserInfoModal {
         }
         String realName = binding.etPerfectRealName.getText().toString().trim();
         String userName = binding.etPerfectUsername.getText().toString().trim();
+        String shopName = binding.etPerfectShopName.getText().toString().trim();
         user.setUserName(userName);
         user.setEmail(email);
         user.setRealName(realName);
         user.setIdCard(IDCard);
+        user.setStoreName(shopName);
         submit(user);
     }
 
@@ -146,7 +148,7 @@ public class PerfectUserInfoModal {
         HttpUtils.getInstance().editInformation(
                 entity.getUserName(),entity.getRealName(),entity.getPassword(),
                 headPic,entity.getEmail(),entity.getSex(),entity.getIdCard(),entity.getBirthDay(),
-                entity.getType(),entity.getProvinceId(),entity.getCityId(),entity.getAreaId())
+                entity.getType(),entity.getProvinceId(),entity.getCityId(),entity.getAreaId(),entity.getStoreName())
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DefaultObserver<String>(context,true) {
                     @Override
@@ -156,9 +158,14 @@ public class PerfectUserInfoModal {
                         if(!SPUtils.get().getUser().getAreaId().equals(userEntity.getAreaId())){
                             //发现当前当前的地址发生变化，提示重新登录
                             ToastUtils.showShortToast(context,"所在区域发生变化，需重新登录");
-                            Intent intent = new Intent();
-                            intent.setAction(MyBusinessReceiver.ACTION_RE_LOGIN);
-                            context.sendBroadcast(intent);
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Intent intent = new Intent();
+                                    intent.setAction(MyBusinessReceiver.ACTION_RE_LOGIN);
+                                    context.sendBroadcast(intent);
+                                }
+                            },500);
                         }else{
                                 SPUtils.get().putInt(SPUtils.Config.UID,userEntity.getId());
                                 SPUtils.get().putString(SPUtils.Config.TOKEN,userEntity.getToken());

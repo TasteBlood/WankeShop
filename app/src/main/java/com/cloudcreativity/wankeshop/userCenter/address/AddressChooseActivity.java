@@ -169,13 +169,14 @@ public class AddressChooseActivity extends BaseActivity {
     public void onBackPressed() {
         super.onBackPressed();
         //用户自己退出，清空所有数据
-        TempAddress.provinceEntities.clear();
+        TempAddress.provinceEntities = null;
+        TempAddress.cityEntities = null;
+        TempAddress.areaEntities = null;
+        TempAddress.streetEntities = null;
+
         TempAddress.provinceEntity = null;
-        TempAddress.cityEntities.clear();
         TempAddress.cityEntity = null;
-        TempAddress.areaEntities.clear();
         TempAddress.areaEntity = null;
-        TempAddress.streetEntities.clear();
         TempAddress.streetEntity = null;
     }
 }

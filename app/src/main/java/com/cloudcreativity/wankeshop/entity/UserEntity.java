@@ -1,7 +1,5 @@
 package com.cloudcreativity.wankeshop.entity;
 
-import android.databinding.Bindable;
-
 /**
  * 这是用户数据
  */
@@ -31,10 +29,66 @@ public class UserEntity{
     private String cityName;
     private String provinceId;
     private String provinceName;
+    private String storeName;//店铺名称
 
     private int returnOrderNum;//这是退换货的数量
     private int unOrderNum;//这是待收货的数量
 
+    private WXUser wxOfficial;//这是微信信息
+
+    private int isFinance;//金融是否有新消息
+    private int isNews;//新闻是否有新消息
+    private int isNotice;//公告是否有新消息
+    private int isRecruit;//招聘是否有新消息
+
+
+    public int getIsFinance() {
+        return isFinance;
+    }
+
+    public void setIsFinance(int isFinance) {
+        this.isFinance = isFinance;
+    }
+
+    public int getIsNews() {
+        return isNews;
+    }
+
+    public void setIsNews(int isNews) {
+        this.isNews = isNews;
+    }
+
+    public int getIsNotice() {
+        return isNotice;
+    }
+
+    public void setIsNotice(int isNotice) {
+        this.isNotice = isNotice;
+    }
+
+    public int getIsRecruit() {
+        return isRecruit;
+    }
+
+    public void setIsRecruit(int isRecruit) {
+        this.isRecruit = isRecruit;
+    }
+
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
+    }
+
+    public WXUser getWxOfficial() {
+        return wxOfficial;
+    }
+
+    public void setWxOfficial(WXUser wxOfficial) {
+        this.wxOfficial = wxOfficial;
+    }
 
     public int getIsBind() {
         return isBind;
@@ -284,5 +338,38 @@ public class UserEntity{
                 ", returnOrderNum=" + returnOrderNum +
                 ", unOrderNum=" + unOrderNum +
                 '}';
+    }
+
+    /**
+     * 这是微信用户信息
+     */
+    public static class WXUser{
+        private String headImgUrl;
+        private String nickName;
+        private String openId;
+
+        public String getHeadImgUrl() {
+            return headImgUrl;
+        }
+
+        public void setHeadImgUrl(String headImgUrl) {
+            this.headImgUrl = headImgUrl;
+        }
+
+        public String getNickName() {
+            return nickName;
+        }
+
+        public void setNickName(String nickName) {
+            this.nickName = nickName;
+        }
+
+        public String getOpenId() {
+            return openId;
+        }
+
+        public void setOpenId(String openId) {
+            this.openId = openId;
+        }
     }
 }

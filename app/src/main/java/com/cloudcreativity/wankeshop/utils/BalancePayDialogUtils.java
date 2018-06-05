@@ -97,7 +97,7 @@ public class BalancePayDialogUtils implements DialogInterface.OnCancelListener{
             @Override
             public void onFinish() {
                 timer = null;
-                binding.tvSendAgain.setEnabled(false);
+                binding.tvSendAgain.setEnabled(true);
                 binding.tvSendAgain.setText("重新发送");
             }
         };

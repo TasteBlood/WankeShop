@@ -23,8 +23,8 @@ public class GlideUtils {
         Glide.with(context)
                 .load(url)
                 .apply(new RequestOptions()
-                        .placeholder(R.mipmap.ic_launcher)
-                        .error(R.mipmap.ic_launcher)
+                        .placeholder(R.drawable.ic_image_black_24dp)
+                        .error(R.drawable.ic_image_black_24dp)
                         .transform(new GlideCircleTrasform()))
                 .into(imageView);
     }
@@ -39,8 +39,8 @@ public class GlideUtils {
         Glide.with(context)
                 .load(resource)
                 .apply(new RequestOptions()
-                        .placeholder(R.mipmap.ic_launcher)
-                        .error(R.mipmap.ic_launcher)
+                        .placeholder(R.drawable.ic_image_black_24dp)
+                        .error(R.drawable.ic_image_black_24dp)
                         .transform(new GlideCircleTrasform()))
                 .into(imageView);
     }
@@ -56,8 +56,8 @@ public class GlideUtils {
         Glide.with(context)
                 .load(file)
                 .apply(new RequestOptions()
-                        .placeholder(R.mipmap.ic_launcher)
-                        .error(R.mipmap.ic_launcher))
+                        .placeholder(R.drawable.ic_image_black_24dp)
+                        .error(R.drawable.ic_image_black_24dp))
                 .thumbnail(0.2f)
                 .into(imageView);
     }
@@ -84,8 +84,8 @@ public class GlideUtils {
         Glide.with(context)
                 .load(url)
                 .apply(new RequestOptions()
-                        .placeholder(R.mipmap.ic_launcher)
-                        .error(R.mipmap.ic_launcher))
+                        .placeholder(R.drawable.ic_image_black_24dp)
+                        .error(R.drawable.ic_image_black_24dp))
                 .into(imageView);
     }
 
@@ -99,8 +99,8 @@ public class GlideUtils {
         Glide.with(context)
                 .load(file)
                 .apply(new RequestOptions()
-                        .placeholder(R.mipmap.ic_launcher)
-                        .error(R.mipmap.ic_launcher))
+                        .placeholder(R.drawable.ic_image_black_24dp)
+                        .error(R.drawable.ic_image_black_24dp))
                 .into(imageView);
     }
     /**
@@ -113,8 +113,8 @@ public class GlideUtils {
         Glide.with(context)
                 .load(file)
                 .apply(new RequestOptions()
-                        .placeholder(R.mipmap.ic_launcher)
-                        .error(R.mipmap.ic_launcher)
+                        .placeholder(R.drawable.ic_image_black_24dp)
+                        .error(R.drawable.ic_image_black_24dp)
                         .transform(new GlideCircleTrasform()))
                 .into(imageView);
     }

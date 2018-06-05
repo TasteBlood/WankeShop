@@ -1,11 +1,14 @@
 package com.cloudcreativity.wankeshop.userCenter;
 
 import android.content.Intent;
+import android.databinding.BindingAdapter;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.cloudcreativity.wankeshop.base.CommonWebActivity;
 import com.cloudcreativity.wankeshop.databinding.ActivityUserinformationBinding;
 import com.cloudcreativity.wankeshop.entity.UserEntity;
+import com.cloudcreativity.wankeshop.utils.GlideUtils;
 import com.cloudcreativity.wankeshop.utils.SPUtils;
 
 /**
@@ -38,6 +41,16 @@ public class UserInformationModal {
 
     //跳转到绑定微信页面
     public void bindWechat(View view){
-        CommonWebActivity.startActivity(context,"关注公众号","file:///android_asset/contact_public_code.html");
+        if(userEntity.getIsBind()==1){
+            CommonWebActivity.startActivity(context,"取消关注公众号","file:///android_asset/remove_public_code.html");
+        }else{
+            CommonWebActivity.startActivity(context,"关注公众号","file:///android_asset/contact_public_code.html");
+        }
+    }
+
+    //展示信息信息
+    @BindingAdapter("wxAvatar")
+    public static void displayWxAvatar(ImageView imageView,String url){
+        GlideUtils.loadCircle(imageView.getContext(),url,imageView);
     }
 }

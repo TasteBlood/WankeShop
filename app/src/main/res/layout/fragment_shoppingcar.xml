@@ -15,6 +15,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/action_bar"
+            android:elevation="3dp"
             android:background="@color/colorPrimary">
             <TextView
                 android:layout_width="wrap_content"

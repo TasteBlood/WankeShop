@@ -25,6 +25,7 @@ import com.cloudcreativity.wankeshop.entity.GoodsEntity;
 import com.cloudcreativity.wankeshop.entity.GoodsWrapper;
 import com.cloudcreativity.wankeshop.entity.HomeNavEntity;
 import com.cloudcreativity.wankeshop.entity.HomeNavWrapper;
+import com.cloudcreativity.wankeshop.entity.UserEntity;
 import com.cloudcreativity.wankeshop.goods.GoodsListActivity;
 import com.cloudcreativity.wankeshop.goods.GoodsListForBannerActivity;
 import com.cloudcreativity.wankeshop.main.HomeFragment;
@@ -68,6 +69,8 @@ public class HomeStartViewModal {
 
     private List<GoodsEntity> entities = new ArrayList<>();
 
+    private UserEntity userEntity;
+
     //这是刷新加载的事件监听
     public RefreshListenerAdapter refreshListenerAdapter = new RefreshListenerAdapter() {
         @Override
@@ -107,17 +110,93 @@ public class HomeStartViewModal {
             }
 
             @Override
-            protected void onBindItem(ItemHoneNavLayoutBinding binding, final HomeNavEntity item, int position) {
+            protected void onBindItem(final ItemHoneNavLayoutBinding binding, final HomeNavEntity item, int position) {
                 //在这里动态设置高宽
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(gridWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
                 binding.getRoot().setLayoutParams(params);
                 binding.setNavItem(item);
-                binding.getRoot().setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onNavItemClick(item);
+                binding.ivNew.setVisibility(View.GONE);
+                if(userEntity!=null){
+                    if("公告".equals(item.getName())){
+                        if(userEntity.getIsNotice()==1){
+                            binding.ivNew.setVisibility(View.VISIBLE);
+                        }else{
+                            binding.ivNew.setVisibility(View.GONE);
+                        }
+
+                        binding.getRoot().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                onNavItemClick(item);
+                                //在这里进行数据请求，修改状态
+                                updateState(userEntity.getIsNews(),userEntity.getIsRecruit(),userEntity.getIsFinance(),0);
+                                binding.ivNew.setVisibility(View.GONE);
+                            }
+                        });
+
+                    }else if("招聘".equals(item.getName())){
+                        if(userEntity.getIsRecruit()==1){
+                            binding.ivNew.setVisibility(View.VISIBLE);
+                        }else{
+                            binding.ivNew.setVisibility(View.GONE);
+                        }
+
+                        binding.getRoot().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                onNavItemClick(item);
+                                //在这里进行数据请求，修改状态
+                                updateState(userEntity.getIsNews(),0,userEntity.getIsFinance(),userEntity.getIsNotice());
+                                binding.ivNew.setVisibility(View.GONE);
+                            }
+                        });
+
+                    }else if("新闻".equals(item.getName())){
+                        if(userEntity.getIsNews()==1){
+                            binding.ivNew.setVisibility(View.VISIBLE);
+                        }else{
+                            binding.ivNew.setVisibility(View.GONE);
+                        }
+
+                        binding.getRoot().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                onNavItemClick(item);
+                                //在这里进行数据请求，修改状态
+                                updateState(0,userEntity.getIsRecruit(),userEntity.getIsFinance(),userEntity.getIsNotice());
+                                binding.ivNew.setVisibility(View.GONE);
+                            }
+                        });
+
+                    }else if("金融".equals(item.getName())){
+                        if(userEntity.getIsFinance()==1){
+                            binding.ivNew.setVisibility(View.VISIBLE);
+                        }else{
+                            binding.ivNew.setVisibility(View.GONE);
+                        }
+
+                        binding.getRoot().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                onNavItemClick(item);
+                                //在这里进行数据请求，修改状态
+                                updateState(userEntity.getIsNews(),userEntity.getIsRecruit(),0,userEntity.getIsNotice());
+                                binding.ivNew.setVisibility(View.GONE);
+                            }
+                        });
+
+                    }else{
+                        binding.getRoot().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                binding.ivNew.setVisibility(View.GONE);
+                                onNavItemClick(item);
+                            }
+                        });
                     }
-                });
+                }
+
+
             }
         };
 
@@ -201,6 +280,7 @@ public class HomeStartViewModal {
                         HomeNavWrapper homeNavWrapper = new Gson().fromJson(t, HomeNavWrapper.class);
                         if(homeNavWrapper.getResultlist()!=null&&!homeNavWrapper.getResultlist().isEmpty()){
                             //展示nav数据
+                            userEntity = homeNavWrapper.getUser();
                             navAdapter.getItems().clear();
                             navAdapter.getItems().addAll(homeNavWrapper.getResultlist());
                         }else{
@@ -239,6 +319,9 @@ public class HomeStartViewModal {
                             if(pageNum==1){
                                 entities.clear();
                                 entities.add(new GoodsEntity());
+                                binding.refreshHomeStart.finishRefreshing();
+                            }else{
+                                binding.refreshHomeStart.finishLoadmore();
                             }
                             entities.addAll(goodsWrapper.getData());
                             HomeStartViewModal.this.pageNum++;
@@ -318,6 +401,24 @@ public class HomeStartViewModal {
                         }else{
                             ToastUtils.showShortToast(context,R.string.str_no_data);
                         }
+                    }
+
+                    @Override
+                    public void onFail(ExceptionReason msg) {
+
+                    }
+                });
+    }
+
+    //更新点击nav item的状态
+    private void updateState(int newsState,int recruitState,int financeState,int noticeState){
+        HttpUtils.getInstance().updateUserForIsNew(noticeState,newsState,recruitState,financeState)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DefaultObserver<String>(dialogImpl,false) {
+                    @Override
+                    public void onSuccess(String t) {
+
                     }
 
                     @Override

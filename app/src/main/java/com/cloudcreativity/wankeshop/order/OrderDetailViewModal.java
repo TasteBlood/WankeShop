@@ -166,9 +166,11 @@ public class OrderDetailViewModal {
                     public void onSuccess(String t) {
                         //展示全部的数据
                         AddressEntity entity = new Gson().fromJson(t, AddressEntity.class);
-                        name.set(entity.getReceiptName());
-                        phone.set(entity.formatPhone());
-                        address.set(entity.formatAddress());
+                        if(entity!=null){
+                            name.set(entity.getReceiptName());
+                            phone.set(entity.formatPhone());
+                            address.set(entity.formatAddress());
+                        }
                         /*
                          * 这么操作的原因已经在activity中说明
                          */

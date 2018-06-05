@@ -151,7 +151,7 @@ public class PayOrderViewModal {
     //开始余额支付
     private void startBalancePay() {
         if(Float.parseFloat(SPUtils.get().getUser().getBalance())<totalMoney){
-            ToastUtils.showShortToast(context,"账户余额不足，请充值");
+            ToastUtils.showShortToast(context,"账户余额不足，请更换支付方式");
             return;
         }
         //发送验证码，并且进行支付

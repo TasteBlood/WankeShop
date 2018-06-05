@@ -49,7 +49,7 @@
                         android:layout_weight="1"
                         android:textSize="13sp"
                         android:text="@{goodsItem.formatPrice()}"
-                        android:textColor="@color/refresh_red"
+                        android:textColor="@color/colorPrimary"
                         />
                     <TextView
                         android:id="@+id/tv_goodsSaleNum"
@@ -59,7 +59,7 @@
                         android:textSize="13sp"
                         android:layout_height="wrap_content"
                         android:text="@{goodsItem.formatSaleNum()}"
-                        android:textColor="@color/refresh_red" />
+                        android:textColor="@color/colorPrimary" />
                 </LinearLayout>
             </LinearLayout>
     </android.support.v7.widget.CardView>
