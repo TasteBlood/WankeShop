@@ -132,16 +132,21 @@ public class FillOrderViewModal {
                         Type type = new TypeToken<List<AddressEntity>>() {
                         }.getType();
                         addressEntities = new Gson().fromJson(t, type);
-
-                        for (AddressEntity entity : addressEntities) {
-                            if (entity.getIsDefault() == 1) {
-                                address.set(entity.formatAddress());
-                                name.set(entity.getReceiptName());
-                                phone.set(entity.formatPhone());
-                                addressId = entity.getId();
-                                break;
+                        if(addressEntities==null||addressEntities.isEmpty()){
+                            addressEntities = new ArrayList<>();
+                            onChooseAddressClick(null);
+                        }else{
+                            for (AddressEntity entity : addressEntities) {
+                                if (entity.getIsDefault() == 1) {
+                                    address.set(entity.formatAddress());
+                                    name.set(entity.getReceiptName());
+                                    phone.set(entity.formatPhone());
+                                    addressId = entity.getId();
+                                    break;
+                                }
                             }
                         }
+
                     }
 
                     @Override

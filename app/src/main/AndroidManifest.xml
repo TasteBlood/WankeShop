@@ -102,7 +102,7 @@
 
         <activity android:name=".goods.ShoppingCarActivity" android:launchMode="singleTask"/>
         <activity android:name=".order.AllOrderActivity" android:launchMode="singleTask"/>
-        <activity android:name=".shop.ShopGoodsListActivity" android:theme="@style/TranslucentTheme">
+        <activity android:name=".shop.ShopGoodsListActivity" android:theme="@style/TranslucentTheme" android:launchMode="singleTask">
         </activity>
         <activity android:name=".order.OrderDetailActivity" />
         <activity android:name=".userCenter.BindWeChatActivity" />
