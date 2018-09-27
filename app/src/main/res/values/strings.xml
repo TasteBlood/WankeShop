@@ -61,7 +61,7 @@
     <string name="str_temp1">技术支持:甘肃云创意科技有限公司</string>
     <string name="str_temp2">联系我们</string>
     <string name="str_temp3">E-mail:xxw0701@sina.com</string>
-    <string name="str_temp4">Phone:188-0944-6038</string>
+    <string name="str_temp4">Phone:188&#8211;0944&#8211;6038</string>
     <string name="str_receipt_name">收货人:</string>
     <string name="str_hint_receipt_name">收货人姓名</string>
     <string name="str_contact_way">联系方式:</string>
@@ -102,7 +102,7 @@
     <string name="str_already_send">已发货</string>
     <string name="str_change_send">退 货</string>
     <string name="str_money">资金</string>
-    <string name="str_money_top">余额:￥</string>
+    <string name="str_money_top">余额:¥</string>
     <string name="str_records">记录</string>
     <string name="str_withdraw">提现</string>
     <string name="str_recharge">充值</string>
@@ -129,14 +129,14 @@
     <string name="str_account_info_complete">账户信息完善</string>
     <string name="str_hint_six_pwd">请输入6位以上密码</string>
     <string name="str_area2">所在地区</string>
-    <string name="str_rmb_character">￥:%.2f</string>
+    <string name="str_rmb_character">¥:%.2f</string>
     <string name="str_sale_count">销量:%1$s</string>
     <string name="str_goods_detail">商品详情</string>
     <string name="str_add_new_address">添加新地址</string>
     <string name="str_min_number_send">起送</string>
     <string name="str_number_limit_min">%1$s%2$s起送</string>
     <string name="str_number_limit_max">不超过%1$s</string>
-    <string name="str_shop_car_total_price">总计：￥%.2f</string>
+    <string name="str_shop_car_total_price">总计：¥%.2f</string>
     <string name="str_edit">编辑</string>
     <string name="str_complete">完成</string>
     <string name="str_make_order_now">去结算(%1$d)</string>
@@ -147,7 +147,7 @@
     <string name="str_shop">店铺</string>
     <string name="str_not_send">未发货</string>
     <string name="str_send">已发货</string>
-    <string name="str_number_unit_price">共 %1$d 件，金额:￥%2$.2f</string>
+    <string name="str_number_unit_price">共 %1$d 件，金额:¥%2$.2f</string>
     <string name="str_enter_receive">确定收货</string>
     <string name="str_context_seller">联系卖家</string>
     <string name="str_go_pay">去支付</string>

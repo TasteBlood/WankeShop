@@ -208,6 +208,10 @@ public class HomeStartViewModal {
 
     //初始化加载数据
     public void initialLoadData(){
+
+        //检查APP热更新
+        UpdateManager.checkVersion(context,dialogImpl);
+
         pageNum = 1;
         loadBanner();
         loadNavMenuItems();

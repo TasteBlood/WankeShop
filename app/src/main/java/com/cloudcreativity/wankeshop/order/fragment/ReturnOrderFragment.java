@@ -44,6 +44,8 @@ public class ReturnOrderFragment extends LazyFragment {
     public void onEvent(String msg){
         if(OrderDetailViewModal.MSG_RETURN_ORDER.equals(msg)){
             binding.refreshReturn.startRefresh();
+        }else if(OrderDetailViewModal.MSG_DELETE_ORDER.equals(msg)){
+            returnModal.delete();
         }
     }
 

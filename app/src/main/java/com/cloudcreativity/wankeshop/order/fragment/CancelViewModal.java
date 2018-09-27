@@ -220,6 +220,7 @@ public class CancelViewModal {
                                     @Override
                                     public void onSuccess(String t) {
                                         adapter.getItems().remove(item);
+
                                     }
 
                                     @Override

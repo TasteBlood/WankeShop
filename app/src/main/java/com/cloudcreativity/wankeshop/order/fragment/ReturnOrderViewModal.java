@@ -85,6 +85,7 @@ public class ReturnOrderViewModal {
                 binding.getRoot().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        currentPosition = position;
                         orderDetails(item);
                     }
                 });
@@ -203,5 +204,9 @@ public class ReturnOrderViewModal {
 
     public void call(){
         contact(adapter.getItems().get(currentPosition));
+    }
+
+    public void delete(){
+        adapter.notifyItemRemoved(currentPosition);
     }
 }

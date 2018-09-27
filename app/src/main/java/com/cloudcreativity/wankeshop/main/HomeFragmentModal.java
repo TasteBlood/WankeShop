@@ -1,9 +1,7 @@
 package com.cloudcreativity.wankeshop.main;
 
 import android.content.Context;
-import android.content.Entity;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 
 import com.cloudcreativity.wankeshop.base.BaseDialogImpl;
 import com.cloudcreativity.wankeshop.databinding.FragmentHomeBinding;
@@ -12,7 +10,6 @@ import com.cloudcreativity.wankeshop.main.fragment.HomeSimpleFragment;
 import com.cloudcreativity.wankeshop.main.fragment.HomeStartFragment;
 import com.cloudcreativity.wankeshop.utils.DefaultObserver;
 import com.cloudcreativity.wankeshop.utils.HttpUtils;
-import com.cloudcreativity.wankeshop.utils.UpdateManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

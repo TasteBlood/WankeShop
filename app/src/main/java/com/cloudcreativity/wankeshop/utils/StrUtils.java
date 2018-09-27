@@ -31,7 +31,7 @@ public class StrUtils {
      * @return 是否
      */
     public static boolean isPhone(String phone){
-        String regExp = "^((13[0-9])|(15[^4])|(18[0-3,5-9])|(17[0-8])|(147))\\d{8}$";
+        String regExp = "^((13[0-9])|(15[^4])|(18[0-9])|(17[0-8])|(147))\\d{8}$";
         Pattern p = Pattern.compile(regExp);
         Matcher m = p.matcher(phone);
         return m.matches();
@@ -100,9 +100,7 @@ public class StrUtils {
         try {
             Date lastDate = dateFormat.parse(datetime);
             long day = (System.currentTimeMillis()-lastDate.getTime())/(24*3600*1000);
-            if(day>7)
-                return false;
-            return true;
+            return day <= 7;
         } catch (ParseException e) {
             e.printStackTrace();
             return false;
@@ -114,7 +112,7 @@ public class StrUtils {
      * @param money 浮点数的钱
      * @return 分的整数
      */
-    public static int yuan2FenInt(float money){
+    public static int yuan2FenInt(double money){
         BigDecimal fenBd = new BigDecimal(money).multiply(new BigDecimal(100));
         fenBd = fenBd.setScale(0, BigDecimal.ROUND_HALF_UP);
         return fenBd.intValue();

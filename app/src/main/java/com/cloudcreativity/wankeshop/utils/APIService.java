@@ -18,7 +18,7 @@ public interface APIService {
     /**
      * 整体的接口配置
      */
-//    String TEST_HOST = "http://192.168.31.19/vmall/";
+//    String TEST_HOST = "http://192.168.31.229/";
     String TEST_HOST = "http://service.milidianshang.cn/";
     String ONLINE_HOST = "http://service.milidianshang.cn/";
     String HOST = AppConfig.DEBUG ? TEST_HOST : ONLINE_HOST;
@@ -487,7 +487,7 @@ public interface APIService {
     Observable<String> getALiPayOrder(@Field("body") String body,
                                       @Field("subject") String subject,
                                       @Field("outTradeNo") String outTradeNo,
-                                      @Field("totalFee") float totalFee,
+                                      @Field("totalFee") double totalFee,
                                       @Field("type") int type);
     /**
      *
@@ -511,7 +511,7 @@ public interface APIService {
     @POST("balancePay.do")
     @FormUrlEncoded
     Observable<String> balancePay(@Field("outTradeNo") String orderNum,
-                                  @Field("totalFee") float totalMoney,
+                                  @Field("totalFee") double totalMoney,
                                   @Field("type") int type,
                                   @Field("mobile") String mobile,
                                   @Field("sms") String sms);

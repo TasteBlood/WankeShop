@@ -7,7 +7,5 @@
     <cache-path
         name="cache2"
         path="cache" />
-    <external-cache-path
-        name="cache3"
-        path="cache" />
+    <external-cache-path name="cache3" path="/"/>
 </paths>

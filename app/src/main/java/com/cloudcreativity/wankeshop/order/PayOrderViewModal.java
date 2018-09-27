@@ -39,7 +39,7 @@ public class PayOrderViewModal {
     private BaseDialogImpl baseDialog;
     private ActivityPayOrderBinding binding;
     private String orderNum;
-    private float totalMoney;
+    private double totalMoney;
 
     public ObservableField<String> finalMoneyDisplay = new ObservableField<>();
 
@@ -96,7 +96,7 @@ public class PayOrderViewModal {
             //微信支付
             HttpUtils.getInstance().getWeiXinOrder(context.getString(R.string.app_name).concat("-").concat("购买商品"),
                     orderNum,
-                    StrUtils.yuan2FenInt(0.01f),
+                    StrUtils.yuan2FenInt(AppConfig.DEBUG?0.01:totalMoney),
                     2)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -130,7 +130,7 @@ public class PayOrderViewModal {
             HttpUtils.getInstance().getALiPayOrder(context.getString(R.string.app_name).concat("-").concat("购买商品"),
                     context.getString(R.string.app_name).concat("-").concat("购买商品"),
                     orderNum,
-                    0.1f,
+                    AppConfig.DEBUG?0.01f:totalMoney,
                     2)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())

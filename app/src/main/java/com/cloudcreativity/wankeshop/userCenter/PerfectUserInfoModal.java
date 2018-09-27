@@ -79,7 +79,7 @@ public class PerfectUserInfoModal {
     public void selectBirth(View view){
         Calendar calendar = Calendar.getInstance();
         Calendar calendarEnd = (Calendar) calendar.clone();
-        calendar.set(Calendar.YEAR,1990);
+        calendar.set(Calendar.YEAR,1900);
         final TimePickerView pickerView = new TimePickerView.Builder(context, new TimePickerView.OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {

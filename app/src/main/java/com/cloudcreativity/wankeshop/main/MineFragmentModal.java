@@ -7,7 +7,9 @@ import android.content.pm.PackageManager;
 import android.databinding.BindingAdapter;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -172,11 +174,16 @@ public class MineFragmentModal {
     //official customer service
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void onContactClick(View view){
-        if(context.checkSelfPermission(Manifest.permission.CALL_PHONE)== PackageManager.PERMISSION_GRANTED){
-            call();
-        }else{
-            context.requestPermissions(new String[]{Manifest.permission.CALL_PHONE},100);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            if(context.checkCallingOrSelfPermission(Manifest.permission.CALL_PHONE)== PackageManager.PERMISSION_GRANTED){
+                call();
+            }else{
+                context.requestPermissions(new String[]{Manifest.permission.CALL_PHONE},100);
+            }
+        } else {
+           call();
         }
+
     }
 
     //help center click
@@ -240,7 +247,7 @@ public class MineFragmentModal {
 
     public void call(){
         Intent intent = new Intent(Intent.ACTION_CALL);
-        intent.setData(Uri.parse("tel://110"));
+        intent.setData(Uri.parse("tel://18809446038"));
         context.startActivity(intent);
     }
 

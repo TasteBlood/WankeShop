@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
-import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -17,7 +16,6 @@ import com.cloudcreativity.wankeshop.R;
 import com.cloudcreativity.wankeshop.base.BaseActivity;
 import com.cloudcreativity.wankeshop.base.LazyFragment;
 import com.cloudcreativity.wankeshop.receiver.MyBusinessReceiver;
-import com.cloudcreativity.wankeshop.utils.UpdateManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;

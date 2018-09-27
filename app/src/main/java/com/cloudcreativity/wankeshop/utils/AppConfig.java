@@ -7,7 +7,7 @@ public class AppConfig {
     /**
      * 是否是开发调试阶段
      */
-    public static boolean DEBUG = true;
+    public static boolean DEBUG = false;
     /**
      * 网络数据缓存的文件夹名称
      */
