@@ -140,9 +140,9 @@ public class DownloadApkDialogUtils extends AsyncTask<String,Integer,String>{
 
     private static class MyResultHandler extends Handler{
 
-        public static final int MSG_FAILD = 0x001;
-        public static final int MSG_SUCCESS = 0x002;
-        public static final int MSG_PROGRESS = 0x003;
+         static final int MSG_FAILD = 0x001;
+         static final int MSG_SUCCESS = 0x002;
+         static final int MSG_PROGRESS = 0x003;
 
         private final WeakReference<Activity> activityWeakReference;
         private MyResultHandler(Activity activity){

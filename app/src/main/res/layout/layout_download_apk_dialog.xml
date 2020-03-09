@@ -64,7 +64,7 @@
         android:layout_height="wrap_content"
         android:padding="6dip"
         android:textSize="16sp"
-        android:textColor="@color/refresh_red"
-        android:background="@drawable/shape_red_circle_bg"
+        android:textColor="@color/colorPrimary"
+        android:background="@drawable/shape_gray_circle_bg"
         android:text="立即更新"/>
 </LinearLayout>
